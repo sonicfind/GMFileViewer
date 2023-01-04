@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="FileTypes">
+      <UniqueIdentifier>{2e7192bf-e1dd-49ba-8c54-c5bfa28f976b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM">
+      <UniqueIdentifier>{83a6c33f-50b5-4c92-8b8c-095a3690b308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG">
+      <UniqueIdentifier>{6fc1b089-1214-4e79-bb89-08e04be961cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\IMX">
+      <UniqueIdentifier>{ece50b8a-c613-41d8-b222-beec4d9a2998}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes">
+      <UniqueIdentifier>{c0405921-7ba2-4a74-bf3d-2dc38c458a2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\Animation">
+      <UniqueIdentifier>{b18d6069-5d1b-4162-bc43-0779d687d8e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\PString">
+      <UniqueIdentifier>{dd4200f5-a687-4a0e-a772-9d33a0c10cbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBone">
+      <UniqueIdentifier>{dcf82207-a53b-475f-bd4e-f7ff42aa465f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry">
+      <UniqueIdentifier>{ec34ce30-ed4d-4e6f-8a3b-26391d4bae15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgMatrix">
+      <UniqueIdentifier>{7f110825-6912-48b5-afc9-fe5086219393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagMesh">
+      <UniqueIdentifier>{ec94a38e-75c9-4114-92e5-90fb825ea683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagTransform">
+      <UniqueIdentifier>{e7181128-e3cc-4701-8681-871b3bd40fbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgEnvelope">
+      <UniqueIdentifier>{510e15f1-da08-4db8-b239-44e1b426f2e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgTime">
+      <UniqueIdentifier>{dcc4be24-e184-4de2-8cc5-936ad1877230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\Interpolators">
+      <UniqueIdentifier>{1a103952-929a-45df-84ee-e96386e9a0fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\Materials">
+      <UniqueIdentifier>{32bd5636-6dd5-434f-a956-76c4399239b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\Materials\xgMaterial">
+      <UniqueIdentifier>{546f1123-511d-4084-ac8b-a44f737526f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\Materials\xgMultiPassMaterial">
+      <UniqueIdentifier>{47cd7dab-eae1-4899-8471-c8194c7cb5d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\Materials\xgTexture">
+      <UniqueIdentifier>{ff589d3e-1ef0-4a36-9107-4a8bafe9612e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\XGArray">
+      <UniqueIdentifier>{ea9093eb-5fc1-4dd0-91f5-b9f9fd426c7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\VertexList">
+      <UniqueIdentifier>{c5c5b738-19af-41eb-95a0-4323dba24815}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FileTypes\XGM\XGM.cpp">
+      <Filter>FileTypes\XGM</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\XG.cpp">
+      <Filter>FileTypes\XGM\XG</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\IMX\IMX.cpp">
+      <Filter>FileTypes\XGM\IMX</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\IMX\Palette.cpp">
+      <Filter>FileTypes\XGM\IMX</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\Animation.cpp">
+      <Filter>FileTypes\XGM\XG\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgBone.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBone</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgBgMatrix.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgMatrix</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgDagMesh.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgDagTransform.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgDagTransform</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgEnvelope.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgEnvelope</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgMaterial.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgMultiPassMaterial.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgMultiPassMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTexture.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTime.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgTime</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\VertexList.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\VertexList</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\XGArray.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\XGArray</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\PString.cpp">
+      <Filter>FileTypes\XGM\XG\PString</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\FileOperations.cpp">
+      <Filter>FileTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FileTypes\XGM\XGM.h">
+      <Filter>FileTypes\XGM</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\XG.h">
+      <Filter>FileTypes\XGM\XG</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\IMX\IMX.h">
+      <Filter>FileTypes\XGM\IMX</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\FileOperations.h">
+      <Filter>FileTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\IMX\Pixel.h">
+      <Filter>FileTypes\XGM\IMX</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\IMX\Palette.h">
+      <Filter>FileTypes\XGM\IMX</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\Animation.h">
+      <Filter>FileTypes\XGM\XG\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\PString.h">
+      <Filter>FileTypes\XGM\XG\PString</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_SubNode.h">
+      <Filter>FileTypes\XGM\XG\SubNodes</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgBone.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBone</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgBgMatrix.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgDagMesh.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgDagTransform.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgDagTransform</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgEnvelope.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgEnvelope</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgMaterial.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgMultiPassMaterial.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgMultiPassMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTexture.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTime.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgTime</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_MaterialNode.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\Interpolators</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XGArray.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\XGArray</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\VertexList.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\VertexList</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\Triangle_Data.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
