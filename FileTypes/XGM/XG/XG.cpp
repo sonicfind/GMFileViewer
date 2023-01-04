@@ -39,11 +39,11 @@ void XG::load(const char* input)
 	if (!FileOps::checkTag("XGBv1.00", input))
 		throw "XG file read error";
 
-	std::string type = PString::Read(input);
-	std::string name = PString::Read(input);
+	std::string_view type = PString::Read(input);
+	std::string_view name = PString::Read(input);
 	while (PString::CheckForString_nothrow(";", input))
 	{
-		m_nodes.push_back({ name, constructNode(type) });
+		m_nodes.push_back({ std::string(name), constructNode(type) });
 
 		PString::Read(type, input);
 		PString::Read(name, input);

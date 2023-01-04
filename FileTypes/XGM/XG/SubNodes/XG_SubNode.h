@@ -11,7 +11,7 @@ public:
 	template <typename T = XG_SubNode>
 	static T* searchForNode(const char*& input, const std::vector<XGVectElement>& nodes)
 	{
-		const std::string name = PString::Read(input);
+		std::string_view name = PString::Read(input);
 		for (const auto& node : nodes)
 			if (node.first == name)
 				return static_cast<T*>(node.second.get());

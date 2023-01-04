@@ -7,9 +7,16 @@ void PString::Read(std::string& str, const char*& input)
 	input += length;
 }
 
-std::string PString::Read(const char*& input)
+void PString::Read(std::string_view& str, const char*& input)
 {
-	std::string str;
+	unsigned char length = *input++;
+	str = std::string_view(input, length);
+	input += length;
+}
+
+std::string_view PString::Read(const char*& input)
+{
+	std::string_view str;
 	Read(str, input);
 	return str;
 }

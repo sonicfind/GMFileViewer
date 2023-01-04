@@ -5,7 +5,8 @@
 namespace PString
 {
 	void Read(std::string& str, const char*& input);
-	std::string Read(const char*& input);
+	void Read(std::string_view& str, const char*& input);
+	std::string_view Read(const char*& input);
 
 	bool CheckForString_nothrow(std::string_view strToMatch, const char*& input) noexcept;
 	void CheckForString(std::string_view strToMatch, const char*& input);
