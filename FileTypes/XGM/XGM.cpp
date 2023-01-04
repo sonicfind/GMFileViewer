@@ -1,4 +1,5 @@
 #include "XGM.h"
+#include "TaskQueue.h"
 
 XGM::XGMNode::XGMNode(const char*& input, const uint32_t index)
 {
@@ -21,7 +22,7 @@ XGM::XGMNode_IMX::XGMNode_IMX(const char*& input, const uint32_t index) : XGMNod
 	FileOps::Read(m_unk, input);
 	input += 12;
 
-	m_texture.load(input);
+	TaskQueue::getInstance().addTask([this, input] { m_texture.load(input); });
 	input += fileSize;
 }
 
@@ -38,7 +39,7 @@ XGM::XGMNode_XG::XGMNode_XG(const char*& input, const uint32_t index) : XGMNode(
 		input += 32;
 	}
 	
-	m_model.load(input);
+	TaskQueue::getInstance().addTask([this, input] { m_model.load(input); });
 	input += fileSize;
 }
 
@@ -64,4 +65,6 @@ XGM::XGM(const std::filesystem::path& filePath)
 	{
 
 	}
+
+	TaskQueue::getInstance().waitForCompletedTasks();
 }

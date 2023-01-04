@@ -64,6 +64,9 @@
     <Filter Include="FileTypes\XGM\XG\SubNodes\VertexList">
       <UniqueIdentifier>{c5c5b738-19af-41eb-95a0-4323dba24815}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TaskQueue">
+      <UniqueIdentifier>{341e3bd9-ddb5-4130-b9cb-4ed3f7cfed0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileTypes\XGM\XGM.cpp">
@@ -124,6 +127,9 @@
       <Filter>FileTypes</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TaskQueue\TaskQueue.cpp">
+      <Filter>TaskQueue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileTypes\XGM\XGM.h">
@@ -197,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\Triangle_Data.h">
       <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskQueue\TaskQueue.h">
+      <Filter>TaskQueue</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,8 +1,10 @@
 #include "FileTypes/XGM/XGM.h"
+#include "TaskQueue.h"
 #include <iostream>
 
 int main()
 {
+	TaskQueue::getInstance();
 	std::string filename;
 	std::getline(std::cin, filename);
 
