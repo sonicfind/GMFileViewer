@@ -43,9 +43,6 @@
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgTime">
       <UniqueIdentifier>{dcc4be24-e184-4de2-8cc5-936ad1877230}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\Interpolators">
-      <UniqueIdentifier>{1a103952-929a-45df-84ee-e96386e9a0fa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FileTypes\XGM\XG\SubNodes\Materials">
       <UniqueIdentifier>{32bd5636-6dd5-434f-a956-76c4399239b2}</UniqueIdentifier>
     </Filter>
@@ -192,9 +189,6 @@
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_MaterialNode.h">
       <Filter>FileTypes\XGM\XG\SubNodes\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\Interpolators</Filter>
-    </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XGArray.h">
       <Filter>FileTypes\XGM\XG\SubNodes\XGArray</Filter>
     </ClInclude>
@@ -206,6 +200,9 @@
     </ClInclude>
     <ClInclude Include="TaskQueue\TaskQueue.h">
       <Filter>TaskQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.h">
+      <Filter>FileTypes\XGM\XG\SubNodes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
