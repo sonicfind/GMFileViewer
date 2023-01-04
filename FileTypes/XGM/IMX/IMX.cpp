@@ -34,13 +34,12 @@ void IMX::load(const char* input)
 void IMX::readImage_RGB(const char* input)
 {
 	const auto size = FileOps::Read<uint32_t>(input) / 3;
-	m_data = std::make_unique<Pixel[]>(size);
-
-	for (uint32_t i = 0; i < size; ++i)
-		FileOps::Read(m_data[i], input, 3);
+	if (m_data.init(size))
+		for (auto& pixel : m_data)
+			FileOps::Read(pixel, input, 3);
 }
 
 void IMX::readImage_RGBA(const char* input)
 {
-	m_data = FileOps::Read_Array<Pixel>(input);
+	m_data.read<true>(input);
 }

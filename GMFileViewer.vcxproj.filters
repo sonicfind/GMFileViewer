@@ -55,14 +55,14 @@
     <Filter Include="FileTypes\XGM\XG\SubNodes\Materials\xgTexture">
       <UniqueIdentifier>{ff589d3e-1ef0-4a36-9107-4a8bafe9612e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\XGArray">
-      <UniqueIdentifier>{ea9093eb-5fc1-4dd0-91f5-b9f9fd426c7b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FileTypes\XGM\XG\SubNodes\VertexList">
       <UniqueIdentifier>{c5c5b738-19af-41eb-95a0-4323dba24815}</UniqueIdentifier>
     </Filter>
     <Filter Include="TaskQueue">
       <UniqueIdentifier>{341e3bd9-ddb5-4130-b9cb-4ed3f7cfed0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\GMArray">
+      <UniqueIdentifier>{ea9093eb-5fc1-4dd0-91f5-b9f9fd426c7b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +114,6 @@
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\VertexList.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes\VertexList</Filter>
     </ClCompile>
-    <ClCompile Include="FileTypes\XGM\XG\SubNodes\XGArray.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\XGArray</Filter>
-    </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\PString.cpp">
       <Filter>FileTypes\XGM\XG\PString</Filter>
     </ClCompile>
@@ -126,6 +123,9 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TaskQueue\TaskQueue.cpp">
       <Filter>TaskQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\GMArray.cpp">
+      <Filter>FileTypes\GMArray</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -189,9 +189,6 @@
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_MaterialNode.h">
       <Filter>FileTypes\XGM\XG\SubNodes\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XGArray.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\XGArray</Filter>
-    </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\VertexList.h">
       <Filter>FileTypes\XGM\XG\SubNodes\VertexList</Filter>
     </ClInclude>
@@ -204,5 +201,13 @@
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.h">
       <Filter>FileTypes\XGM\XG\SubNodes</Filter>
     </ClInclude>
+    <ClInclude Include="FileTypes\GMArray.h">
+      <Filter>FileTypes\GMArray</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="FileTypes\GMArray.natvis">
+      <Filter>FileTypes\GMArray</Filter>
+    </Natvis>
   </ItemGroup>
 </Project>

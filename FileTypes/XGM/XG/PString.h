@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include "FileOperations.h"
+#include "GMArray.h"
+#include "XGM/XG/SubNodes/VertexList.h"
 
 namespace PString
 {
@@ -16,5 +18,18 @@ namespace PString
 	{
 		CheckForString(name, input);
 		FileOps::Read(value, input);
-	} 
+	}
+
+	template <FileOps::Standard T>
+	void ReadNamedValue(std::string_view name, GMArray<T>& value, const char*& input)
+	{
+		CheckForString(name, input);
+		value.read(input);
+	}
+
+	template <>
+	void ReadNamedValue(std::string_view name, std::string& value, const char*& input);
+
+	template <>
+	void ReadNamedValue(std::string_view name, VertexList& value, const char*& input);
 }

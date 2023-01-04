@@ -6,12 +6,8 @@
 void xgEnvelope::load(const char*& input, const std::vector<XGVectElement>& nodes)
 {
 	PString::ReadNamedValue("startVertex", m_startVertex, input);
-
-	PString::CheckForString("weights", input);
-	XGArrayLoader::loadElements(m_weights, input);
-
-	PString::CheckForString("vertexTargets", input);
-	XGArrayLoader::loadElements(m_vertexTargets, input);
+	PString::ReadNamedValue("weights", m_weights, input);
+	PString::ReadNamedValue("vertexTargets", m_vertexTargets, input);
 
 	static constexpr std::string_view MATRICES[MAX_BONES] = { "inputMatrix1", "inputMatrix2", "inputMatrix3", "inputMatrix4"};
 	{

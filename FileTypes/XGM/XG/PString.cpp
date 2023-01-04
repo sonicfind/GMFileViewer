@@ -36,3 +36,17 @@ void PString::CheckForString(std::string_view strToMatch, const char*& input)
 	if (!CheckForString_nothrow(strToMatch, input))
 		throw "PString mismatch";
 }
+
+template <>
+void PString::ReadNamedValue(std::string_view name, std::string& value, const char*& input)
+{
+	CheckForString(name, input);
+	PString::Read(value, input);
+}
+
+template <>
+void PString::ReadNamedValue(std::string_view name, VertexList& value, const char*& input)
+{
+	CheckForString(name, input);
+	value.load(input);
+}

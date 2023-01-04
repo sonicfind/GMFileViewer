@@ -1,6 +1,6 @@
 #pragma once
 #include <Eigen/Dense>
-#include "XGArray.h"
+#include "GMArray.h"
 
 struct Vertex
 {
@@ -29,7 +29,7 @@ struct Vertex
 class VertexList
 {
 	uint32_t m_vertexFlags = 0;
-	XGArray<Vertex> m_vertices;
+	GMArray<Vertex> m_vertices;
 
 public:
 	void load(const char*& input);

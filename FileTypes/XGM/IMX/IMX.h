@@ -8,7 +8,7 @@ class IMX
 	uint32_t m_height = 0;
 	uint32_t m_pixelVal1 = 0;
 	uint32_t m_pixelVal2 = 0;
-	std::unique_ptr<Pixel[]> m_data;
+	GMArray<Pixel> m_data;
 
 public:
 	void load(const char* input);
@@ -18,10 +18,9 @@ private:
 	void readImage_Indexed(const char* input)
 	{
 		const Palette<T> palette(input);
-		const uint32_t size = m_height * m_width;
-		m_data = std::make_unique<Pixel[]>(size);
+		m_data.init(m_height * m_width);
 		
-		for (uint32_t i = 0; i < size; ++i)
+		for (uint32_t i = 0; i < m_data.getSize(); ++i)
 			m_data[i] = palette[i];
 	}
 

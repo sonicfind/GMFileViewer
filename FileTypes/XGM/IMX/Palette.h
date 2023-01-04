@@ -1,6 +1,7 @@
 #pragma once
 #include "Pixel.h"
 #include "FileOperations.h"
+#include "GMArray.h"
 
 struct HalfIndex
 {
@@ -10,12 +11,13 @@ struct HalfIndex
 template <FileOps::Standard T>
 struct Palette
 {
-	std::unique_ptr<Pixel[]> m_colors;
-	std::unique_ptr<T[]> m_indices;
-	Palette(const char*& input) : m_colors(FileOps::Read_Array<Pixel>(input))
+	GMArray_View<Pixel> m_colors;
+	GMArray_View<T> m_indices;
+	Palette(const char*& input)
 	{
+		m_colors.read<true>(input);
 		input += 4;
-		m_indices = FileOps::Read_Array<T>(input);
+		m_indices.read<true>(input);
 	}
 
 	Pixel operator[](const size_t position) const

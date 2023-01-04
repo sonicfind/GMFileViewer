@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FileTypes\FileOperations.cpp" />
+    <ClCompile Include="FileTypes\GMArray.cpp" />
     <ClCompile Include="FileTypes\XGM\IMX\IMX.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)FileTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -154,7 +155,6 @@
     <ClCompile Include="FileTypes\XGM\XG\Animation.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\PString.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\VertexList.cpp" />
-    <ClCompile Include="FileTypes\XGM\XG\SubNodes\XGArray.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgBgMatrix.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgBone.cpp" />
@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileTypes\FileOperations.h" />
+    <ClInclude Include="FileTypes\GMArray.h" />
     <ClInclude Include="FileTypes\XGM\IMX\IMX.h" />
     <ClInclude Include="FileTypes\XGM\IMX\Palette.h" />
     <ClInclude Include="FileTypes\XGM\IMX\Pixel.h" />
@@ -180,7 +181,6 @@
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\Triangle_Data.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\VertexList.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.h" />
-    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XGArray.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgBgMatrix.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgBone.h" />
@@ -195,6 +195,9 @@
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_SubNode.h" />
     <ClInclude Include="FileTypes\XGM\XG\XG.h" />
     <ClInclude Include="TaskQueue\TaskQueue.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="FileTypes\GMArray.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

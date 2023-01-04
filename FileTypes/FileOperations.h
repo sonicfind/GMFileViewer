@@ -49,41 +49,6 @@ namespace FileOps
 		return value;
 	}
 
-	template <Standard T>
-	void Read_Array_Count(std::unique_ptr<T[]>& arr, const uint32_t numElements, const char*& input)
-	{
-		const uint32_t sizeInBytes = sizeof(T) * numElements;
-		arr = std::make_unique<T[]>(numElements);
-		memcpy(arr.get(), input, sizeInBytes);
-		input += sizeInBytes;
-	}
-
-	template <Standard T>
-	std::unique_ptr<T[]> Read_Array_Count(const char*& input)
-	{
-		std::unique_ptr<T[]> arr;
-		const uint32_t numElements = Read<uint32_t>(input);
-		Read_Array_Count(arr, numElements, input);
-		return arr;
-	}
-
-	template <Standard T>
-	void Read_Array(std::unique_ptr<T[]>& arr, const uint32_t sizeInBytes, const char*& input)
-	{
-		arr = std::make_unique<T[]>(sizeInBytes / sizeof(T));
-		memcpy(arr.get(), input, sizeInBytes);
-		input += sizeInBytes;
-	}
-
-	template <Standard T>
-	std::unique_ptr<T[]> Read_Array(const char*& input)
-	{
-		std::unique_ptr<T[]> arr;
-		const uint32_t sizeInBytes = Read<uint32_t>(input);
-		Read_Array(arr, sizeInBytes, input);
-		return arr;
-	}
-
 	class FilePointers
 	{
 		size_t m_fileSize = 0;

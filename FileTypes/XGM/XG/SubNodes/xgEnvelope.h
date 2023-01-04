@@ -11,8 +11,8 @@ class xgEnvelope : public XG_SubNode
 	};
 
 	uint32_t m_startVertex = 0;
-	XGArray<Weight> m_weights;
-	XGArray<int32_t> m_vertexTargets;
+	GMArray<Weight> m_weights;
+	GMArray<int32_t> m_vertexTargets;
 
 	xgBone* m_inputMatrices[4]{};
 	xgBgGeometry* m_inputGeometry = nullptr;

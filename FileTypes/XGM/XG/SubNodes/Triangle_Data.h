@@ -15,7 +15,7 @@
  */
 #include "../PString.h"
 #include "FileOperations.h"
-#include "XGArray.h"
+#include "GMArray.h"
 
 enum class PrimitiveType
 {
@@ -31,7 +31,7 @@ class Triangle_Data
 	static_assert(MODE >= PrimitiveType::PRIMITIVE && MODE <= PrimitiveType::TRIANGLE_LIST);
 protected:
 	uint32_t m_numPrimitives = 0;
-	XGArray<uint32_t> m_data;
+	GMArray<uint32_t> m_data;
 
 public:
 	void load(const char*& input)
@@ -48,6 +48,6 @@ public:
 		else if constexpr (MODE == PrimitiveType::TRIANGLE_STRIP) PString::CheckForString("triStripData", input);
 		else                                                      PString::CheckForString("triListData", input);
 
-		XGArrayLoader::loadElements(m_data, input);
+		GMArrayLoader::loadElements(m_data, input);
 	}
 };
