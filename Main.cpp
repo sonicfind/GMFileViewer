@@ -15,10 +15,7 @@ int main()
 
 	if (path.extension() == U".XGM")
 	{
-		auto t1 = std::chrono::high_resolution_clock::now();
-			XGM file(path);
-		auto t2 = std::chrono::high_resolution_clock::now();
-		std::cout << std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count() / 1000 << " milliseconds\n";
+		XGM file(path);
 		std::getline(std::cin, filename);
 	}
 	return 0;
