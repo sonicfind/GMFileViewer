@@ -11,8 +11,7 @@ class XGM
 		char m_filepath[256];
 		char m_name[16];
 
-		XGMNode(const char*& input);
-		virtual void readData(const char*& input) = 0;
+		XGMNode(const char*& input, const uint32_t index);
 	};
 
 	struct XGMNode_IMX : public XGMNode
@@ -21,8 +20,7 @@ class XGM
 		unsigned long m_unk = 0;
 		IMX m_texture;
 
-		using XGMNode::XGMNode;
-		void readData(const char*& input);
+		XGMNode_IMX(const char*& input, const uint32_t index);
 	};
 
 	struct XGMNode_XG : public XGMNode
@@ -30,8 +28,7 @@ class XGM
 		std::vector<Animation> m_animations;
 		XG m_model;
 
-		using XGMNode::XGMNode;
-		void readData(const char*& input);
+		XGMNode_XG(const char*& input, const uint32_t index);
 	};
 
 	std::vector<XGMNode_IMX> m_textures;

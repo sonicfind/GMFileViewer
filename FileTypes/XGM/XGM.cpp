@@ -1,15 +1,18 @@
 #include "XGM.h"
 
-XGM::XGMNode::XGMNode(const char*& input)
+XGM::XGMNode::XGMNode(const char*& input, const uint32_t index)
 {
 	strncpy_s(m_filepath, input, sizeof(m_filepath));
 	input += sizeof(m_filepath);
 
 	strncpy_s(m_name, input, sizeof(m_name));
 	input += sizeof(m_name);
+
+	if (FileOps::Read<uint32_t>(input) != index)
+		throw "weird af";
 }
 
-void XGM::XGMNode_IMX::readData(const char*& input)
+XGM::XGMNode_IMX::XGMNode_IMX(const char*& input, const uint32_t index) : XGMNode(input, index)
 {
 	const auto fileSize = FileOps::Read<uint32_t>(input);
 
@@ -22,7 +25,7 @@ void XGM::XGMNode_IMX::readData(const char*& input)
 	input += fileSize;
 }
 
-void XGM::XGMNode_XG::readData(const char*& input)
+XGM::XGMNode_XG::XGMNode_XG(const char*& input, const uint32_t index) : XGMNode(input, index)
 {
 	const auto fileSize = FileOps::Read<uint32_t>(input);
 	const auto numAnimations = FileOps::Read<uint32_t>(input);
@@ -34,7 +37,7 @@ void XGM::XGMNode_XG::readData(const char*& input)
 		m_animations.emplace_back(input);
 		input += 32;
 	}
-
+	
 	m_model.load(input);
 	input += fileSize;
 }
@@ -51,23 +54,11 @@ XGM::XGM(const std::filesystem::path& filePath)
 	{
 		m_textures.reserve(numTextures);
 		for (uint32_t i = 0; i < numTextures; ++i)
-		{
-			m_textures.emplace_back(input);
-			if (FileOps::Read<uint32_t>(input) != i)
-				throw "weird af";
-
-			m_textures.back().readData(input);
-		}
+			m_textures.emplace_back(input, i);
 
 		m_models.reserve(numModels);
 		for (uint32_t i = 0; i < numModels; ++i)
-		{
-			m_models.emplace_back(input);
-			if (FileOps::Read<uint32_t>(input) != i)
-				throw "weird af";
-
-			m_models.back().readData(input);
-		}
+			m_models.emplace_back(input, i);
 	}
 	catch (...)
 	{
