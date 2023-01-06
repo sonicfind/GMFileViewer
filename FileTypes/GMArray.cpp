@@ -4,7 +4,7 @@
 template <>
 void GMArrayLoader::loadElements(GMArray<VertexList>& arr, const char*& input)
 {
-	if (arr.init(input))
+	if (arr.reserve(input))
 		for (auto& element : arr)
 			element.load(input);
 }

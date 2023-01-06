@@ -4,7 +4,7 @@
 void VertexList::load(const char*& input)
 {
 	FileOps::Read(m_vertexFlags, input);
-	if (!m_vertices.init(input))
+	if (!m_vertices.reserve(input))
 		return;
 
 	switch (m_vertexFlags)

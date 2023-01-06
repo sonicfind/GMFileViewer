@@ -24,7 +24,7 @@ namespace PString
 	void ReadNamedValue(std::string_view name, GMArray<T>& value, const char*& input)
 	{
 		CheckForString(name, input);
-		value.read(input);
+		value.reserve_and_fill(input);
 	}
 
 	template <>

@@ -7,7 +7,7 @@ class GMArray
 	uint32_t m_size = 0;
 	std::unique_ptr<T[]> m_elements;
 
-	bool init()
+	bool reserve()
 	{
 		if (m_size == 0)
 			return false;
@@ -21,36 +21,30 @@ public:
 	GMArray(uint32_t size) : m_size(size), m_elements(std::make_unique<T[]>(m_size)) {}
 
 	template <bool SizeInBytes = false>
-	void read(const char*& input)
+	bool reserve(const char*& input)
 	{
-		uint32_t bytes = 0;
+		uint32_t size = FileOps::Read<uint32_t>(input);
 		if constexpr (SizeInBytes)
-		{
-			FileOps::Read(bytes, input);
-			m_size = bytes / sizeof(T);
-		}
-		else
-		{
-			FileOps::Read(m_size, input);
-			bytes = m_size * sizeof(T);
-		}
-
-		if (init())
-		{
-			memcpy(m_elements.get(), input, bytes);
-			input += bytes;
-		}
+			size /= sizeof(T);
+		return reserve(size);
 	}
 
-	bool init(const char*& input)
-	{
-		return init(FileOps::Read<uint32_t>(input));
-	}
-
-	bool init(uint32_t size)
+	bool reserve(uint32_t size)
 	{
 		m_size = size;
-		return init();
+		return reserve();
+	}
+
+	void fill(const char*& input)
+	{
+		FileOps::Read(m_elements.get(), input, m_size * sizeof(T));
+	}
+
+	template <bool SizeInBytes = false>
+	void reserve_and_fill(const char*& input)
+	{
+		if (reserve<SizeInBytes>(input))
+			fill(input);
 	}
 
 	T& operator[](const size_t index)
@@ -80,7 +74,7 @@ class GMArray_View
 
 public:
 	template <bool SizeInBytes = false>
-	void read(const char*& input)
+	void reserve_and_fill(const char*& input)
 	{
 		uint32_t bytes = 0;
 		if constexpr (SizeInBytes)
@@ -126,15 +120,15 @@ namespace GMArrayLoader
 	template <typename T>
 	void loadElements(GMArray<T>& arr, const char*& input)
 	{
-		arr.read(input);
+		arr.reserve_and_fill(input);
 	}
 
 	template <class T>
 	void loadElements(GMArray<GMArray<T>>& arr, const char*& input)
 	{
-		if (arr.init(input))
+		if (arr.reserve(input))
 			for (auto& element : arr)
-				element.read(input);
+				element.reserve_and_fill(input);
 	}
 
 	template <>

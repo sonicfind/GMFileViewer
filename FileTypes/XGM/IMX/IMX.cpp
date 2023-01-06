@@ -34,12 +34,12 @@ void IMX::load(const char* input)
 void IMX::readImage_RGB(const char* input)
 {
 	const auto size = FileOps::Read<uint32_t>(input) / 3;
-	if (m_data.init(size))
+	if (m_data.reserve(size))
 		for (auto& pixel : m_data)
 			FileOps::Read(pixel, input, 3);
 }
 
 void IMX::readImage_RGBA(const char* input)
 {
-	m_data.read<true>(input);
+	m_data.reserve_and_fill<true>(input);
 }

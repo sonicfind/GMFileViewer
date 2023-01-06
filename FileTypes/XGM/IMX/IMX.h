@@ -18,7 +18,7 @@ private:
 	void readImage_Indexed(const char* input)
 	{
 		const Palette<T> palette(input);
-		m_data.init(m_height * m_width);
+		m_data.reserve(m_height * m_width);
 		
 		for (uint32_t i = 0; i < m_data.getSize(); ++i)
 			m_data[i] = palette[i];

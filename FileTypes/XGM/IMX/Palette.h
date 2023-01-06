@@ -15,9 +15,9 @@ struct Palette
 	GMArray_View<T> m_indices;
 	Palette(const char*& input)
 	{
-		m_colors.read<true>(input);
+		m_colors.reserve_and_fill<true>(input);
 		input += 4;
-		m_indices.read<true>(input);
+		m_indices.reserve_and_fill<true>(input);
 	}
 
 	Pixel operator[](const size_t position) const
