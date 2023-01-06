@@ -5,7 +5,7 @@
 	<Expand>
 	  <ArrayItems>
 		<Size>m_size</Size>
-		<ValuePointer>m_elements</ValuePointer>
+		<ValuePointer>m_elements._Mypair._Myval2</ValuePointer>
 	  </ArrayItems>
 	</Expand>
   </Type>
