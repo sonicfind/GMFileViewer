@@ -8,7 +8,7 @@ struct HalfIndex
 	unsigned char index1 : 4, index2 : 4;
 };
 
-template <FileOps::Standard T>
+template <typename T>
 struct Palette
 {
 	GMArray_View<Pixel> m_colors;

@@ -24,24 +24,27 @@ namespace FileOps
 		return true;
 	}
 
-	template<typename T>
-	concept Standard = std::is_standard_layout<T>::value;
-
 	void Read(void* loc, const char*& input, const size_t size);
 
-	template <Standard T>
+	template <typename T>
+	void Read(T* value, const char*& input, const size_t size)
+	{
+		Read((void*)value, input, size);
+	}
+
+	template <typename T>
 	void Read(T& value, const char*& input, const size_t size)
 	{
 		Read(&value, input, size);
 	}
 
-	template <Standard T>
+	template <typename T>
 	void Read(T& value, const char*& input)
 	{
 		Read(value, input, sizeof(T));
 	}
 
-	template <Standard T>
+	template <typename T>
 	T Read(const char*& input)
 	{
 		T value;

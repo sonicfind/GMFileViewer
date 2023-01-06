@@ -13,14 +13,14 @@ namespace PString
 	bool CheckForString_nothrow(std::string_view strToMatch, const char*& input) noexcept;
 	void CheckForString(std::string_view strToMatch, const char*& input);
 
-	template <FileOps::Standard T>
+	template <typename T>
 	void ReadNamedValue(std::string_view name, T& value, const char*& input)
 	{
 		CheckForString(name, input);
 		FileOps::Read(value, input);
 	}
 
-	template <FileOps::Standard T>
+	template <typename T>
 	void ReadNamedValue(std::string_view name, GMArray<T>& value, const char*& input)
 	{
 		CheckForString(name, input);

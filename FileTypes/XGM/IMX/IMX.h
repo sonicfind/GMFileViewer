@@ -14,7 +14,7 @@ public:
 	void load(const char* input);
 
 private:
-	template <FileOps::Standard T>
+	template <typename T>
 	void readImage_Indexed(const char* input)
 	{
 		const Palette<T> palette(input);
