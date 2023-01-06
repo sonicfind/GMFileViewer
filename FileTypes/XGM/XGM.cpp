@@ -1,6 +1,32 @@
 #include "XGM.h"
 #include "TaskQueue.h"
 
+XGM::XGM(const std::filesystem::path& filePath)
+{
+	const FileOps::FilePointers file(filePath);
+	auto input = file.begin();
+
+	const auto numTextures = FileOps::Read<uint32_t>(input);
+	const auto numModels = FileOps::Read<uint32_t>(input);
+
+	try
+	{
+		m_textures.reserve(numTextures);
+		for (uint32_t i = 0; i < numTextures; ++i)
+			m_textures.emplace_back(input, i);
+
+		m_models.reserve(numModels);
+		for (uint32_t i = 0; i < numModels; ++i)
+			m_models.emplace_back(input, i);
+	}
+	catch (...)
+	{
+
+	}
+
+	TaskQueue::getInstance().waitForCompletedTasks();
+}
+
 XGM::XGMNode::XGMNode(const char*& input, const uint32_t index)
 {
 	strncpy_s(m_filepath, input, sizeof(m_filepath));
@@ -41,30 +67,4 @@ XGM::XGMNode_XG::XGMNode_XG(const char*& input, const uint32_t index) : XGMNode(
 	
 	TaskQueue::getInstance().addTask([this, input] { m_model.load(input); });
 	input += fileSize;
-}
-
-XGM::XGM(const std::filesystem::path& filePath)
-{
-	const FileOps::FilePointers file(filePath);
-	auto input = file.begin();
-
-	const auto numTextures = FileOps::Read<uint32_t>(input);
-	const auto numModels = FileOps::Read<uint32_t>(input);
-
-	try
-	{
-		m_textures.reserve(numTextures);
-		for (uint32_t i = 0; i < numTextures; ++i)
-			m_textures.emplace_back(input, i);
-
-		m_models.reserve(numModels);
-		for (uint32_t i = 0; i < numModels; ++i)
-			m_models.emplace_back(input, i);
-	}
-	catch (...)
-	{
-
-	}
-
-	TaskQueue::getInstance().waitForCompletedTasks();
 }

@@ -64,6 +64,12 @@
     <Filter Include="FileTypes\GMArray">
       <UniqueIdentifier>{ea9093eb-5fc1-4dd0-91f5-b9f9fd426c7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FileTypes\CHC">
+      <UniqueIdentifier>{760287f6-9323-4898-aadb-7ea0ad45d0ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\CHC\Notes">
+      <UniqueIdentifier>{ec399c2d-4046-41ae-8875-0015534a6666}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileTypes\XGM\XGM.cpp">
@@ -126,6 +132,15 @@
     </ClCompile>
     <ClCompile Include="FileTypes\GMArray.cpp">
       <Filter>FileTypes\GMArray</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\CHC\CHC.cpp">
+      <Filter>FileTypes\CHC</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\CHC\SongSection.cpp">
+      <Filter>FileTypes\CHC</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\CHC\Chart.cpp">
+      <Filter>FileTypes\CHC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -204,10 +219,34 @@
     <ClInclude Include="FileTypes\GMArray.h">
       <Filter>FileTypes\GMArray</Filter>
     </ClInclude>
+    <ClInclude Include="FileTypes\CHC\CHC.h">
+      <Filter>FileTypes\CHC</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\CHC\SongSection.h">
+      <Filter>FileTypes\CHC</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\CHC\Chart.h">
+      <Filter>FileTypes\CHC</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\CHC\Notes\Note.h">
+      <Filter>FileTypes\CHC\Notes</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\CHC\Notes\Traceline.h">
+      <Filter>FileTypes\CHC\Notes</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\CHC\Notes\Phrase.h">
+      <Filter>FileTypes\CHC\Notes</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\CHC\Notes\Guard.h">
+      <Filter>FileTypes\CHC\Notes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="FileTypes\GMArray.natvis">
       <Filter>FileTypes\GMArray</Filter>
+    </Natvis>
+    <Natvis Include="FileTypes\CHC\Notes\Notes.natvis">
+      <Filter>FileTypes\CHC\Notes</Filter>
     </Natvis>
   </ItemGroup>
 </Project>
