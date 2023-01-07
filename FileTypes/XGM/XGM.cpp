@@ -6,42 +6,39 @@ XGM::XGM(const std::filesystem::path& filePath)
 	const FileOps::FilePointers file(filePath);
 	auto input = file.begin();
 
-	const auto numTextures = FileOps::Read<uint32_t>(input);
-	const auto numModels = FileOps::Read<uint32_t>(input);
+	m_textures.reserve(input);
+	m_models.reserve(input);
 
 	try
 	{
-		m_textures.reserve(numTextures);
-		for (uint32_t i = 0; i < numTextures; ++i)
-			m_textures.emplace_back(input, i);
+		for (uint32_t i = 0; i < m_textures.getSize(); ++i)
+			m_textures[i].load(input, i);
 
-		m_models.reserve(numModels);
-		for (uint32_t i = 0; i < numModels; ++i)
-			m_models.emplace_back(input, i);
+		for (uint32_t i = 0; i < m_models.getSize(); ++i)
+			m_models[i].load(input, i);
 	}
 	catch (...)
 	{
-
+		
 	}
 
 	TaskQueue::getInstance().waitForCompletedTasks();
 }
 
-XGM::XGMNode::XGMNode(const char*& input, const uint32_t index)
+uint32_t XGM::XGMNode::load(const char*& input, const uint32_t index)
 {
-	strncpy_s(m_filepath, input, sizeof(m_filepath));
-	input += sizeof(m_filepath);
-
-	strncpy_s(m_name, input, sizeof(m_name));
-	input += sizeof(m_name);
+	FileOps::Read(m_filepath, input);
+	FileOps::Read(m_name, input);
 
 	if (FileOps::Read<uint32_t>(input) != index)
 		throw "weird af";
+
+	return FileOps::Read<uint32_t>(input);
 }
 
-XGM::XGMNode_IMX::XGMNode_IMX(const char*& input, const uint32_t index) : XGMNode(input, index)
+void XGM::XGMNode_IMX::load(const char*& input, const uint32_t index)
 {
-	const auto fileSize = FileOps::Read<uint32_t>(input);
+	const uint32_t fileSize = XGMNode::load(input, index);
 
 	input += 4;
 	FileOps::Read(m_non_model, input);
@@ -52,18 +49,13 @@ XGM::XGMNode_IMX::XGMNode_IMX(const char*& input, const uint32_t index) : XGMNod
 	input += fileSize;
 }
 
-XGM::XGMNode_XG::XGMNode_XG(const char*& input, const uint32_t index) : XGMNode(input, index)
+void XGM::XGMNode_XG::load(const char*& input, const uint32_t index)
 {
-	const auto fileSize = FileOps::Read<uint32_t>(input);
-	const auto numAnimations = FileOps::Read<uint32_t>(input);
-	input += 4;
+	const uint32_t fileSize = XGMNode::load(input, index);
 
-	m_animations.reserve(numAnimations);
-	for (uint32_t i = 0; i < numAnimations; ++i)
-	{
-		m_animations.emplace_back(input);
-		input += 32;
-	}
+	m_animations.reserve(input);
+	input += 4;
+	m_animations.fill(input);
 	
 	TaskQueue::getInstance().addTask([this, input] { m_model.load(input); });
 	input += fileSize;
