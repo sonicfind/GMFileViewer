@@ -4,74 +4,19 @@
 void VertexList::load(const char*& input)
 {
 	FileOps::Read(m_vertexFlags, input);
+	if (m_vertexFlags >= 16)
+		throw "why'd you edit the vertexFlags to an invalid value you dumb SOB?";
+
 	if (!m_vertices.reserve(input))
 		return;
 
-	switch (m_vertexFlags)
+	static constexpr void (*vertexFillers[])(GMArray<Vertex>&, const char*&) =
 	{
-	case 0:
-		for (auto& vertex : m_vertices)
-			vertex.fill<0>(input);
-		break;
-	case 1:
-		for (auto& vertex : m_vertices)
-			vertex.fill<1>(input);
-		break;
-	case 2:
-		for (auto& vertex : m_vertices)
-			vertex.fill<2>(input);
-		break;
-	case 3:
-		for (auto& vertex : m_vertices)
-			vertex.fill<3>(input);
-		break;
-	case 4:
-		for (auto& vertex : m_vertices)
-			vertex.fill<4>(input);
-		break;
-	case 5:
-		for (auto& vertex : m_vertices)
-			vertex.fill<5>(input);
-		break;
-	case 6:
-		for (auto& vertex : m_vertices)
-			vertex.fill<6>(input);
-		break;
-	case 7:
-		for (auto& vertex : m_vertices)
-			vertex.fill<7>(input);
-		break;
-	case 8:
-		for (auto& vertex : m_vertices)
-			vertex.fill<8>(input);
-		break;
-	case 9:
-		for (auto& vertex : m_vertices)
-			vertex.fill<9>(input);
-		break;
-	case 10:
-		for (auto& vertex : m_vertices)
-			vertex.fill<10>(input);
-		break;
-	case 11:
-		for (auto& vertex : m_vertices)
-			vertex.fill<11>(input);
-		break;
-	case 12:
-		for (auto& vertex : m_vertices)
-			vertex.fill<12>(input);
-		break;
-	case 13:
-		for (auto& vertex : m_vertices)
-			vertex.fill<13>(input);
-		break;
-	case 14:
-		for (auto& vertex : m_vertices)
-			vertex.fill<14>(input);
-		break;
-	case 15:
-		for (auto& vertex : m_vertices)
-			vertex.fill<15>(input);
-		break;
-	}
+		VertexList::fillVertices<0>,  VertexList::fillVertices<1>,  VertexList::fillVertices<2>,  VertexList::fillVertices<3>,
+		VertexList::fillVertices<4>,  VertexList::fillVertices<5>,  VertexList::fillVertices<6>,  VertexList::fillVertices<7>,
+		VertexList::fillVertices<8>,  VertexList::fillVertices<9>,  VertexList::fillVertices<10>, VertexList::fillVertices<11>,
+		VertexList::fillVertices<12>, VertexList::fillVertices<13>, VertexList::fillVertices<14>, VertexList::fillVertices<15>,
+	};
+
+	vertexFillers[m_vertexFlags](m_vertices, input);
 }
