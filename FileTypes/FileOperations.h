@@ -24,12 +24,11 @@ namespace FileOps
 		return true;
 	}
 
-	void Read(void* loc, const char*& input, const size_t size);
-
 	template <typename T>
-	void Read(T* value, const char*& input, const size_t size)
+	void Read(T* dst, const char*& input, const size_t size)
 	{
-		Read((void*)value, input, size);
+		memcpy(dst, input, size);
+		input += size;
 	}
 
 	template <typename T>

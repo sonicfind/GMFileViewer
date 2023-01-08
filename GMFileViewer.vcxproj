@@ -154,7 +154,6 @@
     <ClCompile Include="FileTypes\CHC\Chart.cpp" />
     <ClCompile Include="FileTypes\CHC\CHC.cpp" />
     <ClCompile Include="FileTypes\CHC\SongSection.cpp" />
-    <ClCompile Include="FileTypes\FileOperations.cpp" />
     <ClCompile Include="FileTypes\GMArray.cpp" />
     <ClCompile Include="FileTypes\XGM\IMX\IMX.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)FileTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
