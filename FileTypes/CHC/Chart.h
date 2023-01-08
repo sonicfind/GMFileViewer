@@ -23,7 +23,7 @@ class Chart
 		int32_t getPivotAlpha() const { return m_note->m_pivotAlpha; }
 	};
 
-	GMArray<const char> m_noteBuffer;
+	GMArray<char> m_noteBuffer;
 	int32_t m_pivotTime = 0;
 	int32_t m_endTime = 0;
 	std::vector<NotePair> m_timeline;
