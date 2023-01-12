@@ -52,8 +52,8 @@ private:
 	
 	PositionKeyframes m_positions;
 	RotationKeyframes m_rotations;
-	GMArray<Keyframe<ModelAnim>> m_animations;
-	GMArray<Keyframe<ModelScalar>> m_scalars;
+	KeyFrameArray<ModelAnim> m_animations;
+	KeyFrameArray<ModelScalar> m_scalars;
 	BaseValues m_baseValues;
 
 protected:

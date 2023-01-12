@@ -42,3 +42,6 @@ glm::quat Keyframe<glm::quat>::Interpolate(const GMArray<Keyframe<glm::quat>>& k
 
 using PositionKeyframes = GMArray<Keyframe<glm::vec3>>;
 using RotationKeyframes = GMArray<Keyframe<glm::quat>>;
+
+template <typename T>
+using KeyFrameArray = GMArray<Keyframe<T>>;

@@ -16,7 +16,7 @@ class TexAnim
 	glm::u32vec2 m_offset;
 	char m_textureName[16];
 	GMArray<CutOut> m_cutOuts;
-	GMArray<Keyframe<TexFrame>> m_cutoutTimeline;
+	KeyFrameArray<TexFrame> m_cutoutTimeline;
 public:
 	void read(const char*& input);
 };

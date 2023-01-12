@@ -59,9 +59,9 @@ class FixedSprite
 	};
 
 	Struct64_7f m_64bytes;
-	GMArray<Keyframe<SpriteWorldValues>> m_worldValues;
-	GMArray<Keyframe<ColorMultipliers>> m_colors;
-	GMArray<Keyframe<SpriteFrame>> m_spriteFrames;
+	KeyFrameArray<SpriteWorldValues> m_worldValues;
+	KeyFrameArray<ColorMultipliers> m_colors;
+	KeyFrameArray<SpriteFrame> m_spriteFrames;
 
 public:
 	void read(const char*& input);

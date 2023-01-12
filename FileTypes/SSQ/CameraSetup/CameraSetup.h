@@ -56,10 +56,10 @@ class CameraSetup
 	BaseGlobalValues m_baseGlobalValues;
 	PositionKeyframes m_positions;
 	RotationKeyframes m_rotations;
-	GMArray<Projection> m_projections;
-	GMArray<Keyframe<glm::vec3>> m_ambientColors;
+	KeyFrameArray<Projection> m_projections;
+	KeyFrameArray<glm::vec3> m_ambientColors;
 	GMArray<LightSetup> m_lights;
-	GMArray<Keyframe<Struct64_7f>> m_64bytes_v;
+	KeyFrameArray<Struct64_7f> m_64bytes_v;
 
 public:
 	void read(const char*& input);

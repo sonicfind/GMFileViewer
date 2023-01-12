@@ -37,7 +37,7 @@ class LightSetup
 	BaseValues m_baseValues;
 	uint32_t m_headerVersion = 0;
 	RotationKeyframes m_rotations;
-	GMArray<Keyframe<LightColors>> m_colors;
+	KeyFrameArray<LightColors> m_colors;
 
 public:
 	void read(const char*& input);
