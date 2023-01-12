@@ -155,6 +155,20 @@
     <ClCompile Include="FileTypes\CHC\CHC.cpp" />
     <ClCompile Include="FileTypes\CHC\SongSection.cpp" />
     <ClCompile Include="FileTypes\GMArray.cpp" />
+    <ClCompile Include="FileTypes\SSQ\CameraSetup\CameraSetup.cpp" />
+    <ClCompile Include="FileTypes\SSQ\CameraSetup\LightSetup.cpp" />
+    <ClCompile Include="FileTypes\SSQ\Keyframe.cpp" />
+    <ClCompile Include="FileTypes\SSQ\ModelSetups\AttDefModel_Setup.cpp" />
+    <ClCompile Include="FileTypes\SSQ\ModelSetups\ModelSetup_Factory.cpp" />
+    <ClCompile Include="FileTypes\SSQ\ModelSetups\Model_Setup.cpp" />
+    <ClCompile Include="FileTypes\SSQ\ModelSetups\PlayerModel_Setup.cpp" />
+    <ClCompile Include="FileTypes\SSQ\ModelSetups\SnakeModel_Setup.cpp" />
+    <ClCompile Include="FileTypes\SSQ\PSetup\PSetup.cpp" />
+    <ClCompile Include="FileTypes\SSQ\SpriteSetups\FixedSprite.cpp" />
+    <ClCompile Include="FileTypes\SSQ\SpriteSetups\FixedSprite_Setup.cpp" />
+    <ClCompile Include="FileTypes\SSQ\SpriteSetups\SpriteSetups.cpp" />
+    <ClCompile Include="FileTypes\SSQ\SSQ.cpp" />
+    <ClCompile Include="FileTypes\SSQ\TextureAnimations\TextureAnimation.cpp" />
     <ClCompile Include="FileTypes\XGM\IMX\IMX.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)FileTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -187,6 +201,22 @@
     <ClInclude Include="FileTypes\CHC\SongSection.h" />
     <ClInclude Include="FileTypes\FileOperations.h" />
     <ClInclude Include="FileTypes\GMArray.h" />
+    <ClInclude Include="FileTypes\SSQ\CameraSetup\CameraSetup.h" />
+    <ClInclude Include="FileTypes\SSQ\CameraSetup\LightSetup.h" />
+    <ClInclude Include="FileTypes\SSQ\Keyframe.h" />
+    <ClInclude Include="FileTypes\SSQ\IMXEntry.h" />
+    <ClInclude Include="FileTypes\SSQ\ModelSetups\AttDefModel_Setup.h" />
+    <ClInclude Include="FileTypes\SSQ\ModelSetups\Model_Setup.h" />
+    <ClInclude Include="FileTypes\SSQ\ModelSetups\PlayerModel_Setup.h" />
+    <ClInclude Include="FileTypes\SSQ\ModelSetups\SnakeModel_Setup.h" />
+    <ClInclude Include="FileTypes\SSQ\PSetup\PSetup.h" />
+    <ClInclude Include="FileTypes\SSQ\SpriteSetups\FixedSprite.h" />
+    <ClInclude Include="FileTypes\SSQ\SpriteSetups\FixedSprite_Setup.h" />
+    <ClInclude Include="FileTypes\SSQ\SpriteSetups\SpriteSetups.h" />
+    <ClInclude Include="FileTypes\SSQ\SSQ.h" />
+    <ClInclude Include="FileTypes\SSQ\SSQModelType.h" />
+    <ClInclude Include="FileTypes\SSQ\TextureAnimations\TextureAnimation.h" />
+    <ClInclude Include="FileTypes\SSQ\XGEntry.h" />
     <ClInclude Include="FileTypes\XGM\IMX\IMX.h" />
     <ClInclude Include="FileTypes\XGM\IMX\Palette.h" />
     <ClInclude Include="FileTypes\XGM\IMX\Pixel.h" />

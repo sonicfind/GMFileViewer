@@ -1,5 +1,6 @@
 #include "FileTypes/XGM/XGM.h"
 #include "FileTypes/CHC/CHC.h"
+#include "FileTypes/SSQ/SSQ.h"
 #include "TaskQueue.h"
 #include <iostream>
 
@@ -23,5 +24,11 @@ int main()
 		CHC file(path);
 		std::getline(std::cin, filename);
 	}
+	else if (path.extension() == U".SSQ")
+	{
+		SSQ file(path);
+		std::getline(std::cin, filename);
+	}
+	
 	return 0;
 }

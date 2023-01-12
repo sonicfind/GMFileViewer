@@ -70,6 +70,36 @@
     <Filter Include="FileTypes\CHC\Notes">
       <UniqueIdentifier>{ec399c2d-4046-41ae-8875-0015534a6666}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FileTypes\SSQ">
+      <UniqueIdentifier>{cac4a31c-7259-4325-9653-9029f034cad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\SSQ\IMXEntry">
+      <UniqueIdentifier>{762b01ec-d92d-439d-b735-b2d98c038825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\SSQ\XGEntry">
+      <UniqueIdentifier>{12aa6d14-35fb-41b1-8647-46d5cd82a682}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\SSQ\Model_Setup">
+      <UniqueIdentifier>{aab4e610-6de2-4ccd-bee8-921a12ec52ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\SSQ\CameraSetup">
+      <UniqueIdentifier>{02bb2860-5f50-4e49-86ed-9188b0dfa52a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\SSQ\Keyframe">
+      <UniqueIdentifier>{db86bd43-8f7f-49b6-9e13-4fdc279a1244}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\SSQ\SpriteSetup">
+      <UniqueIdentifier>{d7ce34fc-a881-4257-9e03-60cb5b200076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\SSQ\SpriteSetup\Fixed">
+      <UniqueIdentifier>{27101328-d2e7-4072-88f8-4d42e73dbacb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\SSQ\TextureAnimation">
+      <UniqueIdentifier>{9be843bb-99e8-41e1-8953-993cce6cf1ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\SSQ\PSetup">
+      <UniqueIdentifier>{d491202c-0eba-485c-8190-cca427e93941}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileTypes\XGM\XGM.cpp">
@@ -123,9 +153,6 @@
     <ClCompile Include="FileTypes\XGM\XG\PString.cpp">
       <Filter>FileTypes\XGM\XG\PString</Filter>
     </ClCompile>
-    <ClCompile Include="FileTypes\FileOperations.cpp">
-      <Filter>FileTypes</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TaskQueue\TaskQueue.cpp">
       <Filter>TaskQueue</Filter>
@@ -141,6 +168,48 @@
     </ClCompile>
     <ClCompile Include="FileTypes\CHC\Chart.cpp">
       <Filter>FileTypes\CHC</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\SSQ.cpp">
+      <Filter>FileTypes\SSQ</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\ModelSetups\Model_Setup.cpp">
+      <Filter>FileTypes\SSQ\Model_Setup</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\ModelSetups\PlayerModel_Setup.cpp">
+      <Filter>FileTypes\SSQ\Model_Setup</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\ModelSetups\SnakeModel_Setup.cpp">
+      <Filter>FileTypes\SSQ\Model_Setup</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\ModelSetups\AttDefModel_Setup.cpp">
+      <Filter>FileTypes\SSQ\Model_Setup</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\ModelSetups\ModelSetup_Factory.cpp">
+      <Filter>FileTypes\SSQ\Model_Setup</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\Keyframe.cpp">
+      <Filter>FileTypes\SSQ\Keyframe</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\CameraSetup\CameraSetup.cpp">
+      <Filter>FileTypes\SSQ\CameraSetup</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\CameraSetup\LightSetup.cpp">
+      <Filter>FileTypes\SSQ\CameraSetup</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\SpriteSetups\FixedSprite.cpp">
+      <Filter>FileTypes\SSQ\SpriteSetup\Fixed</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\SpriteSetups\FixedSprite_Setup.cpp">
+      <Filter>FileTypes\SSQ\SpriteSetup\Fixed</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\SpriteSetups\SpriteSetups.cpp">
+      <Filter>FileTypes\SSQ\SpriteSetup</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\TextureAnimations\TextureAnimation.cpp">
+      <Filter>FileTypes\SSQ\TextureAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\SSQ\PSetup\PSetup.cpp">
+      <Filter>FileTypes\SSQ\PSetup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +308,54 @@
     </ClInclude>
     <ClInclude Include="FileTypes\CHC\Notes\Guard.h">
       <Filter>FileTypes\CHC\Notes</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\SSQ.h">
+      <Filter>FileTypes\SSQ</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\IMXEntry.h">
+      <Filter>FileTypes\SSQ\IMXEntry</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\XGEntry.h">
+      <Filter>FileTypes\SSQ\XGEntry</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\ModelSetups\Model_Setup.h">
+      <Filter>FileTypes\SSQ\Model_Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\ModelSetups\PlayerModel_Setup.h">
+      <Filter>FileTypes\SSQ\Model_Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\ModelSetups\AttDefModel_Setup.h">
+      <Filter>FileTypes\SSQ\Model_Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\ModelSetups\SnakeModel_Setup.h">
+      <Filter>FileTypes\SSQ\Model_Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\SSQModelType.h">
+      <Filter>FileTypes\SSQ</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\Keyframe.h">
+      <Filter>FileTypes\SSQ\Keyframe</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\CameraSetup\CameraSetup.h">
+      <Filter>FileTypes\SSQ\CameraSetup</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\CameraSetup\LightSetup.h">
+      <Filter>FileTypes\SSQ\CameraSetup</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\SpriteSetups\SpriteSetups.h">
+      <Filter>FileTypes\SSQ\SpriteSetup</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\SpriteSetups\FixedSprite_Setup.h">
+      <Filter>FileTypes\SSQ\SpriteSetup\Fixed</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\SpriteSetups\FixedSprite.h">
+      <Filter>FileTypes\SSQ\SpriteSetup\Fixed</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\TextureAnimations\TextureAnimation.h">
+      <Filter>FileTypes\SSQ\TextureAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\SSQ\PSetup\PSetup.h">
+      <Filter>FileTypes\SSQ\PSetup</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
