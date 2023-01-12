@@ -30,5 +30,6 @@ SSQ::SSQ(const std::filesystem::path& filePath)
 			texAnim.read(input);
 	}
 
-	m_pSetup.read(input);
+	if (headerVersion >= 0x1200)
+		m_pSetup.read(input);
 }
