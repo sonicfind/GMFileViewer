@@ -1,6 +1,7 @@
 #include "FileTypes/XGM/XGM.h"
 #include "FileTypes/CHC/CHC.h"
 #include "FileTypes/SSQ/SSQ.h"
+#include "FileTypes/WEB/WEB.h"
 #include "TaskQueue.h"
 #include <iostream>
 
@@ -27,6 +28,11 @@ int main()
 	else if (path.extension() == U".SSQ")
 	{
 		SSQ file(path);
+		std::getline(std::cin, filename);
+	}
+	else if (path.extension() == U".WEB")
+	{
+		WEB file(path);
 		std::getline(std::cin, filename);
 	}
 	

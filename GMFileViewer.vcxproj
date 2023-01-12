@@ -169,6 +169,7 @@
     <ClCompile Include="FileTypes\SSQ\SpriteSetups\SpriteSetups.cpp" />
     <ClCompile Include="FileTypes\SSQ\SSQ.cpp" />
     <ClCompile Include="FileTypes\SSQ\TextureAnimations\TextureAnimation.cpp" />
+    <ClCompile Include="FileTypes\WEB\WEB.cpp" />
     <ClCompile Include="FileTypes\XGM\IMX\IMX.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)FileTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -217,6 +218,7 @@
     <ClInclude Include="FileTypes\SSQ\SSQModelType.h" />
     <ClInclude Include="FileTypes\SSQ\TextureAnimations\TextureAnimation.h" />
     <ClInclude Include="FileTypes\SSQ\XGEntry.h" />
+    <ClInclude Include="FileTypes\WEB\WEB.h" />
     <ClInclude Include="FileTypes\XGM\IMX\IMX.h" />
     <ClInclude Include="FileTypes\XGM\IMX\Palette.h" />
     <ClInclude Include="FileTypes\XGM\IMX\Pixel.h" />

@@ -4,6 +4,7 @@
 class PlayerModel_Setup : public Model_Setup
 {
 	friend class Model_Setup;
+	friend class WEB;
 	struct Controllable
 	{
 		alignas(16) float angleMin;
