@@ -47,6 +47,12 @@ public:
 			fill(input);
 	}
 
+	void reserve_and_fill(const char*& input, uint32_t size)
+	{
+		if (reserve(size))
+			fill(input);
+	}
+
 	T& operator[](const size_t index)
 	{
 		assert(index < m_size);
@@ -63,7 +69,9 @@ public:
 	T* end() { return m_elements.get() + m_size; }
 	const T* begin() const { return m_elements.get(); }
 	const T* end() const { return m_elements.get() + m_size; }
+
 	uint32_t getSize() { return m_size; }
+	bool isEmpty() const { return m_elements != nullptr; }
 };
 
 template <typename T>
