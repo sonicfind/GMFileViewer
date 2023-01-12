@@ -4,8 +4,8 @@
 
 enum class InterpolationToggle : uint32_t
 {
+	Off,
 	On,
-	Off
 };
 
 template <typename T>
