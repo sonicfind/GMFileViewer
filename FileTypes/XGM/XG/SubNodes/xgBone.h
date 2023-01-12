@@ -1,10 +1,10 @@
 #pragma once
 #include "xgBgMatrix.h"
-#include <Eigen/Dense>
+#include <glm/glm/glm.hpp>
 
 class xgBone : public XG_SubNode
 {
-	Eigen::Matrix4f m_restMatrix;
+	glm::mat4 m_restMatrix;
 	xgBgMatrix* m_inputMatrix = nullptr;
 
 public:

@@ -1,28 +1,37 @@
 #pragma once
-#include <Eigen/Dense>
+#include <glm/glm/glm.hpp>
 #include "GMArray.h"
 
 struct Vertex
 {
-	Eigen::Vector4f m_position;
-	Eigen::Vector3f m_normal;
-	Eigen::Vector4f m_color;
-	Eigen::Vector2f m_texCoord;
+	glm::vec4 m_position;
+	glm::vec3 m_normal;
+	glm::vec4 m_color;
+	glm::vec2 m_texCoord;
 
 	template <uint32_t flags>
 	void fill(const char*& input)
 	{
-		if constexpr (flags & 1)
-			FileOps::Read(m_position, input);
+		if constexpr (flags == 15)
+			FileOps::Read(this, input, sizeof(Vertex));
+		else if constexpr (flags == 7)
+			FileOps::Read(this, input, 11 * sizeof(float));
+		else if constexpr (flags == 3)
+			FileOps::Read(this, input, 7 * sizeof(float));
+		else
+		{
+			if constexpr (flags & 1)
+				FileOps::Read(m_position, input);
 
-		if constexpr (flags & 2)
-			FileOps::Read(m_normal, input);
-		
-		if constexpr (flags & 4)
-			FileOps::Read(m_color, input);
-		
-		if constexpr (flags & 8)
-			FileOps::Read(m_texCoord, input);
+			if constexpr (flags & 2)
+				FileOps::Read(m_normal, input);
+
+			if constexpr (flags & 4)
+				FileOps::Read(m_color, input);
+
+			if constexpr (flags & 8)
+				FileOps::Read(m_texCoord, input);
+		}
 	}
 };
 
