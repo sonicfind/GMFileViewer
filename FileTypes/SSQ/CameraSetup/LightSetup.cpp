@@ -12,8 +12,11 @@ void LightSetup::read(const char*& input)
 	FileOps::Read(m_headerVersion, input);
 	input += 28;
 
-	m_rotations.reserve(input);
-	m_colors.reserve(input);
-	m_rotations.fill(input);
-	m_colors.fill(input);
+	const uint32_t numRotations = FileOps::Read<uint32_t>(input);
+	const uint32_t numColors = FileOps::Read<uint32_t>(input);
+	if (numRotations >= 2)
+		m_rotations.reserve_and_fill(input, numRotations);
+
+	if (numColors >= 2)
+		m_colors.reserve_and_fill(input, numColors);
 }
