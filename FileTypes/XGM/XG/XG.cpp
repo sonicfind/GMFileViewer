@@ -66,6 +66,7 @@ void XG::load(const char* input)
 	while (!PString::CheckForString_nothrow("}", input))
 	{
 		m_dag.emplace_back(XG_SubNode::searchForNode(input, m_nodes));
+		PString::CheckForString("[", input);
 		fillDag(m_dag.back(), input);
 	}
 }
