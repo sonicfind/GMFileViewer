@@ -7,7 +7,7 @@
 namespace FileOps
 {
 	template<size_t SIZE>
-	bool checkTag(const char (&tag)[SIZE], const char*& input)
+	[[nodiscard]] bool checkTag(const char (&tag)[SIZE], const char*& input)
 	{
 		static_assert(SIZE <= 9, "Invalid tag");
 		if constexpr (SIZE <= 5)
@@ -44,7 +44,7 @@ namespace FileOps
 	}
 
 	template <typename T>
-	T Read(const char*& input)
+	[[nodiscard]] T Read(const char*& input)
 	{
 		T value;
 		Read(value, input);
@@ -77,8 +77,8 @@ namespace FileOps
 			*m_fileEnd = 0;
 		}
 
-		const char* begin() const noexcept { return m_fileData.get(); }
-		constexpr size_t length() const noexcept { return m_fileSize; }
-		const char* end() const noexcept { return m_fileEnd; }
+		[[nodiscard]] const char* begin() const noexcept { return m_fileData.get(); }
+		[[nodiscard]] constexpr size_t length() const noexcept { return m_fileSize; }
+		[[nodiscard]] const char* end() const noexcept { return m_fileEnd; }
 	};
 }
