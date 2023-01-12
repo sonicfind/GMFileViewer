@@ -43,10 +43,7 @@ class CameraSetup
 		Val ulong_c;
 		Val ulong_d;
 		Val ulong_e;
-		Val ulong_f;
-		Val ulong_g;
-		Val ulong_h;
-		Val ulong_i;
+		char modelName[16];
 		Val ulong_j;
 		Val ulong_k;
 		Val ulong_l;
