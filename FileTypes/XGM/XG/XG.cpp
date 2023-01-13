@@ -65,9 +65,9 @@ void XG::load(const char* input)
 	PString::CheckForString("{", input);
 	while (!PString::CheckForString_nothrow("}", input))
 	{
-		m_dag.emplace_back(XG_SubNode::searchForNode(input, m_nodes));
+		DagElement& dag = m_dag.emplace_back(XG_SubNode::searchForNode(input, m_nodes));
 		PString::CheckForString("[", input);
-		fillDag(m_dag.back(), input);
+		fillDag(dag, input);
 	}
 }
 
@@ -75,8 +75,8 @@ void XG::fillDag(DagElement& dag, const char*& input)
 {
 	while (!PString::CheckForString_nothrow("]", input))
 	{
-		dag.connections.emplace_back(XG_SubNode::searchForNode(input, m_nodes));
+		DagElement& newDag = dag.connections.emplace_back(XG_SubNode::searchForNode(input, m_nodes));
 		if (PString::CheckForString_nothrow("[", input))
-			fillDag(dag.connections.back(), input);
+			fillDag(newDag, input);
 	}
 }
