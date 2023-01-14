@@ -18,7 +18,21 @@ class GMArray
 
 public:
 	GMArray() = default;
-	GMArray(uint32_t size) : m_size(size), m_elements(std::make_unique<T[]>(m_size)) {}
+	GMArray(GMArray&&) = default;
+	GMArray& operator=(GMArray&&) = default;
+
+	GMArray(const GMArray& other) : m_size(other.m_size), m_elements(std::make_unique<T[]>(m_size))
+	{
+		memcpy(m_elements.get(), other.m_elements.get(), sizeof(T) * m_size);
+	}
+
+	GMArray& operator=(const GMArray& other)
+	{
+		m_size = other.m_size;
+		m_elements = std::make_unique<T[]>(m_size);
+		memcpy(m_elements.get(), other.m_elements.get(), sizeof(T) * m_size);
+		return *this;
+	}
 
 	template <bool SizeInBytes = false>
 	bool reserve(const char*& input)
