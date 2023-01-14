@@ -7,11 +7,11 @@ class CameraSetup
 {
 	struct BaseGlobalValues
 	{
-		glm::vec3 clearColor;
+		DirectX::XMFLOAT3 clearColor;
 		float unknown_1f;
-		glm::u32vec3 baseAmbience;
+		DirectX::XMUINT3 baseAmbience;
 		unsigned long useDiffuse;
-		glm::u32vec3 vertColorDiffuse;
+		DirectX::XMUINT3 vertColorDiffuse;
 		float fov;
 		float aspectRatio;
 		float zNear;
@@ -54,7 +54,7 @@ class CameraSetup
 	PositionKeyframes m_positions;
 	RotationKeyframes m_rotations;
 	KeyFrameArray<Projection> m_projections;
-	KeyFrameArray<glm::vec3> m_ambientColors;
+	KeyFrameArray<DirectX::XMFLOAT3> m_ambientColors;
 	GMArray<LightSetup> m_lights;
 	KeyFrameArray<Struct64_7f> m_64bytes_v;
 

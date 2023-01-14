@@ -14,9 +14,9 @@ class LightSetup
 	struct BaseValues
 	{
 		unsigned long isActive;
-		glm::vec3 diffuse;
-		glm::vec3 specular;
-		glm::quat rotation;
+		DirectX::XMFLOAT3 diffuse;
+		DirectX::XMFLOAT3 specular;
+		DirectX::XMFLOAT4 rotation;
 		Val ulong_b;
 		Val l_a;
 		Val ulong_c;
@@ -30,8 +30,8 @@ class LightSetup
 
 	struct LightColors
 	{
-		glm::vec3 diffuse;
-		glm::vec3 specular;
+		DirectX::XMFLOAT3 diffuse;
+		DirectX::XMFLOAT3 specular;
 	};
 
 	BaseValues m_baseValues;

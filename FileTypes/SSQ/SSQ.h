@@ -10,7 +10,7 @@
 
 class SSQ
 {
-	GMArray<glm::mat4> m_matrices;
+	GMArray<DirectX::XMMATRIX> m_matrices;
 	GMArray<IMXEntry> m_imxEntries;
 	GMArray<XGEntry> m_xgEntries;
 	GMArray<std::unique_ptr<Model_Setup>> m_models;

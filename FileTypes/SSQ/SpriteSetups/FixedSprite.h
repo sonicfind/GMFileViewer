@@ -40,22 +40,22 @@ class FixedSprite
 
 	struct SpriteWorldValues
 	{
-		glm::vec3 position;
-		glm::vec2 worldSize;
+		DirectX::XMFLOAT3 position;
+		DirectX::XMFLOAT2 worldSize;
 		uint32_t noDrawing;
 		uint32_t ulong_b;
 	};
 
 	struct ColorMultipliers
 	{
-		glm::vec4 colors;
+		DirectX::XMFLOAT4 colors;
 		uint32_t ulong_a;
 	};
 
 	struct SpriteFrame
 	{
-		glm::vec2 initial_BottomLeft;
-		glm::vec2 boxSize;
+		DirectX::XMFLOAT2 initial_BottomLeft;
+		DirectX::XMFLOAT2 boxSize;
 	};
 
 	Struct64_7f m_64bytes;

@@ -9,8 +9,8 @@ class AttDefModel_Setup : public Model_Setup
 
 	struct AttackStreamValues
 	{
-		alignas(16) glm::vec3 startOffset;
-		glm::vec3 targetOffset;
+		DirectX::XMFLOAT3A startOffset;
+		DirectX::XMFLOAT3 targetOffset;
 		char startingModel[16];
 		char targetModel[16];
 	} m_attackValues;

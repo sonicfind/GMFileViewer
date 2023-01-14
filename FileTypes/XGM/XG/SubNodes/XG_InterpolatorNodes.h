@@ -45,11 +45,11 @@ public:
 	}
 };
 
-class xgVec3Interpolator     : public XG_InterpolatorNode<glm::vec3> {};
-class xgQuatInterpolator     : public XG_InterpolatorNode<glm::quat> {};
+class xgVec3Interpolator     : public XG_InterpolatorNode<DirectX::XMFLOAT3> {};
+class xgQuatInterpolator     : public XG_InterpolatorNode<DirectX::XMVECTOR> {};
 
-class xgVertexInterpolator   : public XG_InterpolatorNode<GMArray<glm::vec3>, InterpolatorType::TARGETED> {};
-class xgNormalInterpolator   : public XG_InterpolatorNode<GMArray<glm::vec3>, InterpolatorType::TARGETED> {};
-class xgTexCoordInterpolator : public XG_InterpolatorNode<GMArray<glm::vec2>, InterpolatorType::TARGETED> {};
+class xgVertexInterpolator   : public XG_InterpolatorNode<GMArray<DirectX::XMFLOAT3>, InterpolatorType::TARGETED> {};
+class xgNormalInterpolator   : public XG_InterpolatorNode<GMArray<DirectX::XMFLOAT3>, InterpolatorType::TARGETED> {};
+class xgTexCoordInterpolator : public XG_InterpolatorNode<GMArray<DirectX::XMFLOAT2>, InterpolatorType::TARGETED> {};
 
 class xgShapeInterpolator    : public XG_InterpolatorNode<VertexList, InterpolatorType::TIMED> {};

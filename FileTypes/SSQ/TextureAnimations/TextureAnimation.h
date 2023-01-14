@@ -4,8 +4,8 @@ class TexAnim
 {
 	struct CutOut
 	{
-		glm::vec2 topLeft;
-		glm::vec2 bottomRight;
+		DirectX::XMFLOAT2 topLeft;
+		DirectX::XMFLOAT2 bottomRight;
 	};
 
 	struct TexFrame
@@ -13,7 +13,7 @@ class TexAnim
 		uint32_t cutOutIndex;
 	};
 
-	glm::u32vec2 m_offset;
+	DirectX::XMUINT2 m_offset;
 	char m_textureName[16];
 	GMArray<CutOut> m_cutOuts;
 	KeyFrameArray<TexFrame> m_cutoutTimeline;

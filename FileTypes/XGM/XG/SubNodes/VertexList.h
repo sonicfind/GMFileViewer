@@ -1,13 +1,13 @@
 #pragma once
-#include <glm/glm/glm.hpp>
+#include <DirectXMath.h>
 #include "GMArray.h"
 
 struct Vertex
 {
-	glm::vec4 m_position;
-	glm::vec3 m_normal;
-	glm::vec4 m_color;
-	glm::vec2 m_texCoord;
+	DirectX::XMFLOAT4 m_position;
+	DirectX::XMFLOAT3 m_normal;
+	DirectX::XMFLOAT4 m_color;
+	DirectX::XMFLOAT2 m_texCoord;
 
 	template <uint32_t flags>
 	void fill(const char*& input)

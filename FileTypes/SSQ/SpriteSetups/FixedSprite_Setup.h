@@ -20,11 +20,11 @@ class FixedSpriteSetup
 	struct Struct80_7f
 	{
 		unsigned long IMXindex;
-		glm::vec2 initial_BottomLeft;
-		glm::vec2 boxSize;
-		glm::vec3 worldPosition;
-		glm::vec2 worldSize;
-		glm::vec2 worldSize_ZW_maybe;
+		DirectX::XMFLOAT2 initial_BottomLeft;
+		DirectX::XMFLOAT2 boxSize;
+		DirectX::XMFLOAT3 worldPosition;
+		DirectX::XMFLOAT2 worldSize;
+		DirectX::XMFLOAT2 worldSize_ZW_maybe;
 		float float_l;
 		unsigned long ulong_b;
 		float float_m;

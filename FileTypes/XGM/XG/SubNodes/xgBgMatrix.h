@@ -1,12 +1,12 @@
 #pragma once
-#include <glm/glm/gtx/quaternion.hpp>
+#include <DirectXMath.h>
 #include "XG_InterpolatorNodes.h"
 
 class xgBgMatrix : public XG_SubNode
 {
-	glm::vec3 m_position;
-	glm::quat m_rotation;
-	glm::vec3 m_scale;
+	DirectX::XMFLOAT3 m_position;
+	DirectX::XMVECTOR m_rotation;
+	DirectX::XMFLOAT3 m_scale;
 	xgVec3Interpolator* m_inputPosition = nullptr;
 	xgQuatInterpolator* m_inputRotation = nullptr;
 	xgVec3Interpolator* m_inputScale = nullptr;
