@@ -7,9 +7,8 @@ class xgMaterial : public XG_MaterialNode
 {
 	uint32_t m_blendType = 0;
 	uint32_t m_shadingType = 0;
-	uint32_t :32, : 32;
 
-	struct Diffuse
+	alignas(16) struct Diffuse
 	{
 		float red = 0;
 		float green = 0;
