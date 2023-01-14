@@ -9,18 +9,11 @@ XGM::XGM(const std::filesystem::path& filePath)
 	m_textures.reserve(input);
 	m_models.reserve(input);
 
-	try
-	{
-		for (uint32_t i = 0; i < m_textures.getSize(); ++i)
-			m_textures[i].load(input, i);
+	for (uint32_t i = 0; i < m_textures.getSize(); ++i)
+		m_textures[i].load(input, i);
 
-		for (uint32_t i = 0; i < m_models.getSize(); ++i)
-			m_models[i].load(input, i);
-	}
-	catch (...)
-	{
-		
-	}
+	for (uint32_t i = 0; i < m_models.getSize(); ++i)
+		m_models[i].load(input, i);
 
 	TaskQueue::getInstance().waitForCompletedTasks();
 }
