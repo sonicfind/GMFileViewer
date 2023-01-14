@@ -1,7 +1,7 @@
 #include "xgDagTransform.h"
 #include "../PString.h"
 
-void xgDagTransform::load(const char*& input, const std::vector<XGVectElement>& nodes)
+void xgDagTransform::load(const char*& input, const XG* xg)
 {
-	BindNode_optional(m_inputMatrix, "inputMatrix", "outputMatrix", input, nodes);
+	m_inputMatrix = static_cast<xgBgMatrix*>(xg->grabNode_optional("inputMatrix", "outputMatrix", input));
 }

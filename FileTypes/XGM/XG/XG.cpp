@@ -1,6 +1,5 @@
 #include "XG.h"
 #include "FileOperations.h"
-#include "PString.h"
 #include "SubNodes/xgBgGeometry.h"
 #include "SubNodes/xgBgMatrix.h"
 #include "SubNodes/xgBone.h"
@@ -11,6 +10,43 @@
 #include "SubNodes/XG_InterpolatorNodes.h"
 #include "SubNodes/xgTexture.h"
 #include "SubNodes/xgTime.h"
+
+void XG::load(const char* input)
+{
+	if (!FileOps::checkTag("XGBv1.00", input))
+		throw "XG file read error";
+
+	std::string_view type = PString::Read(input);
+	std::string_view name = PString::Read(input);
+	while (PString::CheckForString_nothrow(";", input))
+	{
+		m_nodes.push_back({ std::string(name), constructNode(type) });
+
+		PString::Read(type, input);
+		PString::Read(name, input);
+	}
+
+	for (const auto& node : m_nodes)
+	{
+		PString::CheckForString("{", input);
+		node.second->load(input, this);
+		PString::CheckForString("}", input);
+
+		if (PString::CheckForString_nothrow("dag", input))
+			break;
+
+		PString::Read(type, input);
+		PString::Read(name, input);
+	}
+
+	PString::CheckForString("{", input);
+	while (!PString::CheckForString_nothrow("}", input))
+	{
+		DagElement& dag = m_dag.emplace_back(searchForNode(input));
+		PString::CheckForString("[", input);
+		fillDag(dag, input);
+	}
+}
 
 std::unique_ptr<XG_SubNode> XG::constructNode(std::string_view type)
 {
@@ -34,48 +70,47 @@ std::unique_ptr<XG_SubNode> XG::constructNode(std::string_view type)
 		throw "Unrecognized node";
 }
 
-void XG::load(const char* input)
+XG_SubNode* XG::searchForNode(const char*& input) const
 {
-	if (!FileOps::checkTag("XGBv1.00", input))
-		throw "XG file read error";
+	return searchForNode(PString::Read(input));
+}
 
-	std::string_view type = PString::Read(input);
-	std::string_view name = PString::Read(input);
-	while (PString::CheckForString_nothrow(";", input))
-	{
-		m_nodes.push_back({ std::string(name), constructNode(type) });
-
-		PString::Read(type, input);
-		PString::Read(name, input);
-	}
-
+XG_SubNode* XG::searchForNode(std::string_view name) const
+{
 	for (const auto& node : m_nodes)
-	{
-		PString::CheckForString("{", input);
-		node.second->load(input, m_nodes);
-		PString::CheckForString("}", input);
+		if (node.first == name)
+			return node.second.get();
+	return nullptr;
+}
 
-		if (PString::CheckForString_nothrow("dag", input))
-			break;
+XG_SubNode* XG::grabNode_optional(std::string_view inputString, std::string_view outputString, const char*& input) const
+{
+	if (!PString::CheckForString_nothrow(inputString, input))
+		return nullptr;
 
-		PString::Read(type, input);
-		PString::Read(name, input);
-	}
+	XG_SubNode* node = searchForNode(input);
+	if (node == nullptr)
+		throw "Node not located";
 
-	PString::CheckForString("{", input);
-	while (!PString::CheckForString_nothrow("}", input))
-	{
-		DagElement& dag = m_dag.emplace_back(XG_SubNode::searchForNode(input, m_nodes));
-		PString::CheckForString("[", input);
-		fillDag(dag, input);
-	}
+	if (!PString::CheckForString_nothrow(outputString, input))
+		throw "Output string not matched";
+
+	return node;
+}
+
+XG_SubNode* XG::grabNode(std::string_view inputString, std::string_view outputString, const char*& input) const
+{
+	XG_SubNode* node = grabNode_optional(inputString, outputString, input);
+	if (node == nullptr)
+		throw "Input string not matched";
+	return node;
 }
 
 void XG::fillDag(DagElement& dag, const char*& input)
 {
 	while (!PString::CheckForString_nothrow("]", input))
 	{
-		DagElement& newDag = dag.connections.emplace_back(XG_SubNode::searchForNode(input, m_nodes));
+		DagElement& newDag = dag.connections.emplace_back(searchForNode(input));
 		if (PString::CheckForString_nothrow("[", input))
 			fillDag(newDag, input);
 	}

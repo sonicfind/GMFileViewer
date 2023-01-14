@@ -2,6 +2,7 @@
 #include "VertexList.h"
 #include "xgTime.h"
 #include "GMArray.h"
+#include "../PString.h"
 
 enum class InterpolatorType
 {
@@ -22,7 +23,7 @@ protected:
 	xgTime* m_inputTime = nullptr;
 
 public:
-	void load(const char*& input, const std::vector<XGVectElement>& nodes) override
+	void load(const char*& input, const XG* xg) override
 	{
 		PString::ReadNamedValue("type", m_type, input);
 
@@ -41,7 +42,8 @@ public:
 			GMArrayLoader::loadElements(m_targets, input);
 		}
 
-		while (BindNode_optional(m_inputTime, "inputTime", "outputTime", input, nodes));
+		while (XG_SubNode* node = xg->grabNode_optional("inputTime", "outputTime", input))
+			m_inputTime = static_cast<xgTime*>(node);
 	}
 };
 

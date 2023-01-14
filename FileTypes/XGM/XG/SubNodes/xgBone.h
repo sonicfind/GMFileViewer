@@ -7,6 +7,6 @@ class xgBone : public XG_SubNode
 	xgBgMatrix* m_inputMatrix = nullptr;
 
 public:
-	void load(const char*& input, const std::vector<XGVectElement>& nodes) override;
+	void load(const char*& input, const XG* xg) override;
 };
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "XG_SubNode.h"
+#include "../XG.h"
 class XG_MaterialNode : public XG_SubNode
 {
 };

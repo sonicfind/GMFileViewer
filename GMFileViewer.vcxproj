@@ -239,7 +239,6 @@
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTexture.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTime.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_MaterialNode.h" />
-    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_SubNode.h" />
     <ClInclude Include="FileTypes\XGM\XG\XG.h" />
     <ClInclude Include="TaskQueue\TaskQueue.h" />
   </ItemGroup>

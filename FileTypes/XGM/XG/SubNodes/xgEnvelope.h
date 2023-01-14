@@ -18,6 +18,6 @@ class xgEnvelope : public XG_SubNode
 	xgBgGeometry* m_inputGeometry = nullptr;
 
 public:
-	void load(const char*& input, const std::vector<XGVectElement>& nodes) override;
+	void load(const char*& input, const XG* xg) override;
 };
 

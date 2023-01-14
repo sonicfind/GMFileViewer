@@ -16,6 +16,6 @@ class xgDagMesh : public XG_SubNode
 	XG_MaterialNode* m_inputMaterial = nullptr;
 
 public:
-	void load(const char*& input, const std::vector<XGVectElement>& nodes) override;
+	void load(const char*& input, const XG* xg) override;
 };
 

@@ -10,5 +10,5 @@ class xgBgGeometry : public XG_SubNode
 	std::vector<XG_SubNode*> m_inputGeometries;
 
 public:
-	void load(const char*& input, const std::vector<XGVectElement>& nodes) override;
+	void load(const char*& input, const XG* xg) override;
 };

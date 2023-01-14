@@ -243,9 +243,6 @@
     <ClInclude Include="FileTypes\XGM\XG\PString.h">
       <Filter>FileTypes\XGM\XG\PString</Filter>
     </ClInclude>
-    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_SubNode.h">
-      <Filter>FileTypes\XGM\XG\SubNodes</Filter>
-    </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgBone.h">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBone</Filter>
     </ClInclude>

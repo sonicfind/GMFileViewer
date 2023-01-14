@@ -2,7 +2,8 @@
 #include "../PString.h"
 #include "FileOperations.h"
 
-void xgMultiPassMaterial::load(const char*& input, const std::vector<XGVectElement>& nodes)
+void xgMultiPassMaterial::load(const char*& input, const XG* xg)
 {
-	BindNodes(m_inputMaterials, "inputMaterial", "outputMaterial", input, nodes);
+	while (XG_SubNode* node = xg->grabNode_optional("inputMaterial", "outputMaterial", input))
+		m_inputMaterials.push_back(static_cast<xgMaterial*>(node));
 }
