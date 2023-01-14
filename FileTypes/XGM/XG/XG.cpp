@@ -46,6 +46,9 @@ void XG::load(const char* input)
 		PString::CheckForString("[", input);
 		fillDag(dag, input);
 	}
+
+	if (auto time = static_cast<xgTime*>(searchForNode("time")))
+		m_time = time;
 }
 
 std::unique_ptr<XG_SubNode> XG::constructNode(std::string_view type)

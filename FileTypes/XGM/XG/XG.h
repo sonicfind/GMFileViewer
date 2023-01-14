@@ -9,6 +9,7 @@ public:
 	virtual ~XG_SubNode() {}
 };
 
+class xgTime;
 class XG
 {
 	enum class SubNodeType
@@ -41,6 +42,7 @@ class XG
 
 	std::vector<std::pair<std::string, std::unique_ptr<XG_SubNode>>> m_nodes;
 	std::vector<DagElement> m_dag;
+	xgTime* m_time = nullptr;
 	
 public:
 	void load(const char* input);
