@@ -84,6 +84,12 @@ public:
 	const T* begin() const { return m_elements.get(); }
 	const T* end() const { return m_elements.get() + m_size; }
 
+	T& front() { return *m_elements; }
+	T& back() { return m_elements[m_size - 1]; }
+
+	const T& front() const { return *m_elements; }
+	const T& back() const { return m_elements[m_size - 1]; }
+
 	uint32_t getSize() { return m_size; }
 	bool isEmpty() const { return m_elements != nullptr; }
 };
