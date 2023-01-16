@@ -48,6 +48,6 @@ public:
 		else if constexpr (MODE == PrimitiveType::TRIANGLE_STRIP) PString::CheckForString("triStripData", input);
 		else                                                      PString::CheckForString("triListData", input);
 
-		GMArrayLoader::loadElements(m_data, input);
+		m_data.reserve_and_fill(input);
 	}
 };

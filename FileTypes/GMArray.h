@@ -141,24 +141,3 @@ public:
 	const T* end() const { return m_elements.get() + m_size; }
 	uint32_t getSize() { return m_size; }
 };
-
-class VertexList;
-namespace GMArrayLoader
-{
-	template <typename T>
-	void loadElements(GMArray<T>& arr, const char*& input)
-	{
-		arr.reserve_and_fill(input);
-	}
-
-	template <class T>
-	void loadElements(GMArray<GMArray<T>>& arr, const char*& input)
-	{
-		if (arr.reserve(input))
-			for (auto& element : arr)
-				element.reserve_and_fill(input);
-	}
-
-	template <>
-	void loadElements(GMArray<VertexList>& arr, const char*& input);
-}

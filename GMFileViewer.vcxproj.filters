@@ -160,9 +160,6 @@
     <ClCompile Include="TaskQueue\TaskQueue.cpp">
       <Filter>TaskQueue</Filter>
     </ClCompile>
-    <ClCompile Include="FileTypes\GMArray.cpp">
-      <Filter>FileTypes\GMArray</Filter>
-    </ClCompile>
     <ClCompile Include="FileTypes\CHC\CHC.cpp">
       <Filter>FileTypes\CHC</Filter>
     </ClCompile>
@@ -216,6 +213,9 @@
     </ClCompile>
     <ClCompile Include="FileTypes\WEB\WEB.cpp">
       <Filter>FileTypes\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

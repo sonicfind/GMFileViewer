@@ -15,7 +15,6 @@ template <class T, InterpolatorType INTERPOLATION = InterpolatorType::BASE>
 class XG_InterpolatorNode : public XG_SubNode
 {
 	static_assert(INTERPOLATION >= InterpolatorType::BASE && INTERPOLATION <= InterpolatorType::TARGETED);
-protected:
 	uint32_t m_type = 0;
 	GMArray<float> m_times;
 	GMArray<T> m_keys;
@@ -28,24 +27,35 @@ public:
 		PString::ReadNamedValue("type", m_type, input);
 
 		if constexpr (INTERPOLATION >= InterpolatorType::TIMED)
-		{
-			PString::CheckForString("times", input);
-			GMArrayLoader::loadElements(m_times, input);
-		}
+			PString::ReadNamedValue("times", m_times, input);
 
 		PString::CheckForString("keys", input);
-		GMArrayLoader::loadElements(m_keys, input);
+		loadKeys(input);
 
 		if constexpr (INTERPOLATION == InterpolatorType::TARGETED)
 		{
-			PString::CheckForString("targets", input);
-			GMArrayLoader::loadElements(m_targets, input);
+			PString::ReadNamedValue("targets", m_targets, input);
 		}
 
 		while (XG_SubNode* node = xg->grabNode_optional("inputTime", "outputTime", input))
 			m_inputTime = static_cast<xgTime*>(node);
 	}
+private:
+
+	void loadKeys(const char*& input)
+	{
+		m_keys.reserve_and_fill(input);
+	}
 };
+
+template<>
+void XG_InterpolatorNode<GMArray<DirectX::XMFLOAT3>, InterpolatorType::TARGETED>::loadKeys(const char*& input);
+
+template<>
+void XG_InterpolatorNode<GMArray<DirectX::XMFLOAT2>, InterpolatorType::TARGETED>::loadKeys(const char*& input);
+
+template<>
+void XG_InterpolatorNode<VertexList, InterpolatorType::TIMED>::loadKeys(const char*& input);
 
 class xgVec3Interpolator     : public XG_InterpolatorNode<DirectX::XMFLOAT3> {};
 class xgQuatInterpolator     : public XG_InterpolatorNode<DirectX::XMVECTOR> {};
