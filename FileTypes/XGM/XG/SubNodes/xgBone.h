@@ -8,5 +8,6 @@ class xgBone : public XG_SubNode
 
 public:
 	void load(const char*& input, const XG* xg) override;
+	DirectX::XMMATRIX calcTransformMatrix() const;
 };
 
