@@ -11,11 +11,17 @@ enum class InterpolatorType
 	TARGETED,
 };
 
+enum class InterpolationMode : uint32_t
+{
+	FLAT,
+	SMOOTH
+};
+
 template <class T, InterpolatorType INTERPOLATION = InterpolatorType::BASE>
 class XG_InterpolatorNode : public XG_SubNode
 {
 	static_assert(INTERPOLATION >= InterpolatorType::BASE && INTERPOLATION <= InterpolatorType::TARGETED);
-	uint32_t m_type = 0;
+	InterpolationMode m_type = InterpolationMode::FLAT;
 	GMArray<float> m_times;
 	GMArray<T> m_keys;
 	GMArray<uint32_t> m_targets;
