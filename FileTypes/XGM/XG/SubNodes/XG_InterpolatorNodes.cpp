@@ -27,7 +27,7 @@ void XG_InterpolatorNode<VertexList, InterpolatorType::TIMED>::loadKeys(const ch
 
 
 template<>
-DirectX::XMFLOAT3 XG_InterpolatorNode<DirectX::XMFLOAT3>::Interpolate(const DirectX::XMFLOAT3& first, const DirectX::XMFLOAT3& second, const float coef)
+DirectX::XMFLOAT3 XG_InterpolatorNode<DirectX::XMFLOAT3>::mixKeys(const DirectX::XMFLOAT3& first, const DirectX::XMFLOAT3& second, const float coef)
 {
 	DirectX::XMFLOAT3 result;
 	DirectX::XMStoreFloat3(&result, DirectX::XMVectorLerp(DirectX::XMLoadFloat3(&first), DirectX::XMLoadFloat3(&second), coef));
@@ -35,14 +35,13 @@ DirectX::XMFLOAT3 XG_InterpolatorNode<DirectX::XMFLOAT3>::Interpolate(const Dire
 }
 
 template<>
-DirectX::XMVECTOR XG_InterpolatorNode<DirectX::XMVECTOR>::Interpolate(const DirectX::XMVECTOR& first, const DirectX::XMVECTOR& second, const float coef)
+DirectX::XMVECTOR XG_InterpolatorNode<DirectX::XMVECTOR>::mixKeys(const DirectX::XMVECTOR& first, const DirectX::XMVECTOR& second, const float coef)
 {
 	return DirectX::XMVectorLerp(first, second, coef);
 }
 
-
 template<>
-GMArray<DirectX::XMFLOAT3> XG_InterpolatorNode<GMArray<DirectX::XMFLOAT3>, InterpolatorType::TARGETED>::Interpolate(const GMArray<DirectX::XMFLOAT3>& first, const GMArray<DirectX::XMFLOAT3>& second, const float coef)
+GMArray<DirectX::XMFLOAT3> XG_InterpolatorNode<GMArray<DirectX::XMFLOAT3>, InterpolatorType::TARGETED>::mixKeys(const GMArray<DirectX::XMFLOAT3>& first, const GMArray<DirectX::XMFLOAT3>& second, const float coef)
 {
 	GMArray<DirectX::XMFLOAT3> result(first.getSize());
 	for (uint32_t i = 0; i < result.getSize(); ++i)
@@ -52,7 +51,7 @@ GMArray<DirectX::XMFLOAT3> XG_InterpolatorNode<GMArray<DirectX::XMFLOAT3>, Inter
 
 
 template<>
-GMArray<DirectX::XMFLOAT2> XG_InterpolatorNode<GMArray<DirectX::XMFLOAT2>, InterpolatorType::TARGETED>::Interpolate(const GMArray<DirectX::XMFLOAT2>& first, const GMArray<DirectX::XMFLOAT2>& second, const float coef)
+GMArray<DirectX::XMFLOAT2> XG_InterpolatorNode<GMArray<DirectX::XMFLOAT2>, InterpolatorType::TARGETED>::mixKeys(const GMArray<DirectX::XMFLOAT2>& first, const GMArray<DirectX::XMFLOAT2>& second, const float coef)
 {
 	GMArray<DirectX::XMFLOAT2> result(first.getSize());
 	for (uint32_t i = 0; i < result.getSize(); ++i)
@@ -62,7 +61,7 @@ GMArray<DirectX::XMFLOAT2> XG_InterpolatorNode<GMArray<DirectX::XMFLOAT2>, Inter
 
 
 template<>
-VertexList XG_InterpolatorNode<VertexList, InterpolatorType::TIMED>::Interpolate(const VertexList& first, const VertexList& second, const float coef)
+VertexList XG_InterpolatorNode<VertexList, InterpolatorType::TIMED>::mixKeys(const VertexList& first, const VertexList& second, const float coef)
 {
 	return first.mix(second, coef);
 }

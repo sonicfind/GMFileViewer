@@ -17,3 +17,19 @@ void VertexList::load(const char*& input)
 
 	vertexFillers[m_vertexFlags](m_vertices, input);
 }
+
+VertexList VertexList::mix(const VertexList& other, float coef) const
+{
+	static constexpr GMArray<Vertex> (*vertexMixers[])(const GMArray<Vertex>&, const GMArray<Vertex>&, float) =
+	{
+		VertexList::mix<0>,  VertexList::mix<1>,  VertexList::mix<2>,  VertexList::mix<3>,
+		VertexList::mix<4>,  VertexList::mix<5>,  VertexList::mix<6>,  VertexList::mix<7>,
+		VertexList::mix<8>,  VertexList::mix<9>,  VertexList::mix<10>, VertexList::mix<11>,
+		VertexList::mix<12>, VertexList::mix<13>, VertexList::mix<14>, VertexList::mix<15>,
+	};
+
+	VertexList result;
+	result.m_vertexFlags = m_vertexFlags;
+	result.m_vertices = vertexMixers[m_vertexFlags](m_vertices, other.m_vertices, coef);
+	return result;
+}
