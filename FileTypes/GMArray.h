@@ -102,7 +102,7 @@ class GMArray_View
 
 public:
 	template <bool SizeInBytes = false>
-	void reserve_and_fill(const char*& input)
+	void view(const char*& input)
 	{
 		uint32_t bytes = 0;
 		if constexpr (SizeInBytes)
