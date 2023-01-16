@@ -13,3 +13,31 @@ void xgBgMatrix::load(const char*& input, const XG* xg)
 		   xg->grabNode_nondestructive(m_inputScale        , "inputScale", "outputVec3", input) ||
 		   xg->grabNode_nondestructive(m_inputParentMatrix , "inputParentMatrix", "outputMatrix", input));
 }
+
+xgBgMatrix::TransformVectors xgBgMatrix::transform() const
+{
+	using namespace DirectX;
+
+	TransformVectors transformations;
+	if (m_inputParentMatrix)
+		transformations = m_inputParentMatrix->transform();
+
+	if (m_inputPosition)
+	{
+		auto pos = m_inputPosition->update();
+		transformations.translation += DirectX::XMLoadFloat3(&pos);
+	}
+	else
+		transformations.translation += DirectX::XMLoadFloat3(&m_position);
+
+	transformations.rotation = XMQuaternionMultiply(transformations.rotation, m_inputRotation ? m_inputRotation->update() : m_rotation);
+
+	if (m_inputScale)
+	{
+		auto scl = m_inputScale->update();
+		transformations.scale *= DirectX::XMLoadFloat3(&scl);
+	}
+	else
+		transformations.scale *= DirectX::XMLoadFloat3(&m_scale);
+	return transformations;
+}
