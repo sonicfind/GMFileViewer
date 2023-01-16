@@ -7,9 +7,6 @@ void VertexList::load(const char*& input)
 	if (m_vertexFlags >= 16)
 		throw "why'd you edit the vertexFlags to an invalid value you dumb SOB?";
 
-	if (!m_vertices.reserve(input))
-		return;
-
 	static constexpr void (*vertexFillers[])(GMArray<Vertex>&, const char*&) =
 	{
 		VertexList::fillVertices<0>,  VertexList::fillVertices<1>,  VertexList::fillVertices<2>,  VertexList::fillVertices<3>,
