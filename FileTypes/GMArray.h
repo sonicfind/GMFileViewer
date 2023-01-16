@@ -20,6 +20,7 @@ public:
 	GMArray() = default;
 	GMArray(GMArray&&) = default;
 	GMArray& operator=(GMArray&&) = default;
+	GMArray(uint32_t size) : m_size(size), m_elements(std::make_unique<T[]>(m_size)) {}
 
 	GMArray(const GMArray& other) : m_size(other.m_size), m_elements(std::make_unique<T[]>(m_size))
 	{
