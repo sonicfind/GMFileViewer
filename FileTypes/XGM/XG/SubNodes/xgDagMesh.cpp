@@ -13,3 +13,8 @@ void xgDagMesh::load(FilePointer& file, const XG* xg)
 	while (xg->grabNode_nondestructive(m_inputGeometry, "inputGeometry", "outputGeometry", file) ||
 		   xg->grabNode_nondestructive(m_inputMaterial, "inputMaterial", "outputMaterial", file));
 }
+
+void xgDagMesh::update() const
+{
+	m_inputGeometry->update();
+}

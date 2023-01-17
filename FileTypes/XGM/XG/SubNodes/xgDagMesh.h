@@ -17,5 +17,6 @@ class xgDagMesh : public XG_SubNode
 
 public:
 	void load(FilePointer& file, const XG* xg) override;
+	void update() const;
 };
 

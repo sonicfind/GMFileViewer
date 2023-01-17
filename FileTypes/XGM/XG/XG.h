@@ -34,10 +34,11 @@ class XG
 
 	struct DagElement
 	{
-		XG_SubNode* base;
-		std::vector<DagElement> connections;
+		XG_SubNode* m_base;
+		std::vector<DagElement> m_connections;
 
-		DagElement(XG_SubNode* node) : base(node) {}
+		DagElement(XG_SubNode* node) : m_base(node) {}
+		void update() const;
 	};
 
 	std::vector<std::pair<std::string, std::unique_ptr<XG_SubNode>>> m_nodes;
@@ -46,6 +47,7 @@ class XG
 	
 public:
 	void load(FilePointer file);
+	void update(float frame) const;
 
 private:
 	void fillDag(DagElement& dag, FilePointer& file);

@@ -56,6 +56,24 @@ void XG::load(FilePointer file)
 		m_time = time;
 }
 
+void XG::update(float frame) const
+{
+	if (m_time)
+		m_time->setTime(frame);
+
+	for (const auto& dag : m_dag)
+		dag.update();
+}
+
+void XG::DagElement::update() const
+{
+	if (auto mesh = dynamic_cast<xgDagMesh*>(m_base))
+		mesh->update();
+
+	for (auto& dag : m_connections)
+		dag.update();
+}
+
 std::unique_ptr<XG_SubNode> XG::constructNode(std::string_view type)
 {
 	if (type == "xgVec3Interpolator")			return std::make_unique<xgVec3Interpolator>();
@@ -118,7 +136,7 @@ void XG::fillDag(DagElement& dag, FilePointer& file)
 {
 	while (!PString::CheckForString("]", file))
 	{
-		DagElement& newDag = dag.connections.emplace_back(searchForNode(file));
+		DagElement& newDag = dag.m_connections.emplace_back(searchForNode(file));
 		if (PString::CheckForString("[", file))
 			fillDag(newDag, file);
 	}
