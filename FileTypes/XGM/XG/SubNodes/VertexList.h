@@ -53,7 +53,7 @@ struct Vertex
 	}
 };
 
-Vertex operator*(const DirectX::XMMATRIX& matrix, const Vertex& vertex);
+Vertex operator*(const DirectX::XMMATRIX& matrix, Vertex vertex);
 
 class VertexList
 {
