@@ -8,5 +8,5 @@ public:
 	void updateVertexBuffer() const override;
 
 private:
-	void loadKeys(const char*& input) override;
+	void loadKeys(FilePointer& file) override;
 };

@@ -64,5 +64,5 @@ class FixedSprite
 	KeyFrameArray<SpriteFrame> m_spriteFrames;
 
 public:
-	void read(const char*& input);
+	void read(FilePointer& file);
 };

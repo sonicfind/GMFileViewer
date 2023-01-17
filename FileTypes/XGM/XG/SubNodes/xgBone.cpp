@@ -1,11 +1,11 @@
 #include "xgBone.h"
 #include "../PString.h"
-#include "FileOperations.h"
+#include "FilePointer.h"
 
-void xgBone::load(const char*& input, const XG* xg)
+void xgBone::load(FilePointer& file, const XG* xg)
 {
-	PString::ReadNamedValue("restMatrix", m_restMatrix, input);
-	m_inputMatrix = static_cast<xgBgMatrix*>(xg->grabNode("inputMatrix", "outputMatrix", input));
+	PString::ReadNamedValue("restMatrix", m_restMatrix, file);
+	m_inputMatrix = static_cast<xgBgMatrix*>(xg->grabNode("inputMatrix", "outputMatrix", file));
 }
 
 DirectX::XMMATRIX xgBone::calcTransformMatrix() const

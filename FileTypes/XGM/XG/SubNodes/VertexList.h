@@ -10,27 +10,27 @@ struct Vertex
 	DirectX::XMFLOAT2 m_texCoord;
 
 	template <uint32_t flags>
-	void fill(const char*& input)
+	void fill(FilePointer& file)
 	{
 		if constexpr (flags == 15)
-			FileOps::Read(this, input, sizeof(Vertex));
+			file.read(this, sizeof(Vertex));
 		else if constexpr (flags == 7)
-			FileOps::Read(this, input, 11 * sizeof(float));
+			file.read(this, 11 * sizeof(float));
 		else if constexpr (flags == 3)
-			FileOps::Read(this, input, 7 * sizeof(float));
+			file.read(this, 7 * sizeof(float));
 		else
 		{
 			if constexpr (flags & 1)
-				FileOps::Read(m_position, input);
+				file.read(m_position);
 
 			if constexpr (flags & 2)
-				FileOps::Read(m_normal, input);
+				file.read(m_normal);
 
 			if constexpr (flags & 4)
-				FileOps::Read(m_color, input);
+				file.read(m_color);
 
 			if constexpr (flags & 8)
-				FileOps::Read(m_texCoord, input);
+				file.read(m_texCoord);
 		}
 	}
 
@@ -61,17 +61,17 @@ class VertexList
 	GMArray<Vertex> m_vertices;
 
 public:
-	void load(const char*& input);
+	void load(FilePointer& file);
 	VertexList mix(const VertexList& other, float coef) const;
 	const Vertex& operator[](size_t index) const { return m_vertices[index]; }
 
 private:
 	template <uint32_t flags>
-	static void fillVertices(GMArray<Vertex>& vertices, const char*& input)
+	static void fillVertices(GMArray<Vertex>& vertices, FilePointer& file)
 	{
-		vertices.reserve(input);
+		vertices.reserve(file);
 		for (auto& vertex : vertices)
-			vertex.fill<flags>(input);
+			vertex.fill<flags>(file);
 	}
 
 	template <uint32_t flags>

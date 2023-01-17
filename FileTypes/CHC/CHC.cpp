@@ -2,21 +2,19 @@
 
 CHC::CHC(const std::filesystem::path& filePath)
 {
-	const FileOps::FilePointers file(filePath);
-	auto input = file.begin();
-
-	if (!FileOps::checkTag("SNGS", input))
+	FilePointer file(filePath);
+	if (!file.checkTag("SNGS"))
 		throw "CHC file read error";
 
-	input += 32;
-	FileOps::Read(m_imcName, input);
-	FileOps::Read(m_events, input);
-	FileOps::Read(m_audio, input);
-	FileOps::Read(m_speed, input);
-	m_cues.reserve_and_fill(input);
-	m_sections.reserve(input);
+	file += 32;
+	file.read(m_imcName);
+	file.read(m_events);
+	file.read(m_audio);
+	file.read(m_speed);
+	m_cues.reserve_and_fill(file);
+	m_sections.reserve(file);
 	for (auto& section : m_sections)
-		section.load(input);
+		section.load(file);
 
-	m_healthValues.reserve_and_fill(input);
+	m_healthValues.reserve_and_fill(file);
 }

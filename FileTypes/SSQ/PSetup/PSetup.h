@@ -1,7 +1,8 @@
 #pragma once
+#include "FilePointer.h"
 
 class PSetup
 {
 public:
-	void read(const char*& input);
+	void read(FilePointer& file);
 };

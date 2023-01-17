@@ -1,9 +1,9 @@
 #include "xgTexture.h"
 #include "../PString.h"
-#include "FileOperations.h"
+#include "FilePointer.h"
 
-void xgTexture::load(const char*& input, const XG* xg)
+void xgTexture::load(FilePointer& file, const XG* xg)
 {
-	PString::ReadNamedValue("url", m_url, input);
-	PString::ReadNamedValue("mipmap_depth", m_mipmap_depth, input);
+	PString::ReadNamedValue("url", m_url, file);
+	PString::ReadNamedValue("mipmap_depth", m_mipmap_depth, file);
 }

@@ -1,13 +1,13 @@
 #include "xgBgGeometry.h"
 #include "../PString.h"
-#include "FileOperations.h"
+#include "FilePointer.h"
 
-void xgBgGeometry::load(const char*& input, const XG* xg)
+void xgBgGeometry::load(FilePointer& file, const XG* xg)
 {
-	PString::ReadNamedValue("density", m_density, input);
-	PString::ReadNamedValue("vertices", m_vertices, input);
+	PString::ReadNamedValue("density", m_density, file);
+	PString::ReadNamedValue("vertices", m_vertices, file);
 
-	while (XG_SubNode* node = xg->grabNode_optional("inputGeometry", "outputGeometry", input))
+	while (XG_SubNode* node = xg->grabNode_optional("inputGeometry", "outputGeometry", file))
 	{
 		XG_UpdatableNode* updatable = dynamic_cast<XG_UpdatableNode*>(node);
 		if (!updatable)

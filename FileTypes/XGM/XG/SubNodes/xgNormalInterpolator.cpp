@@ -9,9 +9,9 @@ void xgNormalInterpolator::updateVertexBuffer() const
 	}
 }
 
-void xgNormalInterpolator::loadKeys(const char*& input)
+void xgNormalInterpolator::loadKeys(FilePointer& file)
 {
-	if (m_keys.reserve(input))
+	if (m_keys.reserve(file))
 		for (auto& element : m_keys)
-			element.reserve_and_fill(input);
+			element.reserve_and_fill(file);
 }

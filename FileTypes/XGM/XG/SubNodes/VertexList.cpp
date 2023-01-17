@@ -1,13 +1,13 @@
 #include "VertexList.h"
-#include "FileOperations.h"
+#include "FilePointer.h"
 
-void VertexList::load(const char*& input)
+void VertexList::load(FilePointer& file)
 {
-	FileOps::Read(m_vertexFlags, input);
+	file.read(m_vertexFlags);
 	if (m_vertexFlags >= 16)
 		throw "why'd you edit the vertexFlags to an invalid value you dumb SOB?";
 
-	static constexpr void (*vertexFillers[])(GMArray<Vertex>&, const char*&) =
+	static constexpr void (*vertexFillers[])(GMArray<Vertex>&, FilePointer&) =
 	{
 		VertexList::fillVertices<0>,  VertexList::fillVertices<1>,  VertexList::fillVertices<2>,  VertexList::fillVertices<3>,
 		VertexList::fillVertices<4>,  VertexList::fillVertices<5>,  VertexList::fillVertices<6>,  VertexList::fillVertices<7>,
@@ -15,7 +15,7 @@ void VertexList::load(const char*& input)
 		VertexList::fillVertices<12>, VertexList::fillVertices<13>, VertexList::fillVertices<14>, VertexList::fillVertices<15>,
 	};
 
-	vertexFillers[m_vertexFlags](m_vertices, input);
+	vertexFillers[m_vertexFlags](m_vertices, file);
 }
 
 VertexList VertexList::mix(const VertexList& other, float coef) const

@@ -1,21 +1,21 @@
 #include "SongSection.h"
-#include "FileOperations.h"
+#include "FilePointer.h"
 
-void SongSection::load(const char*& input)
+void SongSection::load(FilePointer& file)
 {
-	if (!FileOps::checkTag("CHLS", input))
+	if (!file.checkTag("CHLS"))
 		throw "SongSection read error";
 	
-	input += 32;
-	FileOps::Read(m_phase, input);
-	FileOps::Read(m_tempo, input);
-	FileOps::Read(m_duration_samples, input);
-	input += 4;
+	file += 32;
+	file.read(m_phase);
+	file.read(m_tempo);
+	file.read(m_duration_samples);
+	file += 4;
 
-	m_conditions.reserve_and_fill(input);
-	FileOps::Read(m_numPlayers, input);
-	FileOps::Read(m_numChartsPerPlayer, input);
+	m_conditions.reserve_and_fill(file);
+	file.read(m_numPlayers);
+	file.read(m_numChartsPerPlayer);
 	m_charts.reserve(m_numPlayers * m_numChartsPerPlayer);
 	for (auto& chart : m_charts)
-		chart.load(input);
+		chart.load(file);
 }

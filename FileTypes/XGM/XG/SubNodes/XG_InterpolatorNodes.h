@@ -36,20 +36,20 @@ protected:
 	xgTime* m_inputTime = nullptr;
 
 public:
-	void load(const char*& input, const XG* xg) override
+	void load(FilePointer& file, const XG* xg) override
 	{
-		PString::ReadNamedValue("type", m_type, input);
+		PString::ReadNamedValue("type", m_type, file);
 
 		if constexpr (INTERPOLATION >= InterpolatorType::TIMED)
-			PString::ReadNamedValue("times", m_times, input);
+			PString::ReadNamedValue("times", m_times, file);
 
-		PString::CheckForString("keys", input);
-		loadKeys(input);
+		PString::CheckForString("keys", file);
+		loadKeys(file);
 
 		if constexpr (INTERPOLATION == InterpolatorType::TARGETED)
-			PString::ReadNamedValue("targets", m_targets, input);
+			PString::ReadNamedValue("targets", m_targets, file);
 
-		while (XG_SubNode* node = xg->grabNode_optional("inputTime", "outputTime", input))
+		while (XG_SubNode* node = xg->grabNode_optional("inputTime", "outputTime", file))
 			m_inputTime = static_cast<xgTime*>(node);
 	}
 
@@ -59,7 +59,7 @@ protected:
 		return interpolateFrame(calculateTimeFrame());
 	}
 
-	virtual void loadKeys(const char*& input) = 0;
+	virtual void loadKeys(FilePointer& file) = 0;
 private:
 	Frame calculateTimeFrame() const
 	{

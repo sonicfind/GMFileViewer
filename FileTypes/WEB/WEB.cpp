@@ -1,8 +1,3 @@
 #include "WEB.h"
 
-WEB::WEB(std::filesystem::path& filePath)
-{
-	const FileOps::FilePointers file(filePath);
-	auto input = file.begin();
-	m_setup = std::unique_ptr<PlayerModel_Setup>(new PlayerModel_Setup(input));
-}
+WEB::WEB(std::filesystem::path& filePath) : m_setup(new PlayerModel_Setup(FilePointer(filePath))) {}

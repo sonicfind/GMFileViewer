@@ -5,7 +5,7 @@ DirectX::XMVECTOR xgQuatInterpolator::calcMixedValue() const
 	return getInterpolatedKey();
 }
 
-void xgQuatInterpolator::loadKeys(const char*& input)
+void xgQuatInterpolator::loadKeys(FilePointer& file)
 {
-	m_keys.reserve_and_fill(input);
+	m_keys.reserve_and_fill(file);
 }

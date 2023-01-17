@@ -39,5 +39,5 @@ class FixedSpriteSetup
 	GMArray<FixedSprite> m_fixedSprites;
 
 public:
-	void read(const char*& input);
+	void read(FilePointer& file);
 };

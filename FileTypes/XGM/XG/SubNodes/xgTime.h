@@ -6,7 +6,7 @@ class xgTime : public XG_SubNode
 	float m_time = 0;
 
 public:
-	void load(const char*& input, const XG* xg) override;
+	void load(FilePointer& file, const XG* xg) override;
 	void setTime(float time);
 	float getTime() const noexcept;
 };

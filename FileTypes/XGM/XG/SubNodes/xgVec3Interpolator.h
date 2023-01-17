@@ -7,5 +7,5 @@ public:
 	DirectX::XMFLOAT3 calcMixedValue() const;
 
 private:
-	void loadKeys(const char*& input);
+	void loadKeys(FilePointer& file);
 };

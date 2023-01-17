@@ -1,18 +1,18 @@
 #include "xgMaterial.h"
 #include "../PString.h"
-#include "FileOperations.h"
+#include "FilePointer.h"
 
-void xgMaterial::load(const char*& input, const XG* xg)
+void xgMaterial::load(FilePointer& file, const XG* xg)
 {
-	PString::ReadNamedValue("blendType", m_blendType, input);
-	PString::ReadNamedValue("shadingType", m_shadingType, input);
-	PString::ReadNamedValue("diffuse", m_diffuse, input);
-	PString::ReadNamedValue("specular", m_specular, input);
-	PString::ReadNamedValue("flags", m_flags, input);
-	PString::ReadNamedValue("textureEnv", m_textureEnv, input);
-	PString::ReadNamedValue("uTile", m_uTile, input);
-	PString::ReadNamedValue("vTile", m_vTile, input);
+	PString::ReadNamedValue("blendType", m_blendType, file);
+	PString::ReadNamedValue("shadingType", m_shadingType, file);
+	PString::ReadNamedValue("diffuse", m_diffuse, file);
+	PString::ReadNamedValue("specular", m_specular, file);
+	PString::ReadNamedValue("flags", m_flags, file);
+	PString::ReadNamedValue("textureEnv", m_textureEnv, file);
+	PString::ReadNamedValue("uTile", m_uTile, file);
+	PString::ReadNamedValue("vTile", m_vTile, file);
 
-	while (XG_SubNode* node = xg->grabNode_optional("inputTexture", "outputTexture", input))
+	while (XG_SubNode* node = xg->grabNode_optional("inputTexture", "outputTexture", file))
 		m_inputTexture = static_cast<xgTexture*>(node);
 }

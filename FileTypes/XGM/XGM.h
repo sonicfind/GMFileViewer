@@ -10,7 +10,7 @@ class XGM
 		char m_filepath[256];
 		char m_name[16];
 
-		uint32_t load(const char*& input, const uint32_t index);
+		uint32_t load(FilePointer& file, const uint32_t index);
 	};
 
 	struct XGMNode_IMX : public XGMNode
@@ -19,7 +19,7 @@ class XGM
 		unsigned long m_unk = 0;
 		IMX m_texture;
 
-		void load(const char*& input, const uint32_t index);
+		void load(FilePointer& file, const uint32_t index);
 	};
 
 	struct XGMNode_XG : public XGMNode
@@ -27,7 +27,7 @@ class XGM
 		GMArray<Animation> m_animations;
 		XG m_model;
 
-		void load(const char*& input, const uint32_t index);
+		void load(FilePointer& file, const uint32_t index);
 	};
 
 	GMArray<XGMNode_IMX> m_textures;

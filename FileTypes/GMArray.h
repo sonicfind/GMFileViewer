@@ -1,5 +1,6 @@
 #pragma once
-#include "FileOperations.h"
+#include "FilePointer.h"
+#include <assert.h>
 
 template <typename T>
 class GMArray
@@ -36,9 +37,9 @@ public:
 	}
 
 	template <bool SizeInBytes = false>
-	bool reserve(const char*& input)
+	bool reserve(FilePointer& file)
 	{
-		uint32_t size = FileOps::Read<uint32_t>(input);
+		uint32_t size = file.read<uint32_t>();
 		if constexpr (SizeInBytes)
 			size /= sizeof(T);
 		return reserve(size);
@@ -50,22 +51,22 @@ public:
 		return reserve();
 	}
 
-	void fill(const char*& input)
+	void fill(FilePointer& file)
 	{
-		FileOps::Read(m_elements.get(), input, m_size * sizeof(T));
+		file.read(m_elements.get(), m_size * sizeof(T));
 	}
 
 	template <bool SizeInBytes = false>
-	void reserve_and_fill(const char*& input)
+	void reserve_and_fill(FilePointer& file)
 	{
-		if (reserve<SizeInBytes>(input))
-			fill(input);
+		if (reserve<SizeInBytes>(file))
+			fill(file);
 	}
 
-	void reserve_and_fill(const char*& input, uint32_t size)
+	void reserve_and_fill(FilePointer& file, uint32_t size)
 	{
 		if (reserve(size))
-			fill(input);
+			fill(file);
 	}
 
 	T& operator[](const size_t index)
@@ -103,24 +104,24 @@ class GMArray_View
 
 public:
 	template <bool SizeInBytes = false>
-	void view(const char*& input)
+	void view(FilePointer& file)
 	{
 		uint32_t bytes = 0;
 		if constexpr (SizeInBytes)
 		{
-			FileOps::Read(bytes, input);
+			file.read(bytes);
 			m_size = bytes / sizeof(T);
 		}
 		else
 		{
-			FileOps::Read(m_size, input);
+			file.read(m_size);
 			bytes = m_size * sizeof(T);
 		}
 
 		if (bytes)
 		{
-			m_elements = reinterpret_cast<const T*>(input);
-			input += bytes;
+			m_elements = reinterpret_cast<const T*>(file.get());
+			file += bytes;
 		}
 	}
 

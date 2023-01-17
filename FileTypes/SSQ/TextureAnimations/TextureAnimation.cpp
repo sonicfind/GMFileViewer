@@ -1,17 +1,17 @@
 #include "TextureAnimation.h"
 
-void TexAnim::read(const char*& input)
+void TexAnim::read(FilePointer& file)
 {
-	if (!FileOps::checkTag("\0\0\0\0", input))
+	if (!file.checkTag("\0\0\0\0"))
 		throw "Texture Animation read error";
 
-	const uint32_t headerVersion = FileOps::Read<uint32_t>(input);
-	input += 28;
+	const uint32_t headerVersion = file.read<uint32_t>();
+	file += 28;
 
-	FileOps::Read(m_offset, input);
-	FileOps::Read(m_textureName, input);
-	input += 8;
+	file.read(m_offset);
+	file.read(m_textureName);
+	file += 8;
 
-	m_cutOuts.reserve_and_fill(input);
-	m_cutoutTimeline.reserve_and_fill(input);
+	m_cutOuts.reserve_and_fill(file);
+	m_cutoutTimeline.reserve_and_fill(file);
 }

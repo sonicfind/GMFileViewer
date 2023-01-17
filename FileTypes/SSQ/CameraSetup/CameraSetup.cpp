@@ -1,35 +1,35 @@
 #include "CameraSetup.h"
 
-void CameraSetup::read(const char*& input)
+void CameraSetup::read(FilePointer& file)
 {
-	if (!FileOps::checkTag("GMPX", input))
+	if (!file.checkTag("GMPX"))
 		throw "Camera Setup read error";
 
-	const uint32_t headerVersion = FileOps::Read<uint32_t>(input);
+	const uint32_t headerVersion = file.read<uint32_t>();
 
-	input += 28;
-	FileOps::Read(m_baseGlobalValues, input);
-	m_positions.reserve(input);
-	m_rotations.reserve(input);
-	m_positions.fill(input);
-	m_rotations.fill(input);
+	file += 28;
+	file.read(m_baseGlobalValues);
+	m_positions.reserve(file);
+	m_rotations.reserve(file);
+	m_positions.fill(file);
+	m_rotations.fill(file);
 
-	const uint32_t numProjections = FileOps::Read<uint32_t>(input);
+	const uint32_t numProjections = file.read<uint32_t>();
 	if (numProjections >= 2)
-		m_projections.reserve_and_fill(input, numProjections);
+		m_projections.reserve_and_fill(file, numProjections);
 
-	const uint32_t numColors = FileOps::Read<uint32_t>(input);
+	const uint32_t numColors = file.read<uint32_t>();
 	if (numColors >= 2)
-		m_ambientColors.reserve_and_fill(input, numColors);
+		m_ambientColors.reserve_and_fill(file, numColors);
 
-	m_lights.reserve(input);
+	m_lights.reserve(file);
 	for (auto& light : m_lights)
-		light.read(input);
+		light.read(file);
 
 	if (headerVersion >= 0x1200)
 	{
-		const uint32_t numUnknown = FileOps::Read<uint32_t>(input);
+		const uint32_t numUnknown = file.read<uint32_t>();
 		if (numUnknown >= 2)
-			m_64bytes_v.reserve_and_fill(input, numUnknown);
+			m_64bytes_v.reserve_and_fill(file, numUnknown);
 	}
 }

@@ -14,7 +14,7 @@
  *  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../PString.h"
-#include "FileOperations.h"
+#include "FilePointer.h"
 #include "GMArray.h"
 
 enum class PrimitiveType
@@ -34,20 +34,20 @@ protected:
 	GMArray<uint32_t> m_data;
 
 public:
-	void load(const char*& input)
+	void load(FilePointer& file)
 	{
-		if      constexpr (MODE == PrimitiveType::PRIMITIVE)      PString::CheckForString("primCount", input);
-		else if constexpr (MODE == PrimitiveType::TRIANGLE_FAN)   PString::CheckForString("triFanCount", input);
-		else if constexpr (MODE == PrimitiveType::TRIANGLE_STRIP) PString::CheckForString("triStripCount", input);
-		else                                                      PString::CheckForString("triListCount", input);
+		if      constexpr (MODE == PrimitiveType::PRIMITIVE)      PString::CheckForString("primCount", file);
+		else if constexpr (MODE == PrimitiveType::TRIANGLE_FAN)   PString::CheckForString("triFanCount", file);
+		else if constexpr (MODE == PrimitiveType::TRIANGLE_STRIP) PString::CheckForString("triStripCount", file);
+		else                                                      PString::CheckForString("triListCount", file);
 
-		FileOps::Read(m_numPrimitives, input);
+		file.read(m_numPrimitives);
 
-		if      constexpr (MODE == PrimitiveType::PRIMITIVE)      PString::CheckForString("primData", input);
-		else if constexpr (MODE == PrimitiveType::TRIANGLE_FAN)   PString::CheckForString("triFanData", input);
-		else if constexpr (MODE == PrimitiveType::TRIANGLE_STRIP) PString::CheckForString("triStripData", input);
-		else                                                      PString::CheckForString("triListData", input);
+		if      constexpr (MODE == PrimitiveType::PRIMITIVE)      PString::CheckForString("primData", file);
+		else if constexpr (MODE == PrimitiveType::TRIANGLE_FAN)   PString::CheckForString("triFanData", file);
+		else if constexpr (MODE == PrimitiveType::TRIANGLE_STRIP) PString::CheckForString("triStripData", file);
+		else                                                      PString::CheckForString("triListData", file);
 
-		m_data.reserve_and_fill(input);
+		m_data.reserve_and_fill(file);
 	}
 };

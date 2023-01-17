@@ -13,28 +13,28 @@
  *  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "FixedSprite.h"
-void FixedSprite::read(const char*& input)
+void FixedSprite::read(FilePointer& file)
 {
 
-	if (!FileOps::checkTag("GMSP", input))
+	if (!file.checkTag("GMSP"))
 		throw "Sprite Setup read error";
 
-	const uint32_t headerVersion = FileOps::Read<uint32_t>(input);
-	input += 28;
+	const uint32_t headerVersion = file.read<uint32_t>();
+	file += 28;
 
-	FileOps::Read(m_64bytes, input);
+	file.read(m_64bytes);
 
 	unsigned long numWorldValues, numColors, numFrames;
-	FileOps::Read(numWorldValues, input);
-	FileOps::Read(numColors, input);
-	FileOps::Read(numFrames, input);
+	file.read(numWorldValues);
+	file.read(numColors);
+	file.read(numFrames);
 
 	if (numWorldValues >= 2)
-		m_worldValues.reserve_and_fill(input, numWorldValues);
+		m_worldValues.reserve_and_fill(file, numWorldValues);
 
 	if (numColors >= 2)
-		m_colors.reserve_and_fill(input, numColors);
+		m_colors.reserve_and_fill(file, numColors);
 
 	if (numFrames > 2)
-		m_spriteFrames.reserve_and_fill(input, numFrames);
+		m_spriteFrames.reserve_and_fill(file, numFrames);
 }

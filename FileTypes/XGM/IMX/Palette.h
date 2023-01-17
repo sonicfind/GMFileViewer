@@ -1,6 +1,6 @@
 #pragma once
 #include "Pixel.h"
-#include "FileOperations.h"
+#include "FilePointer.h"
 #include "GMArray.h"
 
 struct HalfIndex
@@ -13,11 +13,11 @@ struct Palette
 {
 	GMArray_View<Pixel> m_colors;
 	GMArray_View<T> m_indices;
-	Palette(const char*& input)
+	Palette(FilePointer& file)
 	{
-		m_colors.view<true>(input);
-		input += 4;
-		m_indices.view<true>(input);
+		m_colors.view<true>(file);
+		file += 4;
+		m_indices.view<true>(file);
 	}
 
 	Pixel operator[](const size_t position) const

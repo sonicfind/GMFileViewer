@@ -29,7 +29,7 @@ class Chart
 	std::vector<NotePair> m_timeline;
 
 public:
-	void load(const char*& input);
+	void load(FilePointer& file);
 
 private:
 	template<typename T, typename = std::enable_if<std::is_base_of<Note, T>::value>>
@@ -38,7 +38,8 @@ private:
 		if (bufferPtr + sizeof(uint32_t) > m_noteBuffer.end())
 			throw "dumbass chart file";
 
-		const uint32_t numNotes = FileOps::Read<uint32_t>(bufferPtr);
+		const uint32_t numNotes = Parse<uint32_t>(bufferPtr);
+
 		if (bufferPtr + numNotes * sizeof(T) > m_noteBuffer.end())
 			throw "dumbass chart file";
 

@@ -1,15 +1,15 @@
 #include "xgDagMesh.h"
 
-void xgDagMesh::load(const char*& input, const XG* xg)
+void xgDagMesh::load(FilePointer& file, const XG* xg)
 {
-	PString::ReadNamedValue("primType", m_primType, input);
+	PString::ReadNamedValue("primType", m_primType, file);
 
-	m_prim.load(input);
-	m_triFan.load(input);
-	m_triStrip.load(input);
-	m_triList.load(input);
+	m_prim.load(file);
+	m_triFan.load(file);
+	m_triStrip.load(file);
+	m_triList.load(file);
 
-	PString::ReadNamedValue("cullFunc", m_cullFunc, input);
-	while (xg->grabNode_nondestructive(m_inputGeometry, "inputGeometry", "outputGeometry", input) ||
-		   xg->grabNode_nondestructive(m_inputMaterial, "inputMaterial", "outputMaterial", input));
+	PString::ReadNamedValue("cullFunc", m_cullFunc, file);
+	while (xg->grabNode_nondestructive(m_inputGeometry, "inputGeometry", "outputGeometry", file) ||
+		   xg->grabNode_nondestructive(m_inputMaterial, "inputMaterial", "outputMaterial", file));
 }

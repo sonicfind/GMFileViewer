@@ -3,53 +3,52 @@
 
 XGM::XGM(const std::filesystem::path& filePath)
 {
-	const FileOps::FilePointers file(filePath);
-	auto input = file.begin();
+	FilePointer file(filePath);
 
-	m_textures.reserve(input);
-	m_models.reserve(input);
+	m_textures.reserve(file);
+	m_models.reserve(file);
 
 	for (uint32_t i = 0; i < m_textures.getSize(); ++i)
-		m_textures[i].load(input, i);
+		m_textures[i].load(file, i);
 
 	for (uint32_t i = 0; i < m_models.getSize(); ++i)
-		m_models[i].load(input, i);
+		m_models[i].load(file, i);
 
 	TaskQueue::getInstance().waitForCompletedTasks();
 }
 
-uint32_t XGM::XGMNode::load(const char*& input, const uint32_t index)
+uint32_t XGM::XGMNode::load(FilePointer& file, const uint32_t index)
 {
-	FileOps::Read(m_filepath, input);
-	FileOps::Read(m_name, input);
+	file.read(m_filepath);
+	file.read(m_name);
 
-	if (FileOps::Read<uint32_t>(input) != index)
+	if (file.read<uint32_t>() != index)
 		throw "weird af";
 
-	return FileOps::Read<uint32_t>(input);
+	return file.read<uint32_t>();
 }
 
-void XGM::XGMNode_IMX::load(const char*& input, const uint32_t index)
+void XGM::XGMNode_IMX::load(FilePointer& file, const uint32_t index)
 {
-	const uint32_t fileSize = XGMNode::load(input, index);
+	const uint32_t fileSize = XGMNode::load(file, index);
 
-	input += 4;
-	FileOps::Read(m_non_model, input);
-	FileOps::Read(m_unk, input);
-	input += 12;
+	file += 4;
+	file.read(m_non_model);
+	file.read(m_unk);
+	file += 12;
 
-	TaskQueue::getInstance().addTask([this, input] { m_texture.load(input); });
-	input += fileSize;
+	TaskQueue::getInstance().addTask([this, file] { m_texture.load(file); });
+	file += fileSize;
 }
 
-void XGM::XGMNode_XG::load(const char*& input, const uint32_t index)
+void XGM::XGMNode_XG::load(FilePointer& file, const uint32_t index)
 {
-	const uint32_t fileSize = XGMNode::load(input, index);
+	const uint32_t fileSize = XGMNode::load(file, index);
 
-	m_animations.reserve(input);
-	input += 4;
-	m_animations.fill(input);
+	m_animations.reserve(file);
+	file += 4;
+	m_animations.fill(file);
 	
-	TaskQueue::getInstance().addTask([this, input] { m_model.load(input); });
-	input += fileSize;
+	TaskQueue::getInstance().addTask([this, file] { m_model.load(file); });
+	file += fileSize;
 }

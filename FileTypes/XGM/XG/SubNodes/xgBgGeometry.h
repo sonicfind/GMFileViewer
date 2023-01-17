@@ -10,7 +10,7 @@ class xgBgGeometry : public XG_SubNode
 	std::vector<XG_UpdatableNode*> m_inputGeometries;
 
 public:
-	void load(const char*& input, const XG* xg) override;
+	void load(FilePointer& file, const XG* xg) override;
 	void update() const;
 
 	const Vertex& getVertex(size_t index) const;

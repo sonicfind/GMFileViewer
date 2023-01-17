@@ -154,6 +154,7 @@
     <ClCompile Include="FileTypes\CHC\Chart.cpp" />
     <ClCompile Include="FileTypes\CHC\CHC.cpp" />
     <ClCompile Include="FileTypes\CHC\SongSection.cpp" />
+    <ClCompile Include="FileTypes\FilePointer.cpp" />
     <ClCompile Include="FileTypes\SSQ\CameraSetup\CameraSetup.cpp" />
     <ClCompile Include="FileTypes\SSQ\CameraSetup\LightSetup.cpp" />
     <ClCompile Include="FileTypes\SSQ\Keyframe.cpp" />
@@ -206,7 +207,7 @@
     <ClInclude Include="FileTypes\CHC\Notes\Phrase.h" />
     <ClInclude Include="FileTypes\CHC\Notes\Traceline.h" />
     <ClInclude Include="FileTypes\CHC\SongSection.h" />
-    <ClInclude Include="FileTypes\FileOperations.h" />
+    <ClInclude Include="FileTypes\FilePointer.h" />
     <ClInclude Include="FileTypes\GMArray.h" />
     <ClInclude Include="FileTypes\SSQ\CameraSetup\CameraSetup.h" />
     <ClInclude Include="FileTypes\SSQ\CameraSetup\LightSetup.h" />

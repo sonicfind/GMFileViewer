@@ -32,6 +32,6 @@ class xgMaterial : public XG_MaterialNode
 	xgTexture* m_inputTexture = nullptr;
 
 public:
-	void load(const char*& input, const XG* xg) override;
+	void load(FilePointer& file, const XG* xg) override;
 };
 

@@ -5,5 +5,5 @@ class SnakeModel_Setup : public Model_Setup
 {
 	friend class Model_Setup;
 private:
-	SnakeModel_Setup(const char*& input);
+	SnakeModel_Setup(FilePointer& file);
 };

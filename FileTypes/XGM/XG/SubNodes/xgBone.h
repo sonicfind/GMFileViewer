@@ -7,7 +7,7 @@ class xgBone : public XG_SubNode
 	xgBgMatrix* m_inputMatrix = nullptr;
 
 public:
-	void load(const char*& input, const XG* xg) override;
+	void load(FilePointer& file, const XG* xg) override;
 	DirectX::XMMATRIX calcTransformMatrix() const;
 };
 

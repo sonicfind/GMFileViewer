@@ -1,35 +1,35 @@
 #pragma once
 #include <string>
-#include "FileOperations.h"
+#include "FilePointer.h"
 #include "GMArray.h"
 #include "XGM/XG/SubNodes/VertexList.h"
 
 namespace PString
 {
-	void Read(std::string& str, const char*& input);
-	void Read(std::string_view& str, const char*& input);
-	std::string_view Read(const char*& input);
+	void Read(std::string& str, FilePointer& file);
+	void Read(std::string_view& str, FilePointer& file);
+	std::string_view Read(FilePointer& file);
 
-	bool CheckForString_nothrow(std::string_view strToMatch, const char*& input) noexcept;
-	void CheckForString(std::string_view strToMatch, const char*& input);
+	bool CheckForString_nothrow(std::string_view strToMatch, FilePointer& file) noexcept;
+	void CheckForString(std::string_view strToMatch, FilePointer& file);
 
 	template <typename T>
-	void ReadNamedValue(std::string_view name, T& value, const char*& input)
+	void ReadNamedValue(std::string_view name, T& value, FilePointer& file)
 	{
-		CheckForString(name, input);
-		FileOps::Read(value, input);
+		CheckForString(name, file);
+		file.read(value);
 	}
 
 	template <typename T>
-	void ReadNamedValue(std::string_view name, GMArray<T>& value, const char*& input)
+	void ReadNamedValue(std::string_view name, GMArray<T>& value, FilePointer& file)
 	{
-		CheckForString(name, input);
-		value.reserve_and_fill(input);
+		CheckForString(name, file);
+		value.reserve_and_fill(file);
 	}
 
 	template <>
-	void ReadNamedValue(std::string_view name, std::string& value, const char*& input);
+	void ReadNamedValue(std::string_view name, std::string& value, FilePointer& file);
 
 	template <>
-	void ReadNamedValue(std::string_view name, VertexList& value, const char*& input);
+	void ReadNamedValue(std::string_view name, VertexList& value, FilePointer& file);
 }

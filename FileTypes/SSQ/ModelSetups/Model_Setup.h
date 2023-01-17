@@ -1,4 +1,5 @@
 #pragma once
+#include "FilePointer.h"
 #include "../Keyframe.h"
 #include "../SSQModelType.h"
 
@@ -60,10 +61,10 @@ private:
 	BaseValues m_baseValues;
 
 protected:
-	Model_Setup(const char*& input);
+	Model_Setup(FilePointer& file);
 
 public:
 	virtual ~Model_Setup() = default;
 
-	static std::unique_ptr<Model_Setup> create(const char*& input, SSQModelType type);
+	static std::unique_ptr<Model_Setup> create(FilePointer& file, SSQModelType type);
 };

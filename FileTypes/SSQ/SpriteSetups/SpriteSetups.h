@@ -6,5 +6,5 @@ class SpritesSetup
 	FixedSpriteSetup m_fixedSpriteSetup;
 
 public:
-	void read(const char*& input);
+	void read(FilePointer& file);
 };

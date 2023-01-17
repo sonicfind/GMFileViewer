@@ -25,5 +25,6 @@ class PlayerModel_Setup : public Model_Setup
 	GMArray<int32_t> m_defaults;
 
 private:
-	PlayerModel_Setup(const char*& input);
+	PlayerModel_Setup(FilePointer& file);
+	PlayerModel_Setup(FilePointer&& file);
 };

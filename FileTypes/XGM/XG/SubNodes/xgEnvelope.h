@@ -19,7 +19,7 @@ class xgEnvelope : public XG_SubNode, public XG_UpdatableNode
 	xgBgGeometry* m_inputGeometry = nullptr;
 
 public:
-	void load(const char*& input, const XG* xg) override;
+	void load(FilePointer& file, const XG* xg) override;
 	void updateVertexBuffer() const override;
 };
 

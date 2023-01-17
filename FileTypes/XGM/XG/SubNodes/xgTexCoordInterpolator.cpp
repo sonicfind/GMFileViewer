@@ -9,9 +9,9 @@ void xgTexCoordInterpolator::updateVertexBuffer() const
 	}
 }
 
-void xgTexCoordInterpolator::loadKeys(const char*& input)
+void xgTexCoordInterpolator::loadKeys(FilePointer& file)
 {
-	if (m_keys.reserve(input))
+	if (m_keys.reserve(file))
 		for (auto& element : m_keys)
-			element.reserve_and_fill(input);
+			element.reserve_and_fill(file);
 }

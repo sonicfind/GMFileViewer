@@ -6,9 +6,9 @@ void xgShapeInterpolator::updateVertexBuffer() const
 	// Use applicable "SubData" command
 }
 
-void xgShapeInterpolator::loadKeys(const char*& input)
+void xgShapeInterpolator::loadKeys(FilePointer& file)
 {
-	if (m_keys.reserve(input))
+	if (m_keys.reserve(file))
 		for (auto& element : m_keys)
-			element.load(input);
+			element.load(file);
 }

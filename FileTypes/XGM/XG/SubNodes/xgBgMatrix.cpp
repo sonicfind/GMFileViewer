@@ -1,17 +1,17 @@
 #include "xgBgMatrix.h"
 #include "../PString.h"
-#include "FileOperations.h"
+#include "FilePointer.h"
 
-void xgBgMatrix::load(const char*& input, const XG* xg)
+void xgBgMatrix::load(FilePointer& file, const XG* xg)
 {
-	PString::ReadNamedValue("position", m_position, input);
-	PString::ReadNamedValue("rotation", m_rotation, input);
-	PString::ReadNamedValue("scale", m_scale, input);
+	PString::ReadNamedValue("position", m_position, file);
+	PString::ReadNamedValue("rotation", m_rotation, file);
+	PString::ReadNamedValue("scale", m_scale, file);
 
-	while (xg->grabNode_nondestructive(m_inputPosition     , "inputPosition", "outputVec3", input) ||
-		   xg->grabNode_nondestructive(m_inputRotation     , "inputRotation", "outputQuat", input) ||
-		   xg->grabNode_nondestructive(m_inputScale        , "inputScale", "outputVec3", input) ||
-		   xg->grabNode_nondestructive(m_inputParentMatrix , "inputParentMatrix", "outputMatrix", input));
+	while (xg->grabNode_nondestructive(m_inputPosition     , "inputPosition", "outputVec3", file) ||
+		   xg->grabNode_nondestructive(m_inputRotation     , "inputRotation", "outputQuat", file) ||
+		   xg->grabNode_nondestructive(m_inputScale        , "inputScale", "outputVec3", file) ||
+		   xg->grabNode_nondestructive(m_inputParentMatrix , "inputParentMatrix", "outputMatrix", file));
 }
 
 xgBgMatrix::TransformVectors xgBgMatrix::transform() const

@@ -1,29 +1,29 @@
 #include "IMX.h"
-#include "FileOperations.h"
+#include "FilePointer.h"
 #include <memory>
 
-void IMX::load(const char* input)
+void IMX::load(FilePointer file)
 {
-	if (!FileOps::checkTag("IMX", input))
+	if (!file.checkTag("IMX"))
 		throw "IMX file read error";
 
-	input += 16;
-	FileOps::Read(m_width, input);
-	FileOps::Read(m_height, input);
+	file += 16;
+	file.read(m_width);
+	file.read(m_height);
 
-	const uint32_t pixelVal1 = FileOps::Read<uint32_t>(input);
-	const uint32_t pixelVal2 = FileOps::Read<uint32_t>(input);
+	const uint32_t pixelVal1 = file.read<uint32_t>();
+	const uint32_t pixelVal2 = file.read<uint32_t>();
 
 	if (pixelVal1 == 0 && pixelVal2 == 0)
-		readImage_Indexed<HalfIndex>(input);
+		readImage_Indexed<HalfIndex>(file);
 	else if (pixelVal1 == 1 && pixelVal2 == 1)
-		readImage_Indexed<unsigned char>(input);
+		readImage_Indexed<unsigned char>(file);
 	else if (pixelVal2 == 2)
 	{
 		if (pixelVal1 == 3)
-			readImage_RGB(input);
+			readImage_RGB(file);
 		else if (pixelVal1 == 4)
-			readImage_RGBA(input);
+			readImage_RGBA(file);
 		else
 			throw "Unknown Pixel Storage value combination";
 	}
@@ -31,17 +31,17 @@ void IMX::load(const char* input)
 		throw "Unknown Pixel Storage value combination";
 }
 
-void IMX::readImage_RGB(const char* input)
+void IMX::readImage_RGB(FilePointer& file)
 {
-	const auto size = FileOps::Read<uint32_t>(input) / 3;
+	const auto size = file.read<uint32_t>() / 3;
 	m_data = std::make_unique<Pixel[]>(size);
 	for (uint32_t i = 0; i < size; ++i)
-		FileOps::Read(m_data[i], input, 3);		
+		file.read(m_data[i], 3);		
 }
 
-void IMX::readImage_RGBA(const char* input)
+void IMX::readImage_RGBA(FilePointer& file)
 {
-	const auto size = FileOps::Read<uint32_t>(input);
+	const auto size = file.read<uint32_t>();
 	m_data = std::make_unique<Pixel[]>(size / 4);
-	memcpy(m_data.get(), input, size);
+	file.read(m_data.get(), size);
 }

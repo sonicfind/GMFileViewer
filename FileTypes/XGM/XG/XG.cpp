@@ -1,5 +1,5 @@
 #include "XG.h"
-#include "FileOperations.h"
+#include "FilePointer.h"
 #include "SubNodes/xgBgGeometry.h"
 #include "SubNodes/xgBgMatrix.h"
 #include "SubNodes/xgBone.h"
@@ -16,40 +16,40 @@
 #include "SubNodes/xgVec3Interpolator.h"
 #include "SubNodes/xgVertexInterpolator.h"
 
-void XG::load(const char* input)
+void XG::load(FilePointer file)
 {
-	if (!FileOps::checkTag("XGBv1.00", input))
+	if (!file.checkTag("XGBv1.00"))
 		throw "XG file read error";
 
-	std::string_view type = PString::Read(input);
-	std::string_view name = PString::Read(input);
-	while (PString::CheckForString_nothrow(";", input))
+	std::string_view type = PString::Read(file);
+	std::string_view name = PString::Read(file);
+	while (PString::CheckForString_nothrow(";", file))
 	{
 		m_nodes.push_back({ std::string(name), constructNode(type) });
 
-		PString::Read(type, input);
-		PString::Read(name, input);
+		PString::Read(type, file);
+		PString::Read(name, file);
 	}
 
 	for (const auto& node : m_nodes)
 	{
-		PString::CheckForString("{", input);
-		node.second->load(input, this);
-		PString::CheckForString("}", input);
+		PString::CheckForString("{", file);
+		node.second->load(file, this);
+		PString::CheckForString("}", file);
 
-		if (PString::CheckForString_nothrow("dag", input))
+		if (PString::CheckForString_nothrow("dag", file))
 			break;
 
-		PString::Read(type, input);
-		PString::Read(name, input);
+		PString::Read(type, file);
+		PString::Read(name, file);
 	}
 
-	PString::CheckForString("{", input);
-	while (!PString::CheckForString_nothrow("}", input))
+	PString::CheckForString("{", file);
+	while (!PString::CheckForString_nothrow("}", file))
 	{
-		DagElement& dag = m_dag.emplace_back(searchForNode(input));
-		PString::CheckForString("[", input);
-		fillDag(dag, input);
+		DagElement& dag = m_dag.emplace_back(searchForNode(file));
+		PString::CheckForString("[", file);
+		fillDag(dag, file);
 	}
 
 	if (auto time = static_cast<xgTime*>(searchForNode("time")))
@@ -78,9 +78,9 @@ std::unique_ptr<XG_SubNode> XG::constructNode(std::string_view type)
 		throw "Unrecognized node";
 }
 
-XG_SubNode* XG::searchForNode(const char*& input) const
+XG_SubNode* XG::searchForNode(FilePointer& file) const
 {
-	return searchForNode(PString::Read(input));
+	return searchForNode(PString::Read(file));
 }
 
 XG_SubNode* XG::searchForNode(std::string_view name) const
@@ -91,35 +91,35 @@ XG_SubNode* XG::searchForNode(std::string_view name) const
 	return nullptr;
 }
 
-XG_SubNode* XG::grabNode_optional(std::string_view inputString, std::string_view outputString, const char*& input) const
+XG_SubNode* XG::grabNode_optional(std::string_view inputString, std::string_view outputString, FilePointer& file) const
 {
-	if (!PString::CheckForString_nothrow(inputString, input))
+	if (!PString::CheckForString_nothrow(inputString, file))
 		return nullptr;
 
-	XG_SubNode* node = searchForNode(input);
+	XG_SubNode* node = searchForNode(file);
 	if (node == nullptr)
 		throw "Node not located";
 
-	if (!PString::CheckForString_nothrow(outputString, input))
+	if (!PString::CheckForString_nothrow(outputString, file))
 		throw "Output string not matched";
 
 	return node;
 }
 
-XG_SubNode* XG::grabNode(std::string_view inputString, std::string_view outputString, const char*& input) const
+XG_SubNode* XG::grabNode(std::string_view inputString, std::string_view outputString, FilePointer& file) const
 {
-	XG_SubNode* node = grabNode_optional(inputString, outputString, input);
+	XG_SubNode* node = grabNode_optional(inputString, outputString, file);
 	if (node == nullptr)
 		throw "Input string not matched";
 	return node;
 }
 
-void XG::fillDag(DagElement& dag, const char*& input)
+void XG::fillDag(DagElement& dag, FilePointer& file)
 {
-	while (!PString::CheckForString_nothrow("]", input))
+	while (!PString::CheckForString_nothrow("]", file))
 	{
-		DagElement& newDag = dag.connections.emplace_back(searchForNode(input));
-		if (PString::CheckForString_nothrow("[", input))
-			fillDag(newDag, input);
+		DagElement& newDag = dag.connections.emplace_back(searchForNode(file));
+		if (PString::CheckForString_nothrow("[", file))
+			fillDag(newDag, file);
 	}
 }

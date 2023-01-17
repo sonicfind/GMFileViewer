@@ -16,5 +16,5 @@ class AttDefModel_Setup : public Model_Setup
 	} m_attackValues;
 
 private:
-	AttDefModel_Setup(const char*& input);
+	AttDefModel_Setup(FilePointer& file);
 };

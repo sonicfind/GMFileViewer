@@ -26,5 +26,5 @@ private:
 	GMArray<Chart> m_charts;
 
 public:
-	void load(const char*& input);
+	void load(FilePointer& file);
 };

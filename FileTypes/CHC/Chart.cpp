@@ -1,22 +1,22 @@
 #include "Chart.h"
 
-void Chart::load(const char*& input)
+void Chart::load(FilePointer& file)
 {
-	if (!FileOps::checkTag("CHCH", input))
+	if (!file.checkTag("CHCH"))
 		throw "Chart read error";
 
-	input += 4;
-	m_noteBuffer.reserve(FileOps::Read<uint32_t>(input));
-	input += 4;
+	file += 4;
+	m_noteBuffer.reserve(file.read<uint32_t>());
+	file += 4;
 
-	if (FileOps::Read<uint32_t>(input) != 0)
+	if (file.read<uint32_t>() != 0)
 		throw "Game crash";
 
-	input += 16;
-	FileOps::Read(m_pivotTime, input);
-	FileOps::Read(m_endTime, input);
+	file += 16;
+	file.read(m_pivotTime);
+	file.read(m_endTime);
 
-	m_noteBuffer.fill(input);
+	m_noteBuffer.fill(file);
 
 	const char* currPtr = m_noteBuffer.begin();
 	addNotesFromFile<Traceline>(currPtr);

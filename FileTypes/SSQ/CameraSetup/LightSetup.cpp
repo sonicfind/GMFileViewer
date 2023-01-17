@@ -1,22 +1,22 @@
 #include "LightSetup.h"
 
-void LightSetup::read(const char*& input)
+void LightSetup::read(FilePointer& file)
 {
-	FileOps::Read(m_baseValues, input);
+	file.read(m_baseValues);
 	if (!m_baseValues.isActive)
 		return;
 
-	if (!FileOps::checkTag("GMLT", input))
+	if (!file.checkTag("GMLT"))
 		throw "Light Setup read error";
 
-	FileOps::Read(m_headerVersion, input);
-	input += 28;
+	file.read(m_headerVersion);
+	file += 28;
 
-	const uint32_t numRotations = FileOps::Read<uint32_t>(input);
-	const uint32_t numColors = FileOps::Read<uint32_t>(input);
+	const uint32_t numRotations = file.read<uint32_t>();
+	const uint32_t numColors = file.read<uint32_t>();
 	if (numRotations >= 2)
-		m_rotations.reserve_and_fill(input, numRotations);
+		m_rotations.reserve_and_fill(file, numRotations);
 
 	if (numColors >= 2)
-		m_colors.reserve_and_fill(input, numColors);
+		m_colors.reserve_and_fill(file, numColors);
 }

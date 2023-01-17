@@ -124,6 +124,9 @@
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgShapeInterpolator">
       <UniqueIdentifier>{97076c7c-ad06-4cf1-9616-6e7a82db7624}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FileTypes\FilePointer">
+      <UniqueIdentifier>{490c2e0b-0d25-4ab3-8a24-c2dbaeb700c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileTypes\XGM\XGM.cpp">
@@ -256,6 +259,9 @@
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes\xgVec3Interpolator</Filter>
     </ClCompile>
+    <ClCompile Include="FileTypes\FilePointer.cpp">
+      <Filter>FileTypes\FilePointer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileTypes\XGM\XGM.h">
@@ -266,9 +272,6 @@
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\IMX\IMX.h">
       <Filter>FileTypes\XGM\IMX</Filter>
-    </ClInclude>
-    <ClInclude Include="FileTypes\FileOperations.h">
-      <Filter>FileTypes</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\IMX\Pixel.h">
       <Filter>FileTypes\XGM\IMX</Filter>
@@ -422,6 +425,9 @@
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator.h">
       <Filter>FileTypes\XGM\XG\SubNodes\xgVec3Interpolator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\FilePointer.h">
+      <Filter>FileTypes\FilePointer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
