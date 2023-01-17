@@ -43,7 +43,7 @@ public:
 		if constexpr (INTERPOLATION >= InterpolatorType::TIMED)
 			PString::ReadNamedValue("times", m_times, file);
 
-		PString::CheckForString("keys", file);
+		PString::ThrowOnStringMismatch("keys", file);
 		loadKeys(file);
 
 		if constexpr (INTERPOLATION == InterpolatorType::TARGETED)

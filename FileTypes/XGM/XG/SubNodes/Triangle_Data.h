@@ -36,17 +36,17 @@ protected:
 public:
 	void load(FilePointer& file)
 	{
-		if      constexpr (MODE == PrimitiveType::PRIMITIVE)      PString::CheckForString("primCount", file);
-		else if constexpr (MODE == PrimitiveType::TRIANGLE_FAN)   PString::CheckForString("triFanCount", file);
-		else if constexpr (MODE == PrimitiveType::TRIANGLE_STRIP) PString::CheckForString("triStripCount", file);
-		else                                                      PString::CheckForString("triListCount", file);
+		if      constexpr (MODE == PrimitiveType::PRIMITIVE)      PString::ThrowOnStringMismatch("primCount", file);
+		else if constexpr (MODE == PrimitiveType::TRIANGLE_FAN)   PString::ThrowOnStringMismatch("triFanCount", file);
+		else if constexpr (MODE == PrimitiveType::TRIANGLE_STRIP) PString::ThrowOnStringMismatch("triStripCount", file);
+		else                                                      PString::ThrowOnStringMismatch("triListCount", file);
 
 		file.read(m_numPrimitives);
 
-		if      constexpr (MODE == PrimitiveType::PRIMITIVE)      PString::CheckForString("primData", file);
-		else if constexpr (MODE == PrimitiveType::TRIANGLE_FAN)   PString::CheckForString("triFanData", file);
-		else if constexpr (MODE == PrimitiveType::TRIANGLE_STRIP) PString::CheckForString("triStripData", file);
-		else                                                      PString::CheckForString("triListData", file);
+		if      constexpr (MODE == PrimitiveType::PRIMITIVE)      PString::ThrowOnStringMismatch("primData", file);
+		else if constexpr (MODE == PrimitiveType::TRIANGLE_FAN)   PString::ThrowOnStringMismatch("triFanData", file);
+		else if constexpr (MODE == PrimitiveType::TRIANGLE_STRIP) PString::ThrowOnStringMismatch("triStripData", file);
+		else                                                      PString::ThrowOnStringMismatch("triListData", file);
 
 		m_data.reserve_and_fill(file);
 	}

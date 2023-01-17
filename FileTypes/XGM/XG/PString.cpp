@@ -21,7 +21,7 @@ std::string_view PString::Read(FilePointer& file)
 	return str;
 }
 
-bool PString::CheckForString_nothrow(std::string_view strToMatch, FilePointer& file) noexcept
+bool PString::CheckForString(std::string_view strToMatch, FilePointer& file) noexcept
 {
 	unsigned char length = *file;
 	if (strToMatch != std::string_view(file.get() + 1, length))
@@ -31,22 +31,22 @@ bool PString::CheckForString_nothrow(std::string_view strToMatch, FilePointer& f
 	return true;
 }
 
-void PString::CheckForString(std::string_view strToMatch, FilePointer& file)
+void PString::ThrowOnStringMismatch(std::string_view strToMatch, FilePointer& file)
 {
-	if (!CheckForString_nothrow(strToMatch, file))
+	if (!CheckForString(strToMatch, file))
 		throw "PString mismatch";
 }
 
 template <>
 void PString::ReadNamedValue(std::string_view name, std::string& value, FilePointer& file)
 {
-	CheckForString(name, file);
+	ThrowOnStringMismatch(name, file);
 	PString::Read(value, file);
 }
 
 template <>
 void PString::ReadNamedValue(std::string_view name, VertexList& value, FilePointer& file)
 {
-	CheckForString(name, file);
+	ThrowOnStringMismatch(name, file);
 	value.load(file);
 }
