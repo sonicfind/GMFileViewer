@@ -1,6 +1,7 @@
 #pragma once
 #include <DirectXMath.h>
-#include "XG_InterpolatorNodes.h"
+#include "xgVec3Interpolator.h"
+#include "xgQuatInterpolator.h"
 
 class xgBgMatrix : public XG_SubNode
 {

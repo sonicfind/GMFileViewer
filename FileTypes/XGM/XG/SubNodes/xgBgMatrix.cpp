@@ -24,17 +24,17 @@ xgBgMatrix::TransformVectors xgBgMatrix::transform() const
 
 	if (m_inputPosition)
 	{
-		auto pos = m_inputPosition->update();
+		auto pos = m_inputPosition->calcMixedValue();
 		transformations.translation += DirectX::XMLoadFloat3(&pos);
 	}
 	else
 		transformations.translation += DirectX::XMLoadFloat3(&m_position);
 
-	transformations.rotation = XMQuaternionMultiply(transformations.rotation, m_inputRotation ? m_inputRotation->update() : m_rotation);
+	transformations.rotation = XMQuaternionMultiply(transformations.rotation, m_inputRotation ? m_inputRotation->calcMixedValue() : m_rotation);
 
 	if (m_inputScale)
 	{
-		auto scl = m_inputScale->update();
+		auto scl = m_inputScale->calcMixedValue();
 		transformations.scale *= DirectX::XMLoadFloat3(&scl);
 	}
 	else

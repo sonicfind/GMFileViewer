@@ -1,5 +1,4 @@
 #include "xgEnvelope.h"
-#include "xgBgGeometry.h"
 #include "../PString.h"
 #include "FileOperations.h"
 
@@ -18,7 +17,7 @@ void xgEnvelope::load(const char*& input, const XG* xg)
 	m_inputGeometry = static_cast<xgBgGeometry*>(xg->grabNode_optional("inputGeometry", "outputGeometry", input));
 }
 
-void xgEnvelope::update() const
+void xgEnvelope::updateVertexBuffer() const
 {
 	using namespace DirectX;
 	const DirectX::XMMATRIX boneMatrices[4] =

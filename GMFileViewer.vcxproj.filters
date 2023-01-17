@@ -37,9 +37,6 @@
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagTransform">
       <UniqueIdentifier>{e7181128-e3cc-4701-8681-871b3bd40fbc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\xgEnvelope">
-      <UniqueIdentifier>{510e15f1-da08-4db8-b239-44e1b426f2e9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgTime">
       <UniqueIdentifier>{dcc4be24-e184-4de2-8cc5-936ad1877230}</UniqueIdentifier>
     </Filter>
@@ -103,6 +100,30 @@
     <Filter Include="FileTypes\WEB">
       <UniqueIdentifier>{fa5783e3-c1a6-4299-a11d-8063976ab864}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator">
+      <UniqueIdentifier>{faa8f56b-3912-418a-9d77-a9733b98b59a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgQuatInterpolator">
+      <UniqueIdentifier>{69672585-1784-4fa4-b7a7-65dc1aca04b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables">
+      <UniqueIdentifier>{473715c5-a71d-4d50-84ff-4337619edc5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgEnvelope">
+      <UniqueIdentifier>{510e15f1-da08-4db8-b239-44e1b426f2e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgVertexInterpolator">
+      <UniqueIdentifier>{607658c2-2b00-4b77-aea0-fd3c789e5468}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgNormalInterpolator">
+      <UniqueIdentifier>{11e6c3d1-49aa-4e58-938b-a39c04208991}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgTexCoordInterpolator">
+      <UniqueIdentifier>{166085a2-391f-45b2-9b70-181589702aa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgShapeInterpolator">
+      <UniqueIdentifier>{97076c7c-ad06-4cf1-9616-6e7a82db7624}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileTypes\XGM\XGM.cpp">
@@ -136,7 +157,7 @@
       <Filter>FileTypes\XGM\XG\SubNodes\xgDagTransform</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgEnvelope.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgEnvelope</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgEnvelope</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgMaterial.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgMaterial</Filter>
@@ -217,6 +238,24 @@
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes</Filter>
     </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgVertexInterpolator.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgVertexInterpolator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTexCoordInterpolator.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgTexCoordInterpolator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgNormalInterpolator.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgNormalInterpolator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgShapeInterpolator.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgShapeInterpolator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgQuatInterpolator.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgQuatInterpolator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator.cpp">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgVec3Interpolator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileTypes\XGM\XGM.h">
@@ -259,7 +298,7 @@
       <Filter>FileTypes\XGM\XG\SubNodes\xgDagTransform</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgEnvelope.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgEnvelope</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgEnvelope</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgMaterial.h">
       <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgMaterial</Filter>
@@ -362,6 +401,27 @@
     </ClInclude>
     <ClInclude Include="FileTypes\WEB\WEB.h">
       <Filter>FileTypes\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_UpdatableNodes.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgVertexInterpolator.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgVertexInterpolator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTexCoordInterpolator.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgTexCoordInterpolator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgNormalInterpolator.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgNormalInterpolator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgShapeInterpolator.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgShapeInterpolator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgQuatInterpolator.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgQuatInterpolator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgVec3Interpolator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

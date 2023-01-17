@@ -1,8 +1,9 @@
 #pragma once
+#include "XG_UpdatableNodes.h"
 #include "xgBone.h"
+#include "xgBgGeometry.h"
 
-class xgBgGeometry;
-class xgEnvelope : public XG_SubNode
+class xgEnvelope : public XG_SubNode, public XG_UpdatableNode
 {
 	static constexpr int MAX_BONES = 4;
 	struct Weight
@@ -19,6 +20,6 @@ class xgEnvelope : public XG_SubNode
 
 public:
 	void load(const char*& input, const XG* xg) override;
-	void update() const;
+	void updateVertexBuffer() const override;
 };
 
