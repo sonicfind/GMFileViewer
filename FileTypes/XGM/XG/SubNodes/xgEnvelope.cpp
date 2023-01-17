@@ -17,3 +17,29 @@ void xgEnvelope::load(const char*& input, const XG* xg)
 
 	m_inputGeometry = static_cast<xgBgGeometry*>(xg->grabNode_optional("inputGeometry", "outputGeometry", input));
 }
+
+void xgEnvelope::update() const
+{
+	using namespace DirectX;
+	const DirectX::XMMATRIX boneMatrices[4] =
+	{
+		m_inputMatrices[0] ? m_inputMatrices[0]->calcTransformMatrix() : XMMatrixIdentity(),
+		m_inputMatrices[1] ? m_inputMatrices[1]->calcTransformMatrix() : XMMatrixIdentity(),
+		m_inputMatrices[2] ? m_inputMatrices[2]->calcTransformMatrix() : XMMatrixIdentity(),
+		m_inputMatrices[3] ? m_inputMatrices[3]->calcTransformMatrix() : XMMatrixIdentity(),
+	};
+
+	for (size_t index = 0, targetIndex = 0; index < m_weights.getSize(); ++index, ++targetIndex)
+	{
+		const Vertex vertex = (m_weights[index].values[0] * boneMatrices[0] +
+		                       m_weights[index].values[1] * boneMatrices[1] +
+		                       m_weights[index].values[2] * boneMatrices[2] +
+		                       m_weights[index].values[3] * boneMatrices[3]) * m_inputGeometry->getVertex(m_startVertex + index);
+
+		while (m_vertexTargets[index] != -1)
+		{
+			// Update the vertex buffer at this target's index
+			++index;
+		}
+	}
+}

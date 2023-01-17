@@ -11,4 +11,5 @@ class xgBgGeometry : public XG_SubNode
 
 public:
 	void load(const char*& input, const XG* xg) override;
+	const Vertex& getVertex(size_t index) const;
 };

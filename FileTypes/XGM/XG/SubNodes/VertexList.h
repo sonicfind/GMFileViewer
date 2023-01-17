@@ -53,6 +53,8 @@ struct Vertex
 	}
 };
 
+Vertex operator*(const DirectX::XMMATRIX& matrix, const Vertex& vertex);
+
 class VertexList
 {
 	uint32_t m_vertexFlags = 0;
@@ -61,6 +63,7 @@ class VertexList
 public:
 	void load(const char*& input);
 	VertexList mix(const VertexList& other, float coef) const;
+	const Vertex& operator[](size_t index) const { return m_vertices[index]; }
 
 private:
 	template <uint32_t flags>

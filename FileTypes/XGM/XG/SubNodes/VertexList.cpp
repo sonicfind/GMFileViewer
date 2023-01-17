@@ -33,3 +33,13 @@ VertexList VertexList::mix(const VertexList& other, float coef) const
 	result.m_vertices = vertexMixers[m_vertexFlags](m_vertices, other.m_vertices, coef);
 	return result;
 }
+
+Vertex operator*(const DirectX::XMMATRIX& matrix, const Vertex& vertex)
+{
+	using namespace DirectX;
+
+	Vertex result(vertex);
+	DirectX::XMStoreFloat4(&result.m_position, XMVector4Transform(DirectX::XMLoadFloat4(&result.m_position), matrix));
+	DirectX::XMStoreFloat3(&result.m_normal, XMVector3TransformNormal(DirectX::XMLoadFloat3(&result.m_normal), matrix));
+	return result;
+}
