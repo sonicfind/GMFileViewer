@@ -33,7 +33,7 @@ public:
 
 private:
 	template<typename T, typename = std::enable_if<std::is_base_of<Note, T>::value>>
-	void addNotesFromFile(const char*& bufferPtr)
+	void parseNotesFromBuffer(const char*& bufferPtr)
 	{
 		if (bufferPtr + sizeof(uint32_t) > m_noteBuffer.end())
 			throw "dumbass chart file";

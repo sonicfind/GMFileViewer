@@ -19,7 +19,7 @@ void Chart::load(FilePointer& file)
 	m_noteBuffer.fill(file);
 
 	const char* currPtr = m_noteBuffer.begin();
-	addNotesFromFile<Traceline>(currPtr);
-	addNotesFromFile<Phrase>(currPtr);
-	addNotesFromFile<Guard>(currPtr);
+	parseNotesFromBuffer<Traceline>(currPtr);
+	parseNotesFromBuffer<Phrase>(currPtr);
+	parseNotesFromBuffer<Guard>(currPtr);
 }
