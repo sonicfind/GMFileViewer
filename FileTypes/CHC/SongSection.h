@@ -1,6 +1,5 @@
 #pragma once
 #include <stdint.h>
-#include "GMArray.h"
 #include "Chart.h"
 
 struct Condition

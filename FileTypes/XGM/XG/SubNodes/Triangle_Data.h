@@ -14,7 +14,6 @@
  *  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../PString.h"
-#include "FilePointer.h"
 #include "GMArray.h"
 
 enum class PrimitiveType
