@@ -7,7 +7,6 @@
 
 int main()
 {
-	TaskQueue::getInstance();
 	std::string filename;
 	std::getline(std::cin, filename);
 

@@ -1,9 +1,10 @@
 #include "TaskQueue.h"
 
+TaskQueue TaskQueue::s_queue;
+
 TaskQueue& TaskQueue::getInstance()
 {
-	static TaskQueue queue;
-	return queue;
+	return s_queue;
 }
 
 void TaskQueue::startThreads(size_t threadCount)
