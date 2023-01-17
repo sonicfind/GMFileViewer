@@ -40,21 +40,6 @@
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgTime">
       <UniqueIdentifier>{dcc4be24-e184-4de2-8cc5-936ad1877230}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\Materials">
-      <UniqueIdentifier>{32bd5636-6dd5-434f-a956-76c4399239b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\Materials\xgMaterial">
-      <UniqueIdentifier>{546f1123-511d-4084-ac8b-a44f737526f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\Materials\xgMultiPassMaterial">
-      <UniqueIdentifier>{47cd7dab-eae1-4899-8471-c8194c7cb5d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\Materials\xgTexture">
-      <UniqueIdentifier>{ff589d3e-1ef0-4a36-9107-4a8bafe9612e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\VertexList">
-      <UniqueIdentifier>{c5c5b738-19af-41eb-95a0-4323dba24815}</UniqueIdentifier>
-    </Filter>
     <Filter Include="TaskQueue">
       <UniqueIdentifier>{341e3bd9-ddb5-4130-b9cb-4ed3f7cfed0d}</UniqueIdentifier>
     </Filter>
@@ -100,12 +85,6 @@
     <Filter Include="FileTypes\WEB">
       <UniqueIdentifier>{fa5783e3-c1a6-4299-a11d-8063976ab864}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator">
-      <UniqueIdentifier>{faa8f56b-3912-418a-9d77-a9733b98b59a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\xgQuatInterpolator">
-      <UniqueIdentifier>{69672585-1784-4fa4-b7a7-65dc1aca04b6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables">
       <UniqueIdentifier>{473715c5-a71d-4d50-84ff-4337619edc5f}</UniqueIdentifier>
     </Filter>
@@ -126,6 +105,27 @@
     </Filter>
     <Filter Include="FileTypes\FilePointer">
       <UniqueIdentifier>{490c2e0b-0d25-4ab3-8a24-c2dbaeb700c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgMatrix\xgQuatInterpolator">
+      <UniqueIdentifier>{69672585-1784-4fa4-b7a7-65dc1aca04b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgMatrix\xgVec3Interpolator">
+      <UniqueIdentifier>{faa8f56b-3912-418a-9d77-a9733b98b59a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\VertexList">
+      <UniqueIdentifier>{c5c5b738-19af-41eb-95a0-4323dba24815}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials">
+      <UniqueIdentifier>{32bd5636-6dd5-434f-a956-76c4399239b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgMaterial">
+      <UniqueIdentifier>{546f1123-511d-4084-ac8b-a44f737526f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgMultiPassMaterial">
+      <UniqueIdentifier>{47cd7dab-eae1-4899-8471-c8194c7cb5d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgTexture">
+      <UniqueIdentifier>{ff589d3e-1ef0-4a36-9107-4a8bafe9612e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -163,19 +163,19 @@
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgEnvelope</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgMaterial.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgMaterial</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgMaterial</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgMultiPassMaterial.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgMultiPassMaterial</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgMultiPassMaterial</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTexture.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgTexture</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgTexture</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTime.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes\xgTime</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\VertexList.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\VertexList</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\VertexList</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\PString.cpp">
       <Filter>FileTypes\XGM\XG\PString</Filter>
@@ -254,10 +254,10 @@
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgShapeInterpolator</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgQuatInterpolator.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgQuatInterpolator</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgMatrix\xgQuatInterpolator</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgVec3Interpolator</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgMatrix\xgVec3Interpolator</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\FilePointer.cpp">
       <Filter>FileTypes\FilePointer</Filter>
@@ -304,22 +304,22 @@
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgEnvelope</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgMaterial.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgMaterial</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgMaterial</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgMultiPassMaterial.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgMultiPassMaterial</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgMultiPassMaterial</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTexture.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\Materials\xgTexture</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgTexture</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTime.h">
       <Filter>FileTypes\XGM\XG\SubNodes\xgTime</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_MaterialNode.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\Materials</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\VertexList.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\VertexList</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\VertexList</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\Triangle_Data.h">
       <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh</Filter>
@@ -421,10 +421,10 @@
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgShapeInterpolator</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgQuatInterpolator.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgQuatInterpolator</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgMatrix\xgQuatInterpolator</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgVec3Interpolator</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgMatrix\xgVec3Interpolator</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\FilePointer.h">
       <Filter>FileTypes\FilePointer</Filter>
