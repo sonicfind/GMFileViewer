@@ -1,9 +1,9 @@
 #pragma once
+#include "../XG.h"
 #include "XG_MaterialNode.h"
 #include "xgTexture.h"
-#include <stdint.h>
 
-class xgMaterial : public XG_MaterialNode
+class xgMaterial : public XG_SubNode, public XG_MaterialNode
 {
 	uint32_t m_blendType = 0;
 	uint32_t m_shadingType = 0;
@@ -33,5 +33,6 @@ class xgMaterial : public XG_MaterialNode
 
 public:
 	void load(FilePointer& file, const XG* xg) override;
+	void bind() const;
 };
 

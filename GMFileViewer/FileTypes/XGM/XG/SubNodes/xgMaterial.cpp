@@ -16,3 +16,8 @@ void xgMaterial::load(FilePointer& file, const XG* xg)
 	while (XG_SubNode* node = xg->grabNode_optional("inputTexture", "outputTexture", file))
 		m_inputTexture = static_cast<xgTexture*>(node);
 }
+
+void xgMaterial::bind() const
+{
+	/**/
+}

@@ -1,5 +1,6 @@
 #pragma once
-#include "../XG.h"
-class XG_MaterialNode : public XG_SubNode
+class XG_MaterialNode
 {
+public:
+	virtual void bind() const = 0;
 };
