@@ -93,7 +93,7 @@ public:
 	const T& back() const { return m_elements[m_size - 1]; }
 
 	uint32_t getSize() const { return m_size; }
-	bool isEmpty() const { return m_elements != nullptr; }
+	bool isEmpty() const { return m_elements == nullptr; }
 };
 
 template <typename T>
