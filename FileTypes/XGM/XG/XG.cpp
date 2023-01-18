@@ -65,10 +65,16 @@ void XG::update(float frame) const
 		dag.update();
 }
 
+XG::DagElement::DagElement(XG_SubNode* node)
+{
+	if (!(m_mesh = dynamic_cast<xgDagMesh*>(node)) && !(m_transform = dynamic_cast<xgDagTransform*>(node)))
+		throw std::runtime_error("Invalid node in dag map");
+}
+
 void XG::DagElement::update() const
 {
-	if (auto mesh = dynamic_cast<xgDagMesh*>(m_base))
-		mesh->update();
+	if (m_mesh)
+		m_mesh->update();
 
 	for (auto& dag : m_connections)
 		dag.update();

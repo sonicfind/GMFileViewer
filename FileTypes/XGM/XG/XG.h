@@ -10,6 +10,8 @@ public:
 };
 
 class xgTime;
+class xgDagMesh;
+class xgDagTransform;
 class XG
 {
 	enum class SubNodeType
@@ -34,10 +36,11 @@ class XG
 
 	struct DagElement
 	{
-		XG_SubNode* m_base;
+		xgDagMesh* m_mesh;
+		xgDagTransform* m_transform;
 		std::vector<DagElement> m_connections;
 
-		DagElement(XG_SubNode* node) : m_base(node) {}
+		DagElement(XG_SubNode* node);
 		void update() const;
 	};
 
