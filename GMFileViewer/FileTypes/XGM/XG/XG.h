@@ -70,7 +70,8 @@ public:
 		if (node == nullptr)
 			return false;
 
-		dst = static_cast<NodeType*>(node);
+		if (NodeType* convert = dynamic_cast<NodeType*>(node))
+			dst = convert;
 		return true;
 	}
 };
