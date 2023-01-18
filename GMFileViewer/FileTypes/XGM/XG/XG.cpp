@@ -65,6 +65,12 @@ void XG::update(float frame) const
 		dag.update();
 }
 
+void XG::draw(const DirectX::XMMATRIX& modelMatrix) const
+{
+	for (const auto& dag : m_dag)
+		dag.draw(modelMatrix);
+}
+
 XG::DagElement::DagElement(XG_SubNode* node)
 {
 	if (!(m_mesh = dynamic_cast<xgDagMesh*>(node)) && !(m_transform = dynamic_cast<xgDagTransform*>(node)))
@@ -76,8 +82,20 @@ void XG::DagElement::update() const
 	if (m_mesh)
 		m_mesh->update();
 
-	for (auto& dag : m_connections)
+	for (const auto& dag : m_connections)
 		dag.update();
+}
+
+void XG::DagElement::draw(DirectX::XMMATRIX meshMatrix) const
+{
+	if (m_mesh)
+		m_mesh->draw(meshMatrix);
+	else
+	{
+		meshMatrix *= m_transform->calcTransformMatrix();
+		for (const auto& dag : m_connections)
+			dag.draw(meshMatrix);
+	}
 }
 
 std::unique_ptr<XG_SubNode> XG::constructNode(std::string_view type)

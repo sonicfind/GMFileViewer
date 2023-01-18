@@ -42,6 +42,7 @@ class XG
 
 		DagElement(XG_SubNode* node);
 		void update() const;
+		void draw(DirectX::XMMATRIX meshMatrix) const;
 	};
 
 	std::vector<std::pair<std::string, std::unique_ptr<XG_SubNode>>> m_nodes;
@@ -51,6 +52,7 @@ class XG
 public:
 	void load(FilePointer file);
 	void update(float frame) const;
+	void draw(const DirectX::XMMATRIX& modelMatrix) const;
 
 private:
 	void fillDag(DagElement& dag, FilePointer& file);
