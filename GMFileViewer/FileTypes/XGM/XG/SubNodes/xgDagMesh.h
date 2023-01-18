@@ -18,5 +18,11 @@ class xgDagMesh : public XG_SubNode
 public:
 	void load(FilePointer& file, const XG* xg) override;
 	void update() const;
+	void draw(const DirectX::XMMATRIX& meshMatrix) const;
+
+private:
+	void resetMaterialSlot() const;
+	void bindGeometry() const;
+		void setCulling() const;
 };
 

@@ -16,5 +16,56 @@ void xgDagMesh::load(FilePointer& file, const XG* xg)
 
 void xgDagMesh::update() const
 {
+	bindGeometry();
 	m_inputGeometry->update();
+}
+
+void xgDagMesh::draw(const DirectX::XMMATRIX& meshMatrix) const
+{
+	resetMaterialSlot();
+	m_inputMaterial->bind();
+	
+	bindGeometry();
+	setCulling();
+
+	/* Update meshMatrix in const buffer
+		[HERE]
+	*/
+
+	if (m_primType == 5)
+	{
+		m_prim.draw<5>();
+		m_triFan.draw<5>();
+		m_triStrip.draw<5>();
+		m_triList.draw<5>();
+	}
+	else if (m_primType == 4)
+	{
+		m_prim.draw<4>();
+		m_triFan.draw<4>();
+		m_triStrip.draw<4>();
+		m_triList.draw<4>();
+	}
+}
+
+void xgDagMesh::resetMaterialSlot() const
+{
+	/* Set to Material & Texture slot 1
+		[HERE]
+	*/
+}
+
+void xgDagMesh::bindGeometry() const
+{
+}
+
+void xgDagMesh::setCulling() const
+{
+	switch (m_cullFunc)
+	{
+	case 0:
+		break;
+	default:
+		break;
+	}
 }
