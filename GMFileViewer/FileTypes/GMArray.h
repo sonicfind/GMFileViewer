@@ -89,7 +89,7 @@ public:
 	T& front() { return *m_elements; }
 	T& back() { return m_elements[m_size - 1]; }
 
-	const T& front() const { return *m_elements; }
+	const T& front() const { return m_elements[0]; }
 	const T& back() const { return m_elements[m_size - 1]; }
 
 	uint32_t getSize() const { return m_size; }
