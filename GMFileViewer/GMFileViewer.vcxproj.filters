@@ -31,17 +31,8 @@
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgMatrix">
       <UniqueIdentifier>{7f110825-6912-48b5-afc9-fe5086219393}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagMesh">
-      <UniqueIdentifier>{ec94a38e-75c9-4114-92e5-90fb825ea683}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagTransform">
-      <UniqueIdentifier>{e7181128-e3cc-4701-8681-871b3bd40fbc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgTime">
       <UniqueIdentifier>{dcc4be24-e184-4de2-8cc5-936ad1877230}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="TaskQueue">
-      <UniqueIdentifier>{341e3bd9-ddb5-4130-b9cb-4ed3f7cfed0d}</UniqueIdentifier>
     </Filter>
     <Filter Include="FileTypes\GMArray">
       <UniqueIdentifier>{ea9093eb-5fc1-4dd0-91f5-b9f9fd426c7b}</UniqueIdentifier>
@@ -115,17 +106,29 @@
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\VertexList">
       <UniqueIdentifier>{c5c5b738-19af-41eb-95a0-4323dba24815}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials">
+    <Filter Include="FileTypes\XGM\XG\SubNodes\DagNode">
+      <UniqueIdentifier>{b685af60-ae70-4a97-ae18-81df38321905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\DagNode\xgDagTransform">
+      <UniqueIdentifier>{e7181128-e3cc-4701-8681-871b3bd40fbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh">
+      <UniqueIdentifier>{ec94a38e-75c9-4114-92e5-90fb825ea683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh\Materials">
       <UniqueIdentifier>{32bd5636-6dd5-434f-a956-76c4399239b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgMaterial">
+    <Filter Include="FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh\Materials\xgMaterial">
       <UniqueIdentifier>{546f1123-511d-4084-ac8b-a44f737526f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgMultiPassMaterial">
+    <Filter Include="FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh\Materials\xgMultiPassMaterial">
       <UniqueIdentifier>{47cd7dab-eae1-4899-8471-c8194c7cb5d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgTexture">
+    <Filter Include="FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh\Materials\xgTexture">
       <UniqueIdentifier>{ff589d3e-1ef0-4a36-9107-4a8bafe9612e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TaskQueue">
+      <UniqueIdentifier>{04fc1b14-95c6-4045-ae7b-4965e2c8dfaa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -154,22 +157,22 @@
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgMatrix</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgDagMesh.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgDagTransform.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgDagTransform</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\DagNode\xgDagTransform</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgEnvelope.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgEnvelope</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgMaterial.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgMaterial</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh\Materials\xgMaterial</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgMultiPassMaterial.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgMultiPassMaterial</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh\Materials\xgMultiPassMaterial</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTexture.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgTexture</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh\Materials\xgTexture</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTime.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes\xgTime</Filter>
@@ -181,9 +184,6 @@
       <Filter>FileTypes\XGM\XG\PString</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="TaskQueue\TaskQueue.cpp">
-      <Filter>TaskQueue</Filter>
-    </ClCompile>
     <ClCompile Include="FileTypes\CHC\CHC.cpp">
       <Filter>FileTypes\CHC</Filter>
     </ClCompile>
@@ -262,6 +262,9 @@
     <ClCompile Include="FileTypes\FilePointer.cpp">
       <Filter>FileTypes\FilePointer</Filter>
     </ClCompile>
+    <ClCompile Include="TaskQueue\TaskQueue.cpp">
+      <Filter>TaskQueue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileTypes\XGM\XGM.h">
@@ -295,37 +298,34 @@
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgMatrix</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgDagMesh.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgDagTransform.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgDagTransform</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\DagNode\xgDagTransform</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgEnvelope.h">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgEnvelope</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgMaterial.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgMaterial</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh\Materials\xgMaterial</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgMultiPassMaterial.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgMultiPassMaterial</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh\Materials\xgMultiPassMaterial</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTexture.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials\xgTexture</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh\Materials\xgTexture</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTime.h">
       <Filter>FileTypes\XGM\XG\SubNodes\xgTime</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_MaterialNode.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh\Materials</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh\Materials</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\VertexList.h">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\VertexList</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\Triangle_Data.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgDagMesh</Filter>
-    </ClInclude>
-    <ClInclude Include="TaskQueue\TaskQueue.h">
-      <Filter>TaskQueue</Filter>
+      <Filter>FileTypes\XGM\XG\SubNodes\DagNode\xgDagMesh</Filter>
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.h">
       <Filter>FileTypes\XGM\XG\SubNodes</Filter>
@@ -428,6 +428,9 @@
     </ClInclude>
     <ClInclude Include="FileTypes\FilePointer.h">
       <Filter>FileTypes\FilePointer</Filter>
+    </ClInclude>
+    <ClInclude Include="TaskQueue\TaskQueue.h">
+      <Filter>TaskQueue</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

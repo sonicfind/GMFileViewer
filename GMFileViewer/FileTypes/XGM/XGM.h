@@ -21,7 +21,7 @@ class XGM
 
 		void load(FilePointer& file, const uint32_t index);
 	};
-
+	
 	struct XGMNode_XG : public XGMNode
 	{
 		GMArray<Animation> m_animations;
