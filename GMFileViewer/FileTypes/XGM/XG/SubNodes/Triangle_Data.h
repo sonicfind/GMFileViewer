@@ -49,4 +49,31 @@ public:
 
 		m_data.reserve_and_fill(file);
 	}
+
+	void draw(uint32_t primType) const
+	{
+		if (m_data.isEmpty())
+			return;
+
+		if (primType == 4)
+		{
+			for (size_t i = 0; i < m_data.getSize();)
+			{
+				const uint32_t numVerts = m_data[i++];
+
+				/* Draw Elements Here */
+
+				i += numVerts;
+			}
+		}
+		else if (primType == 5)
+		{
+			uint32_t vertIndex = m_data.front();
+			for (size_t i = 1; i < m_data.getSize(); ++i)
+			{
+				/* Draw Array Here */
+				vertIndex += m_data[i];
+			}
+		}
+	}
 };
