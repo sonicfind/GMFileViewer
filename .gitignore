@@ -38,3 +38,13 @@
 *.recipe
 *.ilk
 *.idb
+*.vsidx
+*.lock
+*.suo
+*.db
+*.db-shm
+*.db-wal
+*.opendb
+*.ipch
+x64/Debug/GMFileViewer.vcxproj.FileListAbsolute.txt
+x64/Release/GMFileViewer.vcxproj.FileListAbsolute.txt
