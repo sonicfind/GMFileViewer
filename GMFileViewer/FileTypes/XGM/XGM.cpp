@@ -76,3 +76,8 @@ void XGM::XGMNode_XG::update(uint32_t index, float frame, LoopControl control, P
 	float key = m_animations[index].getTimelinePosition(frame, 120, playbackDirection);
 	m_model.update(key);
 }
+
+void XGM::XGMNode_XG::draw(const DirectX::XMMATRIX& modelMatrix) const
+{
+	m_model.draw(modelMatrix);
+}
