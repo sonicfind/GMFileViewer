@@ -36,8 +36,8 @@ class XG
 
 	struct DagElement
 	{
-		xgDagMesh* m_mesh;
-		xgDagTransform* m_transform;
+		xgDagMesh* m_mesh = nullptr;
+		xgDagTransform* m_transform = nullptr;
 		std::vector<DagElement> m_connections;
 
 		DagElement(XG_SubNode* node);
