@@ -31,13 +31,12 @@ public:
 		{
 			if (strncmp(m_currentPosition, tag, 4) != 0)
 				return false;
-
-			operator+=(4);
+			move(4);
 		}
 		else if (strncmp(m_currentPosition, tag, 8) != 0)
 			return false;
 		else
-			operator+=(8);
+			move(8);
 		return true;
 	}
 
@@ -45,7 +44,7 @@ public:
 	void read(T* dst, const size_t size)
 	{
 		memcpy(dst, m_currentPosition, size);
-		operator+=(size); 
+		move(size);
 	}
 
 	template <typename T>
@@ -68,6 +67,7 @@ public:
 		return value;
 	}
 
+	void move(size_t amount);
 	FilePointer& operator+=(size_t amount);
 	FilePointer& operator++();
 	FilePointer operator++(int);

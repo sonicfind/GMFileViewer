@@ -22,24 +22,28 @@ FilePointer::FilePointer(const std::filesystem::path& path)
 
 FilePointer::FilePointer(const FilePointer& file) : m_fileSize(file.m_fileSize), m_currentPosition(file.m_currentPosition), m_fileEnd(file.m_fileEnd) {}
 
-FilePointer& FilePointer::operator+=(size_t amount)
+void FilePointer::move(size_t amount)
 {
 	m_currentPosition += amount;
 	if (m_currentPosition > m_fileEnd)
 		throw std::runtime_error("FilePointer out of bounds");
+}
+
+FilePointer& FilePointer::operator+=(size_t amount)
+{
+	move(amount);
 	return *this;
 }
 
 FilePointer& FilePointer::operator++()
 {
-	operator+=(1);
-	return *this;
+	return operator+=(1);
 }
 
 FilePointer FilePointer::operator++(int)
 {
 	FilePointer copy(*this);
-	operator+=(1);
+	move(1);
 	return copy;
 }
 
