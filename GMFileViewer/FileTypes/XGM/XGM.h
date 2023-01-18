@@ -28,6 +28,7 @@ class XGM
 		XG m_model;
 
 		void load(FilePointer& file, const uint32_t index);
+		void update(uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection) const;
 	};
 
 	GMArray<XGMNode_IMX> m_textures;
