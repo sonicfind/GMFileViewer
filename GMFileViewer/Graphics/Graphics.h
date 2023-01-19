@@ -33,8 +33,8 @@ public:
 		Bilenear,
 		Nearest_Neighbor
 	};
-	virtual void createTexture(const char(&name)[16], const void* imagePtr, uint32_t width, uint32_t height) = 0;
-	virtual void bindTexture(const char(&name)[16]) const = 0;
+	virtual void createTexture(std::string_view name, const void* imagePtr, uint32_t width, uint32_t height) = 0;
+	virtual void bindTexture(std::string_view name) const = 0;
 	virtual void updateTexture(uint32_t locationX, uint32_t locationY, const void* imagePtr, uint32_t width, uint32_t height) const = 0;
 	virtual void unbindTexture() const = 0;
 

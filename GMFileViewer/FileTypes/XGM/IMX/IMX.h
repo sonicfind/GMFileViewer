@@ -10,7 +10,7 @@ class IMX
 
 public:
 	void load(FilePointer file);
-	void createTextureBuffer(const char(&name)[16]) const;
+	void createTextureBuffer(std::string_view name) const;
 
 private:
 	template <typename T>

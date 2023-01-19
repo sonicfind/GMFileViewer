@@ -17,11 +17,11 @@ void Graphics_OGL::updateVertexBuffer(uint32_t offset, const void* data, uint32_
 {
 }
 
-void Graphics_OGL::createTexture(const char(&name)[16], const void* imagePtr, uint32_t width, uint32_t height)
+void Graphics_OGL::createTexture(std::string_view name, const void* imagePtr, uint32_t width, uint32_t height)
 {
 }
 
-void Graphics_OGL::bindTexture(const char(&name)[16]) const
+void Graphics_OGL::bindTexture(std::string_view name) const
 {
 }
 

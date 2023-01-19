@@ -10,8 +10,8 @@ public:
 	virtual size_t createVertexBuffer(const void* data, uint32_t dataSize, bool isDynamic) override;
 	virtual void bindVertexBuffer(size_t index) const override;
 	virtual void updateVertexBuffer(uint32_t offset, const void* data, uint32_t dataSize) const override;
-	virtual void createTexture(const char(&name)[16], const void* imagePtr, uint32_t width, uint32_t height) override;
-	virtual void bindTexture(const char(&name)[16]) const override;
+	virtual void createTexture(std::string_view name, const void* imagePtr, uint32_t width, uint32_t height) override;
+	virtual void bindTexture(std::string_view name) const override;
 	virtual void updateTexture(uint32_t locationX, uint32_t locationY, const void* imagePtr, uint32_t width, uint32_t height) const override;
 	virtual void unbindTexture() const override;
 	virtual void bindConstantBuffer(ConstBufferSelection selection) const override;

@@ -45,7 +45,7 @@ void IMX::readImage_RGBA(FilePointer& file)
 	file.read(m_data.get(), size);
 }
 
-void IMX::createTextureBuffer(const char(&name)[16]) const
+void IMX::createTextureBuffer(std::string_view name) const
 {
 	Graphics::getGraphics()->createTexture(name, m_data.get(), m_width, m_height);
 }

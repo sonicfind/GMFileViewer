@@ -17,11 +17,11 @@ void Graphics_DX::updateVertexBuffer(uint32_t offset, const void* data, uint32_t
 {
 }
 
-void Graphics_DX::createTexture(const char(&name)[16], const void* imagePtr, uint32_t width, uint32_t height)
+void Graphics_DX::createTexture(std::string_view name, const void* imagePtr, uint32_t width, uint32_t height)
 {
 }
 
-void Graphics_DX::bindTexture(const char(&name)[16]) const
+void Graphics_DX::bindTexture(std::string_view name) const
 {
 }
 
