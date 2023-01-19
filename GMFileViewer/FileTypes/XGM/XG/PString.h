@@ -6,8 +6,8 @@
 
 namespace PString
 {
-	void Read(std::string_view& str, FilePointer& file);
-	std::string_view Read(FilePointer& file);
+	void GetString(std::string_view& str, FilePointer& file);
+	std::string_view GetString(FilePointer& file);
 
 	bool CheckForString(std::string_view strToMatch, FilePointer& file) noexcept;
 	void ThrowOnStringMismatch(std::string_view strToMatch, FilePointer& file);

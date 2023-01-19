@@ -21,14 +21,13 @@ void XG::load(FilePointer file)
 	if (!file.checkTag("XGBv1.00"))
 		throw "XG file read error";
 
-	std::string_view type = PString::Read(file);
-	std::string_view name = PString::Read(file);
+	std::string_view type = PString::GetString(file);
+	std::string_view name = PString::GetString(file);
 	while (PString::CheckForString(";", file))
 	{
 		m_nodes.push_back({ std::string(name), constructNode(type) });
-
-		PString::Read(type, file);
-		PString::Read(name, file);
+		PString::GetString(type, file);
+		PString::GetString(name, file);
 	}
 
 	for (const auto& node : m_nodes)
@@ -40,8 +39,8 @@ void XG::load(FilePointer file)
 		if (PString::CheckForString("dag", file))
 			break;
 
-		PString::Read(type, file);
-		PString::Read(name, file);
+		PString::GetString(type, file);
+		PString::GetString(name, file);
 	}
 
 	PString::ThrowOnStringMismatch("{", file);
@@ -122,7 +121,7 @@ std::unique_ptr<XG_SubNode> XG::constructNode(std::string_view type)
 
 XG_SubNode* XG::searchForNode(FilePointer& file) const
 {
-	return searchForNode(PString::Read(file));
+	return searchForNode(PString::GetString(file));
 }
 
 XG_SubNode* XG::searchForNode(std::string_view name) const

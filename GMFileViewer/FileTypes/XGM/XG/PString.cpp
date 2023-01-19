@@ -1,16 +1,16 @@
 #include "PString.h"
 
-void PString::Read(std::string_view& str, FilePointer& file)
+void PString::GetString(std::string_view& str, FilePointer& file)
 {
 	unsigned char length = *file++;
 	str = std::string_view(file.get(), length);
 	file += length;
 }
 
-std::string_view PString::Read(FilePointer& file)
+std::string_view PString::GetString(FilePointer& file)
 {
 	std::string_view str;
-	Read(str, file);
+	GetString(str, file);
 	return str;
 }
 
@@ -34,7 +34,7 @@ template <>
 void PString::ReadNamedValue(std::string_view name, char(&str)[16], FilePointer& file)
 {
 	ThrowOnStringMismatch(name, file);
-	std::string_view parsed = PString::Read(file);
+	std::string_view parsed = PString::GetString(file);
 	strncpy_s(str, parsed.data(), parsed.size());
 }
 
