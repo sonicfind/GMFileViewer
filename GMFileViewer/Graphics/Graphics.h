@@ -37,6 +37,7 @@ public:
 	{
 		Base,
 		Bone,
+		Shadow,
 		Sprite,
 		Box
 	};
