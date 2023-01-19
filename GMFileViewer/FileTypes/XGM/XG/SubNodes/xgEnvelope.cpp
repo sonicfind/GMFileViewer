@@ -1,6 +1,5 @@
 #include "xgEnvelope.h"
-#include "../PString.h"
-#include "FilePointer.h"
+#include "Graphics.h"
 
 void xgEnvelope::load(FilePointer& file, const XG* xg)
 {
@@ -20,25 +19,35 @@ void xgEnvelope::load(FilePointer& file, const XG* xg)
 void xgEnvelope::updateVertexBuffer() const
 {
 	using namespace DirectX;
+
+	static const auto IDENTITY = XMMatrixIdentity();
 	const DirectX::XMMATRIX boneMatrices[4] =
 	{
-		m_inputMatrices[0] ? m_inputMatrices[0]->calcTransformMatrix() : XMMatrixIdentity(),
-		m_inputMatrices[1] ? m_inputMatrices[1]->calcTransformMatrix() : XMMatrixIdentity(),
-		m_inputMatrices[2] ? m_inputMatrices[2]->calcTransformMatrix() : XMMatrixIdentity(),
-		m_inputMatrices[3] ? m_inputMatrices[3]->calcTransformMatrix() : XMMatrixIdentity(),
+		m_inputMatrices[0] ? m_inputMatrices[0]->calcTransformMatrix() : IDENTITY,
+		m_inputMatrices[1] ? m_inputMatrices[1]->calcTransformMatrix() : IDENTITY,
+		m_inputMatrices[2] ? m_inputMatrices[2]->calcTransformMatrix() : IDENTITY,
+		m_inputMatrices[3] ? m_inputMatrices[3]->calcTransformMatrix() : IDENTITY,
 	};
 
+	const Graphics* gfx = Graphics::getGraphics();
 	for (size_t index = 0, targetIndex = 0; index < m_weights.getSize(); ++index, ++targetIndex)
 	{
-		const Vertex vertex = (m_weights[index].values[0] * boneMatrices[0] +
-		                       m_weights[index].values[1] * boneMatrices[1] +
-		                       m_weights[index].values[2] * boneMatrices[2] +
-		                       m_weights[index].values[3] * boneMatrices[3]) * m_inputGeometry->getVertex(m_startVertex + index);
-
-		while (m_vertexTargets[index] != -1)
+		DirectX::XMMATRIX mat{};
 		{
-			// Update the vertex buffer at this target's index
-			++index;
+			float total = 0;
+			for (size_t i = 0; i < 4 && total < 1; ++i)
+			{
+				mat += m_weights[index].values[i] * boneMatrices[i];
+				total += m_weights[index].values[i];
+			}
+		}
+
+		const Vertex vertex = mat * m_inputGeometry->getVertex(m_startVertex + index);
+
+		while (m_vertexTargets[targetIndex] != -1)
+		{
+			gfx->updateVertexBuffer(m_vertexTargets[targetIndex] * sizeof(Vertex), &vertex, sizeof(DirectX::XMFLOAT3) + sizeof(DirectX::XMFLOAT4));
+			++targetIndex;
 		}
 	}
 }
