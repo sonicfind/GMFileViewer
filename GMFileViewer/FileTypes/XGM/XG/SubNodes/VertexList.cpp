@@ -1,5 +1,5 @@
 #include "VertexList.h"
-#include "FilePointer.h"
+#include "Graphics.h"
 
 void VertexList::load(FilePointer& file)
 {
@@ -32,6 +32,11 @@ VertexList VertexList::mix(const VertexList& other, float coef) const
 	result.m_vertexFlags = m_vertexFlags;
 	result.m_vertices = vertexMixers[m_vertexFlags](m_vertices, other.m_vertices, coef);
 	return result;
+}
+
+void VertexList::updateBuffer() const
+{
+	Graphics::getGraphics()->updateVertexBuffer(0, m_vertices.begin(), m_vertices.getSize() * sizeof(Vertex));
 }
 
 Vertex operator*(const DirectX::XMMATRIX& matrix, Vertex vertex)

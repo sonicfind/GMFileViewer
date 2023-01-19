@@ -1,9 +1,9 @@
 #include "xgShapeInterpolator.h"
+#include "Graphics.h"
 
 void xgShapeInterpolator::updateVertexBuffer() const
 {
-	const VertexList interpolatedKeys = getInterpolatedKey();
-	// Use applicable "SubData" command
+	getInterpolatedKey().updateBuffer();
 }
 
 void xgShapeInterpolator::loadKeys(FilePointer& file)

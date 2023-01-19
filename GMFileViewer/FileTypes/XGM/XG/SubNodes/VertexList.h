@@ -62,6 +62,8 @@ class VertexList
 public:
 	void load(FilePointer& file);
 	VertexList mix(const VertexList& other, float coef) const;
+	void updateBuffer() const;
+
 	const Vertex& operator[](size_t index) const { return m_vertices[index]; }
 
 private:
