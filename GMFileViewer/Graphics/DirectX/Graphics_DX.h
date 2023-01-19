@@ -20,4 +20,6 @@ public:
 	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode type) const override;
 	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode type) const override;
 	virtual void setCullFunc(Culling cull) const override;
+	virtual void resetFrame() const override;
+	virtual void displayFrame() const override;
 };

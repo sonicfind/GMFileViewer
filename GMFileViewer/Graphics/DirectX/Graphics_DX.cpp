@@ -56,3 +56,11 @@ void Graphics_DX::drawElements(uint32_t count, const uint32_t* indices, Primitiv
 void Graphics_DX::setCullFunc(Culling cull) const
 {
 }
+
+void Graphics_DX::resetFrame() const
+{
+}
+
+void Graphics_DX::displayFrame() const
+{
+}

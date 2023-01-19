@@ -60,6 +60,9 @@ public:
 	};
 	virtual void setCullFunc(Culling cull) const = 0;
 
+	virtual void resetFrame() const = 0;
+	virtual void displayFrame() const = 0;
+
 private:
 	static std::unique_ptr<Graphics> s_gfx;
 

@@ -56,3 +56,11 @@ void Graphics_OGL::drawElements(uint32_t count, const uint32_t* indices, Primiti
 void Graphics_OGL::setCullFunc(Culling cull) const
 {
 }
+
+void Graphics_OGL::resetFrame() const
+{
+}
+
+void Graphics_OGL::displayFrame() const
+{
+}
