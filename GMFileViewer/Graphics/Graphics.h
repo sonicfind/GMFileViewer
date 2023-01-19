@@ -11,6 +11,13 @@ enum class PrimitiveMode
 	TRIANGLE_LIST,
 };
 
+enum class Culling : uint32_t
+{
+	DISABLED,
+	BACK,
+	FRONT
+};
+
 class Graphics
 {
 public:
@@ -52,12 +59,6 @@ public:
 	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode type) const = 0;
 	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode type) const = 0;
 
-	enum class Culling
-	{
-		Disabled,
-		Back,
-		Front
-	};
 	virtual void setCullFunc(Culling cull) const = 0;
 
 	virtual void resetFrame() const = 0;

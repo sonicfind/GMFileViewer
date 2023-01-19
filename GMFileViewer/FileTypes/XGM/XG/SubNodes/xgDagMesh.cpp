@@ -29,12 +29,11 @@ void xgDagMesh::draw(const DirectX::XMMATRIX& meshMatrix) const
 {
 	m_inputMaterial->bind(0);
 	m_inputGeometry->bindVertexBuffer();
-	setCulling();
 
-	/* Update meshMatrix in const buffer
-		[HERE]
-	*/
+	Graphics* gfx = Graphics::getGraphics();
 
+	gfx->setCullFunc(m_cullFunc);
+	
 	if (m_primType == 5)
 	{
 		m_prim.draw<5>();
@@ -48,16 +47,5 @@ void xgDagMesh::draw(const DirectX::XMMATRIX& meshMatrix) const
 		m_triFan.draw<4>();
 		m_triStrip.draw<4>();
 		m_triList.draw<4>();
-	}
-}
-
-void xgDagMesh::setCulling() const
-{
-	switch (m_cullFunc)
-	{
-	case 0:
-		break;
-	default:
-		break;
 	}
 }

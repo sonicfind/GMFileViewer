@@ -10,7 +10,7 @@ class xgDagMesh : public XG_SubNode
 	Triangle_Data<PrimitiveMode::TRIANGLE_FAN> m_triFan;
 	Triangle_Data<PrimitiveMode::TRIANGLE_STRIP> m_triStrip;
 	Triangle_Data<PrimitiveMode::TRIANGLE_LIST> m_triList;
-	uint32_t m_cullFunc = 0;
+	Culling m_cullFunc = Culling::DISABLED;
 
 	xgBgGeometry* m_inputGeometry = nullptr;
 	XG_MaterialNode* m_inputMaterial = nullptr;
@@ -21,8 +21,5 @@ public:
 	void createVertexBuffer();
 	void update() const;
 	void draw(const DirectX::XMMATRIX& meshMatrix) const;
-
-private:
-	void setCulling() const;
 };
 
