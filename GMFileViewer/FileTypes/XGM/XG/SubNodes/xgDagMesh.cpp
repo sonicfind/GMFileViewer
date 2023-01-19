@@ -31,6 +31,8 @@ void xgDagMesh::draw(const DirectX::XMMATRIX& meshMatrix) const
 	m_inputGeometry->bindVertexBuffer();
 
 	Graphics* gfx = Graphics::getGraphics();
+	gfx->bindConstantBuffer(Graphics::MeshMatrix);
+	gfx->updateConstantBuffer(0, &meshMatrix, sizeof(DirectX::XMMATRIX));
 
 	gfx->setCullFunc(m_cullFunc);
 	
