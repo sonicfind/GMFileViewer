@@ -1,6 +1,5 @@
 #include "IMX.h"
-#include "FilePointer.h"
-#include <memory>
+#include "Graphics.h"
 
 void IMX::load(FilePointer file)
 {
@@ -44,4 +43,9 @@ void IMX::readImage_RGBA(FilePointer& file)
 	const auto size = file.read<uint32_t>();
 	m_data = std::make_unique<Pixel[]>(size / 4);
 	file.read(m_data.get(), size);
+}
+
+void IMX::createTextureBuffer(const char(&name)[16]) const
+{
+	Graphics::getGraphics()->addTexture(name, m_data.get(), m_width, m_height);
 }
