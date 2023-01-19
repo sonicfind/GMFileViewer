@@ -35,19 +35,25 @@ void xgDagMesh::draw(const DirectX::XMMATRIX& meshMatrix) const
 	gfx->updateConstantBuffer(0, &meshMatrix, sizeof(DirectX::XMMATRIX));
 
 	gfx->setCullFunc(m_cullFunc);
-	
-	if (m_primType == 5)
+	gfx->setDepthFunc(DepthTest::LESS);
+
+	for (size_t i = 0; i < m_inputMaterial->getNumMaterials(); ++i)
 	{
-		m_prim.draw<5>();
-		m_triFan.draw<5>();
-		m_triStrip.draw<5>();
-		m_triList.draw<5>();
-	}
-	else if (m_primType == 4)
-	{
-		m_prim.draw<4>();
-		m_triFan.draw<4>();
-		m_triStrip.draw<4>();
-		m_triList.draw<4>();
+		if (m_primType == 5)
+		{
+			m_prim.draw<5>();
+			m_triFan.draw<5>();
+			m_triStrip.draw<5>();
+			m_triList.draw<5>();
+		}
+		else if (m_primType == 4)
+		{
+			m_prim.draw<4>();
+			m_triFan.draw<4>();
+			m_triStrip.draw<4>();
+			m_triList.draw<4>();
+		}
+
+		gfx->setDepthFunc(DepthTest::EQUAL);
 	}
 }
