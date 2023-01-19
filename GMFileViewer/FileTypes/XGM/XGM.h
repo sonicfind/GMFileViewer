@@ -20,6 +20,7 @@ class XGM
 		IMX m_texture;
 
 		void load(FilePointer& file, const uint32_t index);
+		void createTextureBuffer();
 	};
 	
 	struct XGMNode_XG : public XGMNode
@@ -28,6 +29,7 @@ class XGM
 		XG m_model;
 
 		void load(FilePointer& file, const uint32_t index);
+		void createVertexBuffers();
 		void update(uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection) const;
 		void draw(const DirectX::XMMATRIX& modelMatrix) const;
 	};

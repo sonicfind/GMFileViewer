@@ -17,11 +17,12 @@ class xgDagMesh : public XG_SubNode
 
 public:
 	void load(FilePointer& file, const XG* xg) override;
+
+	void createVertexBuffer();
 	void update() const;
 	void draw(const DirectX::XMMATRIX& meshMatrix) const;
 
 private:
-	void bindGeometry() const;
 	void setCulling() const;
 };
 

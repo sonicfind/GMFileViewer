@@ -34,6 +34,16 @@ VertexList VertexList::mix(const VertexList& other, float coef) const
 	return result;
 }
 
+void VertexList::createVertexBuffer(bool isDynamic)
+{
+	m_bufferIndex = Graphics::getGraphics()->createVertexBuffer(m_vertices.begin(), m_vertices.getSize() * sizeof(Vertex), isDynamic);
+}
+
+void VertexList::bindBuffer() const
+{
+	Graphics::getGraphics()->bindVertexBuffer(m_bufferIndex);
+}
+
 void VertexList::updateBuffer() const
 {
 	Graphics::getGraphics()->updateVertexBuffer(0, m_vertices.begin(), m_vertices.getSize() * sizeof(Vertex));

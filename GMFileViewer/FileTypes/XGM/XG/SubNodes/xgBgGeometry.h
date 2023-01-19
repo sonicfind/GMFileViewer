@@ -11,6 +11,9 @@ class xgBgGeometry : public XG_SubNode
 
 public:
 	void load(FilePointer& file, const XG* xg) override;
+
+	void createVertexBuffer();
+	void bindVertexBuffer() const;
 	void update() const;
 
 	const Vertex& getVertex(size_t index) const;

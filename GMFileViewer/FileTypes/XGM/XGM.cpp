@@ -55,6 +55,11 @@ void XGM::XGMNode_IMX::load(FilePointer& file, const uint32_t index)
 	file += fileSize;
 }
 
+void XGM::XGMNode_IMX::createTextureBuffer()
+{
+	m_texture.createTextureBuffer(m_name);
+}
+
 void XGM::XGMNode_XG::load(FilePointer& file, const uint32_t index)
 {
 	const uint32_t fileSize = XGMNode::load(file, index);
@@ -65,6 +70,11 @@ void XGM::XGMNode_XG::load(FilePointer& file, const uint32_t index)
 	
 	TaskQueue::getInstance().addTask([this, file] { m_model.load(file); });
 	file += fileSize;
+}
+
+void XGM::XGMNode_XG::createVertexBuffers()
+{
+	m_model.createVertexBuffers();
 }
 
 void XGM::XGMNode_XG::update(uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection) const

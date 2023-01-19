@@ -41,6 +41,7 @@ class XG
 		std::vector<DagElement> m_connections;
 
 		DagElement(XG_SubNode* node);
+		void createVertexBuffers();
 		void update() const;
 		void draw(DirectX::XMMATRIX meshMatrix) const;
 	};
@@ -51,6 +52,7 @@ class XG
 	
 public:
 	void load(FilePointer file);
+	void createVertexBuffers();
 	void update(float frame) const;
 	void draw(const DirectX::XMMATRIX& modelMatrix) const;
 

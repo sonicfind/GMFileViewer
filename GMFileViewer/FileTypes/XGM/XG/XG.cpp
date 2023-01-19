@@ -53,6 +53,12 @@ void XG::load(FilePointer file)
 		m_time = time;
 }
 
+void XG::createVertexBuffers()
+{
+	for (auto& dag : m_dag)
+		dag.createVertexBuffers();
+}
+
 void XG::update(float frame) const
 {
 	if (m_time)
@@ -72,6 +78,15 @@ XG::DagElement::DagElement(XG_SubNode* node)
 {
 	if (!(m_mesh = dynamic_cast<xgDagMesh*>(node)) && !(m_transform = dynamic_cast<xgDagTransform*>(node)))
 		throw std::runtime_error("Invalid node in dag map");
+}
+
+void XG::DagElement::createVertexBuffers()
+{
+	if (m_mesh)
+		m_mesh->createVertexBuffer();
+
+	for (auto& dag : m_connections)
+		dag.createVertexBuffers();
 }
 
 void XG::DagElement::update() const

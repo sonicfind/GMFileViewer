@@ -16,14 +16,20 @@ void xgBgGeometry::load(FilePointer& file, const XG* xg)
 	}
 }
 
+void xgBgGeometry::createVertexBuffer()
+{
+	m_vertices.createVertexBuffer(!m_inputGeometries.empty());
+}
+
+void xgBgGeometry::bindVertexBuffer() const
+{
+	m_vertices.bindBuffer();
+}
+
 void xgBgGeometry::update() const
 {
-	// Bind vertex buffer
-
 	for (const XG_UpdatableNode* node : m_inputGeometries)
 		node->updateVertexBuffer();
-
-	// Unbind vertex buffer
 }
 
 const Vertex& xgBgGeometry::getVertex(size_t index) const

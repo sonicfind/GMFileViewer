@@ -59,9 +59,14 @@ class VertexList
 	uint32_t m_vertexFlags = 0;
 	GMArray<Vertex> m_vertices;
 
+	size_t m_bufferIndex = 0;
+
 public:
 	void load(FilePointer& file);
 	VertexList mix(const VertexList& other, float coef) const;
+
+	void createVertexBuffer(bool isDynamic);
+	void bindBuffer() const;
 	void updateBuffer() const;
 
 	const Vertex& operator[](size_t index) const { return m_vertices[index]; }

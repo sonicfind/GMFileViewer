@@ -14,17 +14,21 @@ void xgDagMesh::load(FilePointer& file, const XG* xg)
 		   xg->grabNode_nondestructive(m_inputMaterial, "inputMaterial", "outputMaterial", file));
 }
 
+void xgDagMesh::createVertexBuffer()
+{
+	m_inputGeometry->createVertexBuffer();
+}
+
 void xgDagMesh::update() const
 {
-	bindGeometry();
+	m_inputGeometry->bindVertexBuffer();
 	m_inputGeometry->update();
 }
 
 void xgDagMesh::draw(const DirectX::XMMATRIX& meshMatrix) const
 {
 	m_inputMaterial->bind(0);
-	
-	bindGeometry();
+	m_inputGeometry->bindVertexBuffer();
 	setCulling();
 
 	/* Update meshMatrix in const buffer
@@ -45,10 +49,6 @@ void xgDagMesh::draw(const DirectX::XMMATRIX& meshMatrix) const
 		m_triStrip.draw<4>();
 		m_triList.draw<4>();
 	}
-}
-
-void xgDagMesh::bindGeometry() const
-{
 }
 
 void xgDagMesh::setCulling() const
