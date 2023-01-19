@@ -7,14 +7,12 @@
 #include "SubNodes/xgDagTransform.h"
 #include "SubNodes/xgEnvelope.h"
 #include "SubNodes/xgMultiPassMaterial.h"
-#include "SubNodes/xgNormalInterpolator.h"
 #include "SubNodes/xgQuatInterpolator.h"
 #include "SubNodes/xgShapeInterpolator.h"
-#include "SubNodes/xgTexCoordInterpolator.h"
+#include "SubNodes/XG_TargetedInterpolators.h"
 #include "SubNodes/xgTexture.h"
 #include "SubNodes/xgTime.h"
 #include "SubNodes/xgVec3Interpolator.h"
-#include "SubNodes/xgVertexInterpolator.h"
 
 void XG::load(FilePointer file)
 {

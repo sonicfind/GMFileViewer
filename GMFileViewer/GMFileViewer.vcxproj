@@ -186,14 +186,11 @@
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgEnvelope.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgMaterial.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgMultiPassMaterial.cpp" />
-    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgNormalInterpolator.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgQuatInterpolator.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgShapeInterpolator.cpp" />
-    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTexCoordInterpolator.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTexture.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTime.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator.cpp" />
-    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgVertexInterpolator.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\XG.cpp" />
     <ClCompile Include="Graphics\DirectX\Graphics_DX.cpp" />
@@ -237,12 +234,9 @@
     <ClInclude Include="FileTypes\XGM\XG\PString.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\Triangle_Data.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\VertexList.h" />
-    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgNormalInterpolator.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgQuatInterpolator.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgShapeInterpolator.h" />
-    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTexCoordInterpolator.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator.h" />
-    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgVertexInterpolator.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgBgMatrix.h" />
@@ -255,6 +249,7 @@
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTexture.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTime.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_MaterialNode.h" />
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_TargetedInterpolators.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_UpdatableNodes.h" />
     <ClInclude Include="FileTypes\XGM\XG\XG.h" />
     <ClInclude Include="Graphics\DirectX\Graphics_DX.h" />

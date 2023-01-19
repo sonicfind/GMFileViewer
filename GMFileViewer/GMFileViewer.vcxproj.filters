@@ -82,15 +82,6 @@
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgEnvelope">
       <UniqueIdentifier>{510e15f1-da08-4db8-b239-44e1b426f2e9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgVertexInterpolator">
-      <UniqueIdentifier>{607658c2-2b00-4b77-aea0-fd3c789e5468}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgNormalInterpolator">
-      <UniqueIdentifier>{11e6c3d1-49aa-4e58-938b-a39c04208991}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgTexCoordInterpolator">
-      <UniqueIdentifier>{166085a2-391f-45b2-9b70-181589702aa3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgShapeInterpolator">
       <UniqueIdentifier>{97076c7c-ad06-4cf1-9616-6e7a82db7624}</UniqueIdentifier>
     </Filter>
@@ -249,15 +240,6 @@
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes</Filter>
-    </ClCompile>
-    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgVertexInterpolator.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgVertexInterpolator</Filter>
-    </ClCompile>
-    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTexCoordInterpolator.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgTexCoordInterpolator</Filter>
-    </ClCompile>
-    <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgNormalInterpolator.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgNormalInterpolator</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgShapeInterpolator.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgShapeInterpolator</Filter>
@@ -426,15 +408,6 @@
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_UpdatableNodes.h">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables</Filter>
     </ClInclude>
-    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgVertexInterpolator.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgVertexInterpolator</Filter>
-    </ClInclude>
-    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTexCoordInterpolator.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgTexCoordInterpolator</Filter>
-    </ClInclude>
-    <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgNormalInterpolator.h">
-      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgNormalInterpolator</Filter>
-    </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgShapeInterpolator.h">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgShapeInterpolator</Filter>
     </ClInclude>
@@ -458,6 +431,9 @@
     </ClInclude>
     <ClInclude Include="Graphics\OpenGL\Graphics_OGL.h">
       <Filter>Graphics\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_TargetedInterpolators.h">
+      <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
