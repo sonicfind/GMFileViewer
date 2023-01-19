@@ -57,11 +57,11 @@ void Graphics_OGL::setDepthFunc(DepthTest testParam) const
 {
 }
 
-void Graphics_OGL::drawArrays(uint32_t index, uint32_t count, PrimitiveMode type) const
+void Graphics_OGL::drawArrays(uint32_t index, uint32_t count, PrimitiveMode mode) const
 {
 }
 
-void Graphics_OGL::drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode type) const
+void Graphics_OGL::drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode mode) const
 {
 }
 

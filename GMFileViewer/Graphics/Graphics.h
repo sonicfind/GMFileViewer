@@ -72,8 +72,8 @@ public:
 	virtual void setDepthTest(bool enable) const = 0;
 	virtual void setDepthFunc(DepthTest testParam) const = 0;
 
-	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode type) const = 0;
-	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode type) const = 0;
+	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode mode) const = 0;
+	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode mode) const = 0;
 
 	virtual void resetFrame() const = 0;
 	virtual void displayFrame() const = 0;

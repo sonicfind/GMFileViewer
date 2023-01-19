@@ -57,11 +57,11 @@ void Graphics_DX::setDepthFunc(DepthTest testParam) const
 {
 }
 
-void Graphics_DX::drawArrays(uint32_t index, uint32_t count, PrimitiveMode type) const
+void Graphics_DX::drawArrays(uint32_t index, uint32_t count, PrimitiveMode mode) const
 {
 }
 
-void Graphics_DX::drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode type) const
+void Graphics_DX::drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode mode) const
 {
 }
 

@@ -20,8 +20,8 @@ public:
 	virtual void setCullFunc(Culling cull) override;
 	virtual void setDepthTest(bool enable) const override;
 	virtual void setDepthFunc(DepthTest testParam) const override;
-	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode type) const override;
-	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode type) const override;
+	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode mode) const override;
+	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode mode) const override;
 	virtual void resetFrame() const override;
 	virtual void displayFrame() const override;
 };
