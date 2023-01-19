@@ -33,19 +33,15 @@ void Graphics_OGL::unbindTexture() const
 {
 }
 
-void Graphics_OGL::addConstantBuffer(std::string_view name, const void* data, uint32_t dataSize)
-{
-}
-
-void Graphics_OGL::connectConstantBufferToShaders(std::string_view name, ShaderType shaders[]) const
-{
-}
-
-void Graphics_OGL::bindConstantBuffer(size_t index) const
+void Graphics_OGL::bindConstantBuffer(ConstBufferSelection selection) const
 {
 }
 
 void Graphics_OGL::updateConstantBuffer(uint32_t offset, const void* data, uint32_t dataSize) const
+{
+}
+
+void Graphics_OGL::updateCameraBuffers(const float* viewMatrix, const float* projectionMatrix) const
 {
 }
 

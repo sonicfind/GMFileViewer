@@ -33,19 +33,15 @@ void Graphics_DX::unbindTexture() const
 {
 }
 
-void Graphics_DX::addConstantBuffer(std::string_view name, const void* data, uint32_t dataSize)
-{
-}
-
-void Graphics_DX::connectConstantBufferToShaders(std::string_view name, ShaderType shaders[]) const
-{
-}
-
-void Graphics_DX::bindConstantBuffer(size_t index) const
+void Graphics_DX::bindConstantBuffer(ConstBufferSelection selection) const
 {
 }
 
 void Graphics_DX::updateConstantBuffer(uint32_t offset, const void* data, uint32_t dataSize) const
+{
+}
+
+void Graphics_DX::updateCameraBuffers(const float* viewMatrix, const float* projectionMatrix) const
 {
 }
 

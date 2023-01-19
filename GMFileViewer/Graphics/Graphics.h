@@ -38,10 +38,16 @@ public:
 	virtual void updateTexture(uint32_t locationX, uint32_t locationY, const void* imagePtr, uint32_t width, uint32_t height) const = 0;
 	virtual void unbindTexture() const = 0;
 
-	virtual void addConstantBuffer(std::string_view name, const void* data, uint32_t dataSize) = 0;
-	virtual void connectConstantBufferToShaders(std::string_view name, ShaderType shaders[]) const = 0;
-	virtual void bindConstantBuffer(size_t index) const = 0;
+	enum ConstBufferSelection
+	{
+		MeshMatrix,
+		Material,
+	};
+
+	virtual void bindConstantBuffer(ConstBufferSelection selection) const = 0;
 	virtual void updateConstantBuffer(uint32_t offset, const void* data, uint32_t dataSize) const = 0;
+
+	virtual void updateCameraBuffers(const float* viewMatrix, const float* projectionMatrix) const = 0;
 
 	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode type) const = 0;
 	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode type) const = 0;
