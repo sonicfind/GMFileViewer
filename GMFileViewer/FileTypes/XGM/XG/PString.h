@@ -6,7 +6,6 @@
 
 namespace PString
 {
-	void Read(std::string& str, FilePointer& file);
 	void Read(std::string_view& str, FilePointer& file);
 	std::string_view Read(FilePointer& file);
 
@@ -28,7 +27,7 @@ namespace PString
 	}
 
 	template <>
-	void ReadNamedValue(std::string_view name, std::string& value, FilePointer& file);
+	void ReadNamedValue(std::string_view name, char (&str)[16], FilePointer& file);
 
 	template <>
 	void ReadNamedValue(std::string_view name, VertexList& value, FilePointer& file);
