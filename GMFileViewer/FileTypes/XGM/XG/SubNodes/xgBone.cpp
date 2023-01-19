@@ -13,9 +13,5 @@ DirectX::XMMATRIX xgBone::calcTransformMatrix() const
 	if (!m_inputMatrix)
 		return m_restMatrix;
 
-	auto transforms = m_inputMatrix->transform();
-	return DirectX::XMMatrixRotationQuaternion(transforms.rotation) *
-		DirectX::XMMatrixScalingFromVector(transforms.scale) *
-		DirectX::XMMatrixTranslationFromVector(transforms.translation) *
-		m_restMatrix;
+	return m_inputMatrix->transform().getMatrix() * m_restMatrix;
 }

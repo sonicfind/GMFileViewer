@@ -18,6 +18,8 @@ class xgBgMatrix : public XG_SubNode
 		DirectX::XMVECTOR translation;
 		DirectX::XMVECTOR rotation;
 		DirectX::XMVECTOR scale;
+
+		DirectX::XMMATRIX getMatrix() const;
 	};
 
 public:

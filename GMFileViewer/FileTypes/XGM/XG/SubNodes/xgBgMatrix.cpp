@@ -41,3 +41,8 @@ xgBgMatrix::TransformVectors xgBgMatrix::transform() const
 		transformations.scale *= DirectX::XMLoadFloat3(&m_scale);
 	return transformations;
 }
+
+DirectX::XMMATRIX xgBgMatrix::TransformVectors::getMatrix() const
+{
+	return DirectX::XMMatrixScalingFromVector(scale) * DirectX::XMMatrixRotationQuaternion(rotation) *  DirectX::XMMatrixTranslationFromVector(translation);
+}

@@ -10,9 +10,5 @@ DirectX::XMMATRIX xgDagTransform::calcTransformMatrix() const
 {
 	if (!m_inputMatrix)
 		return DirectX::XMMatrixIdentity();
-
-	auto transforms = m_inputMatrix->transform();
-	return DirectX::XMMatrixRotationQuaternion(transforms.rotation) *
-		DirectX::XMMatrixScalingFromVector(transforms.scale) *
-		DirectX::XMMatrixTranslationFromVector(transforms.translation);
+	return m_inputMatrix->transform().getMatrix();
 }
