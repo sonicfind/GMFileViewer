@@ -6,10 +6,10 @@
 class xgDagMesh : public XG_SubNode
 {
 	uint32_t m_primType = 0;
-	Triangle_Data<PrimitiveType::PRIMITIVE> m_prim;
-	Triangle_Data<PrimitiveType::TRIANGLE_FAN> m_triFan;
-	Triangle_Data<PrimitiveType::TRIANGLE_STRIP> m_triStrip;
-	Triangle_Data<PrimitiveType::TRIANGLE_LIST> m_triList;
+	Triangle_Data<PrimitiveMode::PRIMITIVE> m_prim;
+	Triangle_Data<PrimitiveMode::TRIANGLE_FAN> m_triFan;
+	Triangle_Data<PrimitiveMode::TRIANGLE_STRIP> m_triStrip;
+	Triangle_Data<PrimitiveMode::TRIANGLE_LIST> m_triList;
 	uint32_t m_cullFunc = 0;
 
 	xgBgGeometry* m_inputGeometry = nullptr;

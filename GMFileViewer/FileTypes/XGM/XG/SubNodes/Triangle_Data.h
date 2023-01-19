@@ -2,7 +2,7 @@
 #include "../PString.h"
 #include "GMArray.h"
 
-enum class PrimitiveType
+enum class PrimitiveMode
 {
 	PRIMITIVE,
 	TRIANGLE_FAN,
@@ -10,10 +10,10 @@ enum class PrimitiveType
 	TRIANGLE_LIST,
 };
 
-template <PrimitiveType MODE>
+template <PrimitiveMode MODE>
 class Triangle_Data
 {
-	static_assert(MODE >= PrimitiveType::PRIMITIVE && MODE <= PrimitiveType::TRIANGLE_LIST);
+	static_assert(MODE >= PrimitiveMode::PRIMITIVE && MODE <= PrimitiveMode::TRIANGLE_LIST);
 protected:
 	uint32_t m_numPrimitives = 0;
 	GMArray<uint32_t> m_data;
@@ -21,16 +21,16 @@ protected:
 public:
 	void load(FilePointer& file)
 	{
-		if      constexpr (MODE == PrimitiveType::PRIMITIVE)      PString::ThrowOnStringMismatch("primCount", file);
-		else if constexpr (MODE == PrimitiveType::TRIANGLE_FAN)   PString::ThrowOnStringMismatch("triFanCount", file);
-		else if constexpr (MODE == PrimitiveType::TRIANGLE_STRIP) PString::ThrowOnStringMismatch("triStripCount", file);
+		if      constexpr (MODE == PrimitiveMode::PRIMITIVE)      PString::ThrowOnStringMismatch("primCount", file);
+		else if constexpr (MODE == PrimitiveMode::TRIANGLE_FAN)   PString::ThrowOnStringMismatch("triFanCount", file);
+		else if constexpr (MODE == PrimitiveMode::TRIANGLE_STRIP) PString::ThrowOnStringMismatch("triStripCount", file);
 		else                                                      PString::ThrowOnStringMismatch("triListCount", file);
 
 		file.read(m_numPrimitives);
 
-		if      constexpr (MODE == PrimitiveType::PRIMITIVE)      PString::ThrowOnStringMismatch("primData", file);
-		else if constexpr (MODE == PrimitiveType::TRIANGLE_FAN)   PString::ThrowOnStringMismatch("triFanData", file);
-		else if constexpr (MODE == PrimitiveType::TRIANGLE_STRIP) PString::ThrowOnStringMismatch("triStripData", file);
+		if      constexpr (MODE == PrimitiveMode::PRIMITIVE)      PString::ThrowOnStringMismatch("primData", file);
+		else if constexpr (MODE == PrimitiveMode::TRIANGLE_FAN)   PString::ThrowOnStringMismatch("triFanData", file);
+		else if constexpr (MODE == PrimitiveMode::TRIANGLE_STRIP) PString::ThrowOnStringMismatch("triStripData", file);
 		else                                                      PString::ThrowOnStringMismatch("triListData", file);
 
 		m_data.reserve_and_fill(file);
