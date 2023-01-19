@@ -17,16 +17,28 @@ XGM::XGM(const std::filesystem::path& filePath)
 		m_models[i].load(file, i);
 
 	TaskQueue::getInstance().waitForCompletedTasks();
+}
 
-	Graphics::initGraphics(Graphics::Backend::DirectX);
+void XGM::createGraphicsBuffers()
+{
+	for (auto& texture : m_textures)
+		texture.createTextureBuffer();
 
+	for (auto& model : m_models)
+		model.createVertexBuffers();
+}
+
+void XGM::testGraphics() const
+{
 	auto t1 = std::chrono::high_resolution_clock::now();
 	for (size_t i = 0; i < 10000; ++i)
+	{
 		for (const auto& model : m_models)
 		{
 			model.update(0, 12, LoopControl::NORMAL, PlaybackDirection::FORWARDS);
 			model.draw(DirectX::XMMatrixIdentity());
 		}
+	}
 	auto t2 = std::chrono::high_resolution_clock::now();
 	std::cout << std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count() / 1000 << " milliseconds\n";
 }

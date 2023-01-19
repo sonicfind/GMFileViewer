@@ -1,9 +1,10 @@
+#include <iostream>
 #include "FileTypes/XGM/XGM.h"
 #include "FileTypes/CHC/CHC.h"
 #include "FileTypes/SSQ/SSQ.h"
 #include "FileTypes/WEB/WEB.h"
-#include "TaskQueue.h"
-#include <iostream>
+#include "Graphics.h"
+
 
 int main()
 {
@@ -17,6 +18,11 @@ int main()
 	if (path.extension() == U".XGM")
 	{
 		XGM file(path);
+
+		Graphics::initGraphics(Graphics::Backend::OpenGL);
+		file.createGraphicsBuffers();
+		file.testGraphics();
+
 		std::getline(std::cin, filename);
 	}
 	else if (path.extension() == U".CHC")

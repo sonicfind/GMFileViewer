@@ -39,4 +39,6 @@ class XGM
 
 public:
 	XGM(const std::filesystem::path& filePath);
+	void createGraphicsBuffers();
+	void testGraphics() const;
 };
