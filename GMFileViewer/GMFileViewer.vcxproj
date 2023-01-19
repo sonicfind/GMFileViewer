@@ -77,7 +77,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)TaskQueue;$(SolutionDir)3rdparty;$(ProjectDir)FileTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)TaskQueue;$(ProjectDir)Graphics;$(SolutionDir)3rdparty;$(ProjectDir)FileTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -96,7 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)TaskQueue;$(SolutionDir)3rdparty;$(ProjectDir)FileTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)TaskQueue;$(ProjectDir)Graphics;$(SolutionDir)3rdparty;$(ProjectDir)FileTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -117,7 +117,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)TaskQueue;$(SolutionDir)3rdparty;$(ProjectDir)FileTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)TaskQueue;$(ProjectDir)Graphics;$(SolutionDir)3rdparty;$(ProjectDir)FileTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -136,7 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)TaskQueue;$(SolutionDir)3rdparty;$(ProjectDir)FileTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)TaskQueue;$(ProjectDir)Graphics;$(SolutionDir)3rdparty;$(ProjectDir)FileTypes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -196,6 +196,7 @@
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgVertexInterpolator.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\XG.cpp" />
+    <ClCompile Include="Graphics\Graphics.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TaskQueue\TaskQueue.cpp" />
   </ItemGroup>
@@ -254,6 +255,7 @@
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_MaterialNode.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_UpdatableNodes.h" />
     <ClInclude Include="FileTypes\XGM\XG\XG.h" />
+    <ClInclude Include="Graphics\Graphics.h" />
     <ClInclude Include="TaskQueue\TaskQueue.h" />
   </ItemGroup>
   <ItemGroup>

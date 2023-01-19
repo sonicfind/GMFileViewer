@@ -130,6 +130,15 @@
     <Filter Include="TaskQueue">
       <UniqueIdentifier>{04fc1b14-95c6-4045-ae7b-4965e2c8dfaa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{8e7c35e3-a72e-48ef-a8d7-8fff40f6ffd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DirectX">
+      <UniqueIdentifier>{c338edec-e717-4df6-9a9f-fa9ef4a116d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\OpenGL">
+      <UniqueIdentifier>{c829bfaa-df3b-43a6-bbc3-21b5a318f308}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileTypes\XGM\XGM.cpp">
@@ -264,6 +273,9 @@
     </ClCompile>
     <ClCompile Include="TaskQueue\TaskQueue.cpp">
       <Filter>TaskQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Graphics.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -431,6 +443,9 @@
     </ClInclude>
     <ClInclude Include="TaskQueue\TaskQueue.h">
       <Filter>TaskQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Graphics.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

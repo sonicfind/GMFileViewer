@@ -1,14 +1,7 @@
 #pragma once
 #include "../PString.h"
 #include "GMArray.h"
-
-enum class PrimitiveMode
-{
-	PRIMITIVE,
-	TRIANGLE_FAN,
-	TRIANGLE_STRIP,
-	TRIANGLE_LIST,
-};
+#include "Graphics.h"
 
 template <PrimitiveMode MODE>
 class Triangle_Data
@@ -42,14 +35,13 @@ public:
 		if (m_data.isEmpty())
 			return;
 
+		const Graphics* gfx = Graphics::getGraphics();
 		if constexpr (PRIMTYPE == 4)
 		{
 			for (size_t i = 0; i < m_data.getSize();)
 			{
 				const uint32_t numVerts = m_data[i++];
-
-				/* Draw Elements Here */
-
+				gfx->drawElements(numVerts, &m_data[i], MODE);
 				i += numVerts;
 			}
 		}
@@ -59,7 +51,7 @@ public:
 			for (size_t i = 1; i < m_data.getSize(); ++i)
 			{
 				const uint32_t count = m_data[i];
-				/* Draw Array Here */
+				gfx->drawArrays(vertIndex, count, MODE);
 				vertIndex += count;
 			}
 		}
