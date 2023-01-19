@@ -15,3 +15,8 @@ void xgMultiPassMaterial::bind(uint32_t slot) const
 		/* Change Material & Texture slot */
 	}
 }
+
+size_t xgMultiPassMaterial::getNumMaterials() const
+{
+	return m_inputMaterials.size();
+}

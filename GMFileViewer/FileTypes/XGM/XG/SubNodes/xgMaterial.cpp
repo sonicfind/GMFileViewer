@@ -23,3 +23,8 @@ void xgMaterial::bind(uint32_t slot) const
 
 	Graphics::getGraphics()->updateConstantBuffer(32 * slot, this, 32);
 }
+
+size_t xgMaterial::getNumMaterials() const
+{
+	return 1;
+}
