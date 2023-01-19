@@ -17,9 +17,11 @@ public:
 	virtual void bindConstantBuffer(ConstBufferSelection selection) const override;
 	virtual void updateConstantBuffer(uint32_t offset, const void* data, uint32_t dataSize) const override;
 	virtual void updateCameraBuffers(const float* viewMatrix, const float* projectionMatrix) const override;
+	virtual void setCullFunc(Culling cull) override;
+	virtual void setDepthTest(bool enable) const override;
+	virtual void setDepthFunc(DepthTest testParam) const override;
 	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode type) const override;
 	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode type) const override;
-	virtual void setCullFunc(Culling cull) const override;
 	virtual void resetFrame() const override;
 	virtual void displayFrame() const override;
 };

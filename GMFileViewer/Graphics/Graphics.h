@@ -18,6 +18,18 @@ enum class Culling : uint32_t
 	FRONT
 };
 
+enum class DepthTest : uint32_t
+{
+	ALWAYS,
+	NEVER,
+	LESS,
+	EQUAL,
+	L_EQUAL,
+	GREATER,
+	NOT_EQUAL,
+	G_EQUAL
+};
+
 class Graphics
 {
 public:
@@ -56,10 +68,12 @@ public:
 
 	virtual void updateCameraBuffers(const float* viewMatrix, const float* projectionMatrix) const = 0;
 
+	virtual void setCullFunc(Culling cull) = 0;
+	virtual void setDepthTest(bool enable) const = 0;
+	virtual void setDepthFunc(DepthTest testParam) const = 0;
+
 	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode type) const = 0;
 	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode type) const = 0;
-
-	virtual void setCullFunc(Culling cull) const = 0;
 
 	virtual void resetFrame() const = 0;
 	virtual void displayFrame() const = 0;

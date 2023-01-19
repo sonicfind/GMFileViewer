@@ -45,15 +45,23 @@ void Graphics_DX::updateCameraBuffers(const float* viewMatrix, const float* proj
 {
 }
 
+void Graphics_DX::setCullFunc(Culling cull)
+{
+}
+
+void Graphics_DX::setDepthTest(bool enable) const
+{
+}
+
+void Graphics_DX::setDepthFunc(DepthTest testParam) const
+{
+}
+
 void Graphics_DX::drawArrays(uint32_t index, uint32_t count, PrimitiveMode type) const
 {
 }
 
 void Graphics_DX::drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode type) const
-{
-}
-
-void Graphics_DX::setCullFunc(Culling cull) const
 {
 }
 
