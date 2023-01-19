@@ -1,5 +1,7 @@
 #include "XGM.h"
 #include "TaskQueue.h"
+#include "Graphics.h"
+#include <iostream>
 
 XGM::XGM(const std::filesystem::path& filePath)
 {
@@ -15,6 +17,18 @@ XGM::XGM(const std::filesystem::path& filePath)
 		m_models[i].load(file, i);
 
 	TaskQueue::getInstance().waitForCompletedTasks();
+
+	Graphics::initGraphics(Graphics::Backend::DirectX);
+
+	auto t1 = std::chrono::high_resolution_clock::now();
+	for (size_t i = 0; i < 10000; ++i)
+		for (const auto& model : m_models)
+		{
+			model.update(0, 12, LoopControl::NORMAL, PlaybackDirection::FORWARDS);
+			model.draw(DirectX::XMMatrixIdentity());
+		}
+	auto t2 = std::chrono::high_resolution_clock::now();
+	std::cout << std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count() / 1000 << " milliseconds\n";
 }
 
 uint32_t XGM::XGMNode::load(FilePointer& file, const uint32_t index)
