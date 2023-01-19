@@ -24,7 +24,7 @@ public:
 
 	virtual void activateShader(ShaderType type) const = 0;
 
-	virtual size_t addVertexBuffer(const void* data, uint32_t dataSize, bool isDynamic) = 0;
+	virtual size_t createVertexBuffer(const void* data, uint32_t dataSize, bool isDynamic) = 0;
 	virtual void bindVertexBuffer(size_t index) const = 0;
 	virtual void updateVertexBuffer(uint32_t offset, const void* data, uint32_t dataSize) const = 0;
 
@@ -33,7 +33,7 @@ public:
 		Bilenear,
 		Nearest_Neighbor
 	};
-	virtual void addTexture(const char(&name)[16], const void* imagePtr, uint32_t width, uint32_t height) = 0;
+	virtual void createTexture(const char(&name)[16], const void* imagePtr, uint32_t width, uint32_t height) = 0;
 	virtual void bindTexture(const char(&name)[16]) const = 0;
 	virtual void updateTexture(uint32_t locationX, uint32_t locationY, const void* imagePtr, uint32_t width, uint32_t height) const = 0;
 	virtual void unbindTexture() const = 0;

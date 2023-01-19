@@ -47,5 +47,5 @@ void IMX::readImage_RGBA(FilePointer& file)
 
 void IMX::createTextureBuffer(const char(&name)[16]) const
 {
-	Graphics::getGraphics()->addTexture(name, m_data.get(), m_width, m_height);
+	Graphics::getGraphics()->createTexture(name, m_data.get(), m_width, m_height);
 }

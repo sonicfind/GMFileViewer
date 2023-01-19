@@ -4,7 +4,7 @@ void Graphics_DX::activateShader(ShaderType type) const
 {
 }
 
-size_t Graphics_DX::addVertexBuffer(const void* data, uint32_t dataSize, bool isDynamic)
+size_t Graphics_DX::createVertexBuffer(const void* data, uint32_t dataSize, bool isDynamic)
 {
     return size_t();
 }
@@ -17,7 +17,7 @@ void Graphics_DX::updateVertexBuffer(uint32_t offset, const void* data, uint32_t
 {
 }
 
-void Graphics_DX::addTexture(const char(&name)[16], const void* imagePtr, uint32_t width, uint32_t height)
+void Graphics_DX::createTexture(const char(&name)[16], const void* imagePtr, uint32_t width, uint32_t height)
 {
 }
 
