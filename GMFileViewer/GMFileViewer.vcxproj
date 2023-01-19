@@ -196,7 +196,9 @@
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgVertexInterpolator.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\XG.cpp" />
+    <ClCompile Include="Graphics\DirectX\Graphics_DX.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp" />
+    <ClCompile Include="Graphics\OpenGL\Graphics_OGL.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="TaskQueue\TaskQueue.cpp" />
   </ItemGroup>
@@ -255,7 +257,9 @@
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_MaterialNode.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\XG_UpdatableNodes.h" />
     <ClInclude Include="FileTypes\XGM\XG\XG.h" />
+    <ClInclude Include="Graphics\DirectX\Graphics_DX.h" />
     <ClInclude Include="Graphics\Graphics.h" />
+    <ClInclude Include="Graphics\OpenGL\Graphics_OGL.h" />
     <ClInclude Include="TaskQueue\TaskQueue.h" />
   </ItemGroup>
   <ItemGroup>

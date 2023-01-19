@@ -277,6 +277,12 @@
     <ClCompile Include="Graphics\Graphics.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics\DirectX\Graphics_DX.cpp">
+      <Filter>Graphics\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\OpenGL\Graphics_OGL.cpp">
+      <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FileTypes\XGM\XGM.h">
@@ -446,6 +452,12 @@
     </ClInclude>
     <ClInclude Include="Graphics\Graphics.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DirectX\Graphics_DX.h">
+      <Filter>Graphics\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\OpenGL\Graphics_OGL.h">
+      <Filter>Graphics\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
