@@ -36,21 +36,23 @@ public:
 			return;
 
 		const Graphics* gfx = Graphics::getGraphics();
+		auto* curr = m_data.begin();
+		auto* const end = m_data.end();
 		if constexpr (PRIMTYPE == 4)
 		{
-			for (size_t i = 0; i < m_data.getSize();)
+			while (curr < end)
 			{
-				const uint32_t numVerts = m_data[i++];
-				gfx->drawElements(numVerts, &m_data[i], MODE);
-				i += numVerts;
+				const uint32_t numVerts = *curr++;
+				gfx->drawElements(numVerts, curr, MODE);
+				curr += numVerts;
 			}
 		}
 		else if constexpr (PRIMTYPE == 5)
 		{
-			uint32_t vertIndex = m_data.front();
-			for (size_t i = 1; i < m_data.getSize(); ++i)
+			uint32_t vertIndex = *curr++;
+			while (curr < end)
 			{
-				const uint32_t count = m_data[i];
+				const uint32_t count = *curr++;
 				gfx->drawArrays(vertIndex, count, MODE);
 				vertIndex += count;
 			}
