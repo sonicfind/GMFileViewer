@@ -1,4 +1,5 @@
 #include "xgMaterial.h"
+#include "Graphics.h"
 
 void xgMaterial::load(FilePointer& file, const XG* xg)
 {
@@ -17,5 +18,8 @@ void xgMaterial::load(FilePointer& file, const XG* xg)
 
 void xgMaterial::bind(uint32_t slot) const
 {
-	/**/
+	if (m_inputTexture)
+		m_inputTexture->bind();
+
+	Graphics::getGraphics()->updateConstantBuffer(32 * slot, this, 32);
 }
