@@ -21,8 +21,7 @@ public:
 	void draw(const DirectX::XMMATRIX& meshMatrix) const;
 
 private:
-	void resetMaterialSlot() const;
 	void bindGeometry() const;
-		void setCulling() const;
+	void setCulling() const;
 };
 

@@ -2,5 +2,5 @@
 class XG_MaterialNode
 {
 public:
-	virtual void bind() const = 0;
+	virtual void bind(uint32_t slot) const = 0;
 };

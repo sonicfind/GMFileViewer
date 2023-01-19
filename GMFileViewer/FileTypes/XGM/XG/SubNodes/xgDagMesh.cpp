@@ -22,8 +22,7 @@ void xgDagMesh::update() const
 
 void xgDagMesh::draw(const DirectX::XMMATRIX& meshMatrix) const
 {
-	resetMaterialSlot();
-	m_inputMaterial->bind();
+	m_inputMaterial->bind(0);
 	
 	bindGeometry();
 	setCulling();
@@ -46,13 +45,6 @@ void xgDagMesh::draw(const DirectX::XMMATRIX& meshMatrix) const
 		m_triStrip.draw<4>();
 		m_triList.draw<4>();
 	}
-}
-
-void xgDagMesh::resetMaterialSlot() const
-{
-	/* Set to Material & Texture slot 1
-		[HERE]
-	*/
 }
 
 void xgDagMesh::bindGeometry() const

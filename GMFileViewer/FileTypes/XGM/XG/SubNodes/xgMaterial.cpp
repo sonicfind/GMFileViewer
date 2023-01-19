@@ -1,6 +1,4 @@
 #include "xgMaterial.h"
-#include "../PString.h"
-#include "FilePointer.h"
 
 void xgMaterial::load(FilePointer& file, const XG* xg)
 {
@@ -17,7 +15,7 @@ void xgMaterial::load(FilePointer& file, const XG* xg)
 		m_inputTexture = static_cast<xgTexture*>(node);
 }
 
-void xgMaterial::bind() const
+void xgMaterial::bind(uint32_t slot) const
 {
 	/**/
 }
