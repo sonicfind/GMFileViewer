@@ -35,21 +35,20 @@ struct Vertex
 	}
 
 	template <uint32_t flags>
-	static Vertex mix(const Vertex& lhs, const Vertex& rhs, float coef)
+	static Vertex mix(Vertex vertex, const Vertex& toMix, float coef)
 	{
-		Vertex result;
 		if constexpr (flags & 1)
-			DirectX::XMStoreFloat4(&result.m_position, DirectX::XMVectorLerp(DirectX::XMLoadFloat4(&lhs.m_position), DirectX::XMLoadFloat4(&rhs.m_position), coef));
+			DirectX::XMStoreFloat4(&vertex.m_position, DirectX::XMVectorLerp(DirectX::XMLoadFloat4(&vertex.m_position), DirectX::XMLoadFloat4(&toMix.m_position), coef));
 
 		if constexpr (flags & 2)
-			DirectX::XMStoreFloat3(&result.m_normal, DirectX::XMVectorLerp(DirectX::XMLoadFloat3(&lhs.m_normal), DirectX::XMLoadFloat3(&rhs.m_normal), coef));
+			DirectX::XMStoreFloat3(&vertex.m_normal, DirectX::XMVectorLerp(DirectX::XMLoadFloat3(&vertex.m_normal), DirectX::XMLoadFloat3(&toMix.m_normal), coef));
 
 		if constexpr (flags & 4)
-			DirectX::XMStoreFloat4(&result.m_color, DirectX::XMVectorLerp(DirectX::XMLoadFloat4(&lhs.m_color), DirectX::XMLoadFloat4(&rhs.m_color), coef));
+			DirectX::XMStoreFloat4(&vertex.m_color, DirectX::XMVectorLerp(DirectX::XMLoadFloat4(&vertex.m_color), DirectX::XMLoadFloat4(&toMix.m_color), coef));
 
 		if constexpr (flags & 8)
-			DirectX::XMStoreFloat2(&result.m_texCoord, DirectX::XMVectorLerp(DirectX::XMLoadFloat2(&lhs.m_texCoord), DirectX::XMLoadFloat2(&rhs.m_texCoord), coef));
-		return result;
+			DirectX::XMStoreFloat2(&vertex.m_texCoord, DirectX::XMVectorLerp(DirectX::XMLoadFloat2(&vertex.m_texCoord), DirectX::XMLoadFloat2(&toMix.m_texCoord), coef));
+		return vertex;
 	}
 };
 
