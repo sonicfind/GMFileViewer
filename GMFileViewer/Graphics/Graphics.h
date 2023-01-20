@@ -35,8 +35,7 @@ class Graphics
 public:
 	enum class ShaderType
 	{
-		Base,
-		Bone,
+		Model,
 		Shadow,
 		Sprite,
 		Box
