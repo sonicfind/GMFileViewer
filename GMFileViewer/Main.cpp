@@ -22,7 +22,9 @@ int main()
 		Graphics::initGraphics(Graphics::Backend::OpenGL);
 		file.createGraphicsBuffers();
 		file.testGraphics();
+		Graphics::closeGraphics();
 
+		std::cin.clear();
 		std::getline(std::cin, filename);
 	}
 	else if (path.extension() == U".CHC")
