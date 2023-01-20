@@ -94,18 +94,21 @@ void XGM::XGMNode_XG::update(uint32_t index, float frame, LoopControl control, P
 	if (index >= m_animations.getSize())
 		index = m_animations.getSize() - 1;
 
-	if (control == LoopControl::LOOP)
+	if (control == LoopControl::LOOP_ANIM)
 		frame = fmod(frame, m_animations[index].calcLength(120));
-	else if (control == LoopControl::NORMAL)
+	else if (control != LoopControl::HALT)
 	{
-		while (index < m_animations.getSize() - 1)
+		while (index < m_animations.getSize() - 1 || control == LoopControl::LOOP_ALL)
 		{
 			const float length = m_animations[index].calcLength(120);
 			if (frame < length)
 				break;
 
 			frame -= length;
-			++index;
+			if (index < m_animations.getSize() - 1)
+				++index;
+			else
+				index = 0;
 		}
 	}
 

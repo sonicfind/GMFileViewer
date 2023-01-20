@@ -10,8 +10,9 @@ enum class PlaybackDirection
 enum class LoopControl
 {
 	NORMAL,
-	LOOP,
-	HALT
+	LOOP_ANIM,
+	HALT,
+	LOOP_ALL,
 };
 
 class Animation
