@@ -92,4 +92,5 @@ public:
 	static void closeGraphics();
 
 	static Graphics* getGraphics();
+	virtual ~Graphics() = default;
 };
