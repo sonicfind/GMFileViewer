@@ -71,12 +71,17 @@ void TaskQueue::waitForCompletedTasks()
 		return;
 
 	std::unique_lock lock(m_mutex);
-	m_mainCondition.wait(lock, [&] { return m_queue.empty() && m_numActiveThreads == 0; });
+	m_mainCondition.wait(lock, [&] { return peekCompletedTasks(); });
 }
 
 void TaskQueue::addTask(const std::function<void()>& func)
 {
 	(this->*m_taskFunction)(func);
+}
+
+bool TaskQueue::peekCompletedTasks()
+{
+	return m_queue.empty() && m_numActiveThreads == 0;
 }
 
 TaskQueue::TaskQueue()
