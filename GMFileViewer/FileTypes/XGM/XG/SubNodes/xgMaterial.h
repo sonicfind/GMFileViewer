@@ -33,7 +33,7 @@ class xgMaterial : public XG_SubNode, public XG_MaterialNode
 
 public:
 	void load(FilePointer& file, const XG* xg) override;
-	void bind(uint32_t slot) const override;
+	void bind(size_t slot) const override;
 	size_t getNumMaterials() const override;
 };
 

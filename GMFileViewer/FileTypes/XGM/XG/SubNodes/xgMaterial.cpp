@@ -16,12 +16,20 @@ void xgMaterial::load(FilePointer& file, const XG* xg)
 		m_inputTexture = static_cast<xgTexture*>(node);
 }
 
-void xgMaterial::bind(uint32_t slot) const
+void xgMaterial::bind(size_t slot) const
 {
+	const Graphics* gfx = Graphics::getGraphics();
 	if (m_inputTexture)
+	{
 		m_inputTexture->bind();
+		gfx->setShaderInt("useTexture", 1);
+	}
+	else
+		gfx->setShaderInt("useTexture", 0);
 
-	Graphics::getGraphics()->updateConstantBuffer(32 * slot, this, 32);
+	
+	gfx->bindConstantBuffer(Graphics::Material);
+	gfx->updateConstantBuffer(0, &m_blendType, 64);
 }
 
 size_t xgMaterial::getNumMaterials() const

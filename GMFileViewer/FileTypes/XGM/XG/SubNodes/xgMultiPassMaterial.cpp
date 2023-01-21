@@ -6,14 +6,9 @@ void xgMultiPassMaterial::load(FilePointer& file, const XG* xg)
 		m_inputMaterials.push_back(static_cast<xgMaterial*>(node));
 }
 
-void xgMultiPassMaterial::bind(uint32_t slot) const
+void xgMultiPassMaterial::bind(size_t slot) const
 {
-	for (const auto* material : m_inputMaterials)
-	{
-		material->bind(slot);
-		++slot;
-		/* Change Material & Texture slot */
-	}
+	m_inputMaterials[slot]->bind(0);
 }
 
 size_t xgMultiPassMaterial::getNumMaterials() const
