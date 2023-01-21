@@ -64,21 +64,23 @@ private:
 	Frame calculateTimeFrame() const
 	{
 		float time = m_inputTime->getTime();
+		float frame = floorf(time);
 		if constexpr (INTERPOLATION < InterpolatorType::TIMED)
 		{
-			if (time + 1 >= m_keys.getSize())
-				return { time, time, 0 };
-			return { time, time + 1, time - uint32_t(time) };
+			if (frame + 1 >= m_keys.getSize())
+				return { frame, frame, 0 };
+			return { frame, frame + 1, time - frame };
 		}
 		else if (uint32_t(time) >= m_times.getSize() - 1)
 		{
 			time = m_times.back();
-			return { time, time + 1, time - uint32_t(time) };
+			frame = floorf(time);
+			return { frame, frame + 1, time - frame };
 		}
 		else
 		{
 			const size_t index = size_t(time);
-			return { m_times[index], m_times[index + 1], time - uint32_t(time) };
+			return { m_times[index], m_times[index + 1], time - floorf(time) };
 		}
 	}
 

@@ -11,7 +11,7 @@ DirectX::XMFLOAT3 XG_InterpolatorNode<DirectX::XMFLOAT3>::MixKeys(const DirectX:
 template<>
 DirectX::XMVECTOR XG_InterpolatorNode<DirectX::XMVECTOR>::MixKeys(const DirectX::XMVECTOR& first, const DirectX::XMVECTOR& second, const float coef)
 {
-	return DirectX::XMVectorLerp(first, second, coef);
+	return DirectX::XMQuaternionSlerp(first, second, coef);
 }
 
 template<>
