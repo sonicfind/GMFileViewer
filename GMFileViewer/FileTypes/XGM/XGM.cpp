@@ -46,7 +46,6 @@ void XGM::testGraphics() const
 	gfx->bindConstantBuffer(Graphics::ComboViewAndProjection);
 	gfx->updateConstantBuffer(0, &combo, sizeof(DirectX::XMMATRIX));
 
-	gfx->enable(Graphics::AlphaBlending);
 	gfx->enable(Graphics::Depth_Test);
 
 	auto t1 = std::chrono::high_resolution_clock::now();

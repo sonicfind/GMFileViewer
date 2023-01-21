@@ -31,7 +31,14 @@ void xgMaterial::bind(size_t slot) const
 	gfx->bindConstantBuffer(Graphics::Material);
 	gfx->updateConstantBuffer(0, &m_blendType, 64);
 
-	gfx->setBlendFunc(m_blendType);
+	if (m_blendType != Blending::Opaque)
+	{
+		gfx->enable(Graphics::AlphaBlending);
+		gfx->setBlendFunc(m_blendType);
+	}
+	else
+		gfx->disable(Graphics::AlphaBlending);
+	
 }
 
 size_t xgMaterial::getNumMaterials() const
