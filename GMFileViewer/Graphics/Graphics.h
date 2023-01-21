@@ -81,6 +81,14 @@ public:
 private:
 	static std::unique_ptr<Graphics> s_gfx;
 
+	static struct GraphicsSettings
+	{
+		uint32_t width = 640;
+		uint32_t height = 480;
+		uint32_t maxFPS = 300;
+		std::string name = "Window";
+	} s_settings;
+
 public:
 	enum class Backend
 	{
@@ -93,4 +101,14 @@ public:
 
 	static Graphics* getGraphics();
 	virtual ~Graphics() = default;
+
+	static uint32_t getWidth() { return s_settings.width; }
+	static uint32_t getHeight() { return s_settings.height; }
+	static uint32_t getMaxFPS() { return s_settings.maxFPS; }
+	static std::string_view getName() { return s_settings.name; }
+
+	static void getWidth(uint32_t width)   { s_settings.width = width; }
+	static void getHeight(uint32_t height) { s_settings.height = height; }
+	static void getMaxFPS(uint32_t fps)    { s_settings.maxFPS = fps; }
+	static void getName(std::string name)  { s_settings.name = name; }
 };

@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 std::unique_ptr<Graphics> Graphics::s_gfx;
+Graphics::GraphicsSettings Graphics::s_settings;
 
 void Graphics::initGraphics(Backend backend)
 {
