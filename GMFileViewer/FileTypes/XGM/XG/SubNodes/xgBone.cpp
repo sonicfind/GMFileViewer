@@ -13,5 +13,5 @@ DirectX::XMMATRIX xgBone::calcTransformMatrix() const
 	if (!m_inputMatrix)
 		return m_restMatrix;
 
-	return m_inputMatrix->transform().getMatrix() * m_restMatrix;
+	return m_restMatrix *  m_inputMatrix->transform();
 }

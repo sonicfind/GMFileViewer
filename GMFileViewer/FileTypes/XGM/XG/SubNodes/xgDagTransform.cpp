@@ -10,5 +10,5 @@ DirectX::XMMATRIX xgDagTransform::calcTransformMatrix() const
 {
 	if (!m_inputMatrix)
 		return DirectX::XMMatrixIdentity();
-	return m_inputMatrix->transform().getMatrix();
+	return m_inputMatrix->transform();
 }

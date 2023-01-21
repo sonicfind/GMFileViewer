@@ -13,18 +13,9 @@ class xgBgMatrix : public XG_SubNode
 	xgVec3Interpolator* m_inputScale = nullptr;
 	xgBgMatrix* m_inputParentMatrix = nullptr;
 
-	struct TransformVectors
-	{
-		DirectX::XMVECTOR translation;
-		DirectX::XMVECTOR rotation;
-		DirectX::XMVECTOR scale;
-
-		DirectX::XMMATRIX getMatrix() const;
-	};
-
 public:
 	void load(FilePointer& file, const XG* xg) override;
 
-	TransformVectors transform() const;
+	DirectX::XMMATRIX transform() const;
 };
 

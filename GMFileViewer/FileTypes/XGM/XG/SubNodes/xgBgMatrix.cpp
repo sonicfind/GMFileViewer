@@ -14,35 +14,27 @@ void xgBgMatrix::load(FilePointer& file, const XG* xg)
 		   xg->grabNode_nondestructive(m_inputParentMatrix , "inputParentMatrix", "outputMatrix", file));
 }
 
-xgBgMatrix::TransformVectors xgBgMatrix::transform() const
+using namespace DirectX;
+
+XMMATRIX xgBgMatrix::transform() const
 {
-	using namespace DirectX;
-
-	TransformVectors transformations;
-	if (m_inputParentMatrix)
-		transformations = m_inputParentMatrix->transform();
-
-	if (m_inputPosition)
-	{
-		auto pos = m_inputPosition->calcMixedValue();
-		transformations.translation += DirectX::XMLoadFloat3(&pos);
-	}
+	XMMATRIX matrix = m_inputParentMatrix ? m_inputParentMatrix->transform() : XMMatrixIdentity();
+	if (!m_inputScale)
+		matrix *= XMMatrixScalingFromVector(XMLoadFloat3(&m_scale));
 	else
-		transformations.translation += DirectX::XMLoadFloat3(&m_position);
-
-	transformations.rotation = XMQuaternionMultiply(transformations.rotation, m_inputRotation ? m_inputRotation->calcMixedValue() : m_rotation);
-
-	if (m_inputScale)
 	{
-		auto scl = m_inputScale->calcMixedValue();
-		transformations.scale *= DirectX::XMLoadFloat3(&scl);
+		const XMFLOAT3 scale = m_inputScale->calcMixedValue();
+		matrix *= XMMatrixScalingFromVector(XMLoadFloat3(&scale));
 	}
-	else
-		transformations.scale *= DirectX::XMLoadFloat3(&m_scale);
-	return transformations;
-}
 
-DirectX::XMMATRIX xgBgMatrix::TransformVectors::getMatrix() const
-{
-	return DirectX::XMMatrixScalingFromVector(scale) * DirectX::XMMatrixRotationQuaternion(rotation) *  DirectX::XMMatrixTranslationFromVector(translation);
+	matrix *= XMMatrixRotationQuaternion(XMQuaternionConjugate(m_inputRotation ? m_inputRotation->calcMixedValue() : m_rotation));
+
+	if (!m_inputPosition)
+		matrix *= XMMatrixTranslationFromVector(XMLoadFloat3(&m_position));
+	else
+	{
+		const XMFLOAT3 translation = m_inputPosition->calcMixedValue();
+		matrix *= XMMatrixTranslationFromVector(XMLoadFloat3(&translation));
+	}
+	return matrix;
 }
