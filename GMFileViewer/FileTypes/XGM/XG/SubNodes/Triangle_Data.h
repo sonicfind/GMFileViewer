@@ -6,7 +6,7 @@
 template <PrimitiveMode MODE>
 class Triangle_Data
 {
-	static_assert(MODE >= PrimitiveMode::PRIMITIVE && MODE <= PrimitiveMode::TRIANGLE_LIST);
+	static_assert(MODE >= PrimitiveMode::TRIANGLE_LIST && MODE <= PrimitiveMode::PRIMITIVE);
 protected:
 	uint32_t m_numPrimitives = 0;
 	GMArray<uint32_t> m_data;

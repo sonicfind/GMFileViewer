@@ -26,18 +26,20 @@ void xgDagMesh::update()
 
 void xgDagMesh::draw(const DirectX::XMMATRIX& meshMatrix) const
 {
-	m_inputMaterial->bind(0);
-	m_inputGeometry->bindVertexBuffer();
-
 	Graphics* gfx = Graphics::getGraphics();
-	gfx->bindConstantBuffer(Graphics::MeshMatrix);
+	gfx->bindConstantBuffer(Graphics::ModelMatrix);
 	gfx->updateConstantBuffer(0, &meshMatrix, sizeof(DirectX::XMMATRIX));
 
-	gfx->setCullFunc(m_cullFunc);
-	gfx->setDepthFunc(DepthTest::LESS);
+	m_inputGeometry->bindVertexBuffer();
 
-	for (size_t i = 0; i < m_inputMaterial->getNumMaterials(); ++i)
+	gfx->setCullFunc(m_cullFunc);
+	gfx->activateShader(Graphics::Model);
+
+	gfx->setActiveTexture(0);
+	gfx->setDepthFunc(DepthTest::LESS);
+	for (uint32_t i = 0; i < m_inputMaterial->getNumMaterials(); ++i)
 	{
+		m_inputMaterial->bind(i);
 		if (m_primType == 5)
 		{
 			m_prim.draw<5>();

@@ -130,6 +130,12 @@
     <Filter Include="Graphics\OpenGL">
       <UniqueIdentifier>{c829bfaa-df3b-43a6-bbc3-21b5a318f308}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\OpenGL\Shaders">
+      <UniqueIdentifier>{3612f474-c6c3-4955-9044-c935ecb549ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DirectX\Shaders">
+      <UniqueIdentifier>{3364b6eb-d96b-47dc-a83d-60b1ddcb8af1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgVertexInterpolator">
       <UniqueIdentifier>{ac215f8e-544c-48c7-9102-f43c2533d3a6}</UniqueIdentifier>
     </Filter>
@@ -273,6 +279,10 @@
     </ClCompile>
     <ClCompile Include="Graphics\OpenGL\Graphics_OGL.cpp">
       <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdparty\GLAD\glad.c" />
+    <ClCompile Include="Graphics\OpenGL\Shaders_OGL.cpp">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgNormalInterpolator.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgNormalnterpolator</Filter>
@@ -470,5 +480,45 @@
     <Natvis Include="FileTypes\CHC\Notes\Notes.natvis">
       <Filter>FileTypes\CHC\Notes</Filter>
     </Natvis>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\OpenGL\ModelFragment.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="Graphics\OpenGL\ModelVertex.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="Graphics\OpenGL\ShadowFragment.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="Graphics\OpenGL\ShadowGeometry.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="Graphics\OpenGL\ShadowVertex.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="Graphics\OpenGL\SkyFragment.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="Graphics\OpenGL\SkyVertex.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="Graphics\OpenGL\SpriteFragment.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="Graphics\OpenGL\SpriteGeometry.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="Graphics\OpenGL\SpriteVertex.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="Graphics\OpenGL\EnvelopeCompute.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Graphics\DirectX\ModelVertex.hlsl">
+      <Filter>Graphics\DirectX\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

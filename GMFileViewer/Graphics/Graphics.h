@@ -5,10 +5,10 @@
 
 enum class PrimitiveMode
 {
-	PRIMITIVE,
-	TRIANGLE_FAN,
-	TRIANGLE_STRIP,
 	TRIANGLE_LIST,
+	TRIANGLE_STRIP,
+	TRIANGLE_FAN,
+	PRIMITIVE,
 };
 
 enum class Culling : uint32_t
@@ -30,24 +30,36 @@ enum class DepthTest : uint32_t
 	G_EQUAL
 };
 
+enum class Blending : uint32_t
+{
+	Opaque,
+	Additive,
+	Multipy,
+	Subtract,
+	Unknown,
+	MaterialAlpha
+};
+
 class Graphics
 {
 public:
-	enum class ShaderType
+	enum ShaderType
 	{
+		Envelope,
 		Model,
 		Shadow,
 		Sprite,
-		Box
+		Sky
 	};
 
 	virtual void activateShader(ShaderType type) const = 0;
+	virtual void setShaderInt(const char* name, int value) const = 0;
 
-	virtual size_t createVertexBuffer(const void* data, uint32_t dataSize, bool isDynamic) = 0;
+	virtual size_t createVertexBuffer(ShaderType type, const void* data, uint32_t dataSize, bool isDynamic) = 0;
 	virtual void bindVertexBuffer(size_t index) const = 0;
 	virtual void updateVertexBuffer(uint32_t offset, const void* data, uint32_t dataSize) const = 0;
 
-	enum class Filtering
+	enum Filtering
 	{
 		Bilenear,
 		Nearest_Neighbor
@@ -56,27 +68,49 @@ public:
 	virtual void bindTexture(std::string_view name) const = 0;
 	virtual void updateTexture(uint32_t locationX, uint32_t locationY, const void* imagePtr, uint32_t width, uint32_t height) const = 0;
 	virtual void unbindTexture() const = 0;
+	virtual void selectSkyTexture(std::string_view name) = 0;
+	virtual void setActiveTexture(uint32_t slot) const = 0;
 
 	enum ConstBufferSelection
 	{
-		MeshMatrix,
+
+		View,
+		ComboViewAndProjection,
+		ModelMatrix,
 		Material,
+		Lights
 	};
 
 	virtual void bindConstantBuffer(ConstBufferSelection selection) const = 0;
 	virtual void updateConstantBuffer(uint32_t offset, const void* data, uint32_t dataSize) const = 0;
 
-	virtual void updateCameraBuffers(const float* viewMatrix, const float* projectionMatrix) const = 0;
-
+	enum FrontFace
+	{
+		Clockwise,
+		Countrclockwise,
+	};
+	virtual void setFrontFace(FrontFace front) const = 0;
 	virtual void setCullFunc(Culling cull) = 0;
-	virtual void setDepthTest(bool enable) const = 0;
 	virtual void setDepthFunc(DepthTest testParam) const = 0;
+
+	virtual void setBlendFunc(Blending blend) const = 0;
+	virtual void setClearColor(float r, float g, float b, float a) const = 0;
+
+	enum Enablable
+	{
+		Depth_Test,
+		Depth_Mask,
+		AlphaBlending
+	};
+	virtual void enable(Enablable property) const = 0;
+	virtual void disable(Enablable property) const = 0;
 
 	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode mode) const = 0;
 	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode mode) const = 0;
 
 	virtual void resetFrame() const = 0;
 	virtual void displayFrame() const = 0;
+	virtual bool shouldClose() const = 0;
 
 private:
 	static std::unique_ptr<Graphics> s_gfx;
@@ -90,7 +124,7 @@ private:
 	} s_settings;
 
 public:
-	enum class Backend
+	enum Backend
 	{
 		DirectX,
 		OpenGL,

@@ -4,7 +4,11 @@ void Graphics_DX::activateShader(ShaderType type) const
 {
 }
 
-size_t Graphics_DX::createVertexBuffer(const void* data, uint32_t dataSize, bool isDynamic)
+void Graphics_DX::setShaderInt(const char* name, int value) const
+{
+}
+
+size_t Graphics_DX::createVertexBuffer(ShaderType type, const void* data, uint32_t dataSize, bool isDynamic)
 {
     return size_t();
 }
@@ -33,6 +37,14 @@ void Graphics_DX::unbindTexture() const
 {
 }
 
+void Graphics_DX::selectSkyTexture(std::string_view name)
+{
+}
+
+void Graphics_DX::setActiveTexture(uint32_t slot) const
+{
+}
+
 void Graphics_DX::bindConstantBuffer(ConstBufferSelection selection) const
 {
 }
@@ -41,7 +53,7 @@ void Graphics_DX::updateConstantBuffer(uint32_t offset, const void* data, uint32
 {
 }
 
-void Graphics_DX::updateCameraBuffers(const float* viewMatrix, const float* projectionMatrix) const
+void Graphics_DX::setFrontFace(FrontFace front) const
 {
 }
 
@@ -49,11 +61,23 @@ void Graphics_DX::setCullFunc(Culling cull)
 {
 }
 
-void Graphics_DX::setDepthTest(bool enable) const
+void Graphics_DX::enable(Enablable property) const
+{
+}
+
+void Graphics_DX::disable(Enablable property) const
 {
 }
 
 void Graphics_DX::setDepthFunc(DepthTest testParam) const
+{
+}
+
+void Graphics_DX::setBlendFunc(Blending blend) const
+{
+}
+
+void Graphics_DX::setClearColor(float r, float g, float b, float a) const
 {
 }
 
@@ -71,4 +95,9 @@ void Graphics_DX::resetFrame() const
 
 void Graphics_DX::displayFrame() const
 {
+}
+
+bool Graphics_DX::shouldClose() const
+{
+    return false;
 }

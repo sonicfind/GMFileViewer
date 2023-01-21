@@ -2,11 +2,21 @@
 #include "../XG.h"
 #include "XG_MaterialNode.h"
 #include "xgTexture.h"
+#include "Graphics.h"
 
 class xgMaterial : public XG_SubNode, public XG_MaterialNode
 {
-	uint32_t m_blendType = 0;
-	uint32_t m_shadingType = 0;
+	enum Shading : uint32_t
+	{
+		Unshaded,
+		Shaded_unk,
+		Shaded,
+		VertexColors,
+		VertexColors_Shaded,
+	};
+
+	Blending m_blendType = Blending::Opaque;
+	Shading m_shadingType = Shading::Unshaded;
 
 	alignas(16) struct Diffuse
 	{

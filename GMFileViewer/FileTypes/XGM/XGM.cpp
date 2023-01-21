@@ -1,4 +1,5 @@
 #include "XGM.h"
+#include "XG/SubNodes/xgBgGeometry.h"
 #include "TaskQueue.h"
 #include "Graphics.h"
 #include <iostream>
@@ -30,14 +31,44 @@ void XGM::createGraphicsBuffers()
 
 void XGM::testGraphics() const
 {
+	const Graphics* gfx = Graphics::getGraphics();
+	gfx->setClearColor(0.2f, 0.5f, 0.2f, 1.0f);
+	DirectX::XMFLOAT3 pos = { 0.0f, 100.0f, -200.0f };
+	DirectX::XMFLOAT3 front = { 0.0f, 100.0f, -199.0f };
+	DirectX::XMFLOAT3 up = { 0.0f, 1.0f, 0.0f };
+
+	auto view = DirectX::XMMatrixLookAtLH(DirectX::XMLoadFloat3(&pos), DirectX::XMLoadFloat3(&front), DirectX::XMLoadFloat3(&up));
+	auto combo = view * DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.f), 4.f / 3, 1.0f, 1800000.0f);
+
+	gfx->bindConstantBuffer(Graphics::View);
+	gfx->updateConstantBuffer(0, &view, sizeof(DirectX::XMMATRIX));
+
+	gfx->bindConstantBuffer(Graphics::ComboViewAndProjection);
+	gfx->updateConstantBuffer(0, &combo, sizeof(DirectX::XMMATRIX));
+
+	gfx->enable(Graphics::AlphaBlending);
+	gfx->enable(Graphics::Depth_Test);
+
 	auto t1 = std::chrono::high_resolution_clock::now();
-	for (size_t i = 0; i < 10000; ++i)
+	size_t count = 0;
+	float prev = 0;
+	for (size_t i = 0; !gfx->shouldClose(); ++i)
 	{
-		for (const auto& model : m_models)
+		auto t2 = std::chrono::high_resolution_clock::now();
+		float time = 30 * std::chrono::duration<float>(t2 - t1).count();
+		if (time >= prev + 30)
 		{
-			model.update(0, 12, LoopControl::NORMAL, PlaybackDirection::FORWARDS);
-			model.draw(DirectX::XMMatrixIdentity());
+			std::cout << 1000.0 / double(count) << " ms/frame\n";
+			std::cout << count << " frames" << std::endl;
+			count = 0;
+			prev = int(time / 30) * 30;
 		}
+		++count;
+
+		gfx->resetFrame();
+		for (const auto& model : m_models)
+			model.draw(DirectX::XMMatrixIdentity());
+		gfx->displayFrame();
 	}
 	auto t2 = std::chrono::high_resolution_clock::now();
 	std::cout << std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count() / 1000 << " milliseconds\n";
@@ -101,7 +132,7 @@ void XGM::XGMNode_XG::update(uint32_t index, float frame, LoopControl control, P
 		while (index < m_animations.getSize() - 1 || control == LoopControl::LOOP_ALL)
 		{
 			const float length = m_animations[index].calcLength(120);
-			if (frame < length)
+			if (frame < length || length == 0)
 				break;
 
 			frame -= length;
