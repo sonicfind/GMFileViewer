@@ -19,7 +19,7 @@ public:
 	void load(FilePointer& file, const XG* xg) override;
 
 	void createVertexBuffer();
-	void update() const;
+	void update();
 	void draw(const DirectX::XMMATRIX& meshMatrix) const;
 };
 

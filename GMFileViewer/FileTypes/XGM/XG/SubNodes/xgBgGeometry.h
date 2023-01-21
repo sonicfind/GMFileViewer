@@ -14,7 +14,7 @@ public:
 
 	void createVertexBuffer();
 	void bindVertexBuffer() const;
-	void update() const;
+	void update();
 
 	const Vertex& getVertex(size_t index) const;
 };

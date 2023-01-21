@@ -19,9 +19,8 @@ void xgDagMesh::createVertexBuffer()
 	m_inputGeometry->createVertexBuffer();
 }
 
-void xgDagMesh::update() const
+void xgDagMesh::update()
 {
-	m_inputGeometry->bindVertexBuffer();
 	m_inputGeometry->update();
 }
 

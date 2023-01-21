@@ -1,5 +1,4 @@
 #include "xgEnvelope.h"
-#include "Graphics.h"
 
 void xgEnvelope::load(FilePointer& file, const XG* xg)
 {
@@ -16,7 +15,7 @@ void xgEnvelope::load(FilePointer& file, const XG* xg)
 	m_inputGeometry = static_cast<xgBgGeometry*>(xg->grabNode_optional("inputGeometry", "outputGeometry", file));
 }
 
-void xgEnvelope::updateVertexBuffer() const
+void xgEnvelope::updateVertices(VertexList& vertices) const
 {
 	using namespace DirectX;
 
@@ -29,24 +28,12 @@ void xgEnvelope::updateVertexBuffer() const
 		m_inputMatrices[3] ? m_inputMatrices[3]->calcTransformMatrix() : IDENTITY,
 	};
 
-	const Graphics* gfx = Graphics::getGraphics();
 	for (size_t index = 0, targetIndex = 0; index < m_weights.getSize(); ++index, ++targetIndex)
 	{
-		DirectX::XMMATRIX mat{};
-		{
-			float total = 0;
-			for (size_t i = 0; i < 4 && total < 1; ++i)
-			{
-				mat += m_weights[index].values[i] * boneMatrices[i];
-				total += m_weights[index].values[i];
-			}
-		}
-
-		const Vertex vertex = mat * m_inputGeometry->getVertex(m_startVertex + index);
-
+		const XMVECTOR position = boneMatrices[0] * m_inputGeometry->getVertex(m_startVertex + index);
 		while (m_vertexTargets[targetIndex] != -1)
 		{
-			gfx->updateVertexBuffer(m_vertexTargets[targetIndex] * sizeof(Vertex), &vertex, sizeof(DirectX::XMFLOAT3) + sizeof(DirectX::XMFLOAT4));
+			XMStoreFloat4(&vertices[m_vertexTargets[targetIndex]].m_position, position);
 			++targetIndex;
 		}
 	}

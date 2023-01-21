@@ -52,7 +52,7 @@ struct Vertex
 	}
 };
 
-Vertex operator*(const DirectX::XMMATRIX& matrix, Vertex vertex);
+DirectX::XMVECTOR operator*(const DirectX::XMMATRIX& matrix, const Vertex& vertex);
 
 class VertexList
 {
@@ -62,6 +62,10 @@ class VertexList
 	size_t m_bufferIndex = 0;
 
 public:
+	VertexList() = default;
+	VertexList(const VertexList&) = default;
+	VertexList(VertexList&&) = default;
+	VertexList& operator=(VertexList&& list);
 	void load(FilePointer& file);
 	VertexList mix(const VertexList& other, float coef) const;
 
@@ -70,6 +74,7 @@ public:
 	void updateBuffer() const;
 
 	const Vertex& operator[](size_t index) const { return m_vertices[index]; }
+	Vertex& operator[](size_t index) { return m_vertices[index]; }
 
 private:
 	template <uint32_t flags>

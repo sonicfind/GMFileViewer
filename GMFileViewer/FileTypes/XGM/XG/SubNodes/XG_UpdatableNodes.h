@@ -1,6 +1,7 @@
 #pragma once
+#include "VertexList.h"
 class XG_UpdatableNode
 {
 public:
-	virtual void updateVertexBuffer() const = 0;
+	virtual void updateVertices(VertexList& vertices) const = 0;
 };

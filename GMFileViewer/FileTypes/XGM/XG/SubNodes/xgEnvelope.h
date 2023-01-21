@@ -20,6 +20,6 @@ class xgEnvelope : public XG_SubNode, public XG_UpdatableNode
 
 public:
 	void load(FilePointer& file, const XG* xg) override;
-	void updateVertexBuffer() const override;
+	void updateVertices(VertexList& vertices) const override;
 };
 

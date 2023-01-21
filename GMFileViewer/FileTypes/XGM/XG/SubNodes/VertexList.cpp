@@ -1,6 +1,12 @@
 #include "VertexList.h"
 #include "Graphics.h"
 
+VertexList& VertexList::operator=(VertexList&& list)
+{
+	m_vertices = std::move(list.m_vertices);
+	return *this;
+}
+
 void VertexList::load(FilePointer& file)
 {
 	file.read(m_vertexFlags);
@@ -49,10 +55,7 @@ void VertexList::updateBuffer() const
 	Graphics::getGraphics()->updateVertexBuffer(0, m_vertices.begin(), m_vertices.getSize() * sizeof(Vertex));
 }
 
-Vertex operator*(const DirectX::XMMATRIX& matrix, Vertex vertex)
+DirectX::XMVECTOR operator*(const DirectX::XMMATRIX& matrix, const Vertex& vertex)
 {
-	using namespace DirectX;
-	DirectX::XMStoreFloat4(&vertex.m_position, XMVector4Transform(DirectX::XMLoadFloat4(&vertex.m_position), matrix));
-	DirectX::XMStoreFloat3(&vertex.m_normal, XMVector3TransformNormal(DirectX::XMLoadFloat3(&vertex.m_normal), matrix));
-	return vertex;
+	return XMVector4Transform(DirectX::XMLoadFloat4(&vertex.m_position), matrix);
 }

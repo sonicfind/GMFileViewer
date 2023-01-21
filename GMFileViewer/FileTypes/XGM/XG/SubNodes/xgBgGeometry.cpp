@@ -26,10 +26,16 @@ void xgBgGeometry::bindVertexBuffer() const
 	m_vertices.bindBuffer();
 }
 
-void xgBgGeometry::update() const
+void xgBgGeometry::update()
 {
+	if (m_inputGeometries.empty())
+		return;
+
 	for (const XG_UpdatableNode* node : m_inputGeometries)
-		node->updateVertexBuffer();
+		node->updateVertices(m_vertices);
+
+	m_vertices.bindBuffer();
+	m_vertices.updateBuffer();
 }
 
 const Vertex& xgBgGeometry::getVertex(size_t index) const
