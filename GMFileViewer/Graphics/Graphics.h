@@ -117,8 +117,8 @@ private:
 
 	static struct GraphicsSettings
 	{
-		uint32_t width = 640;
-		uint32_t height = 480;
+		uint32_t width = 1280;
+		uint32_t height = 960;
 		uint32_t maxFPS = 300;
 		std::string name = "Window";
 	} s_settings;
