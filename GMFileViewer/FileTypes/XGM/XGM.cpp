@@ -33,8 +33,8 @@ void XGM::testGraphics() const
 {
 	const Graphics* gfx = Graphics::getGraphics();
 	gfx->setClearColor(0.2f, 0.5f, 0.2f, 1.0f);
-	DirectX::XMFLOAT3 pos = { 0.0f, 100.0f, -200.0f };
-	DirectX::XMFLOAT3 front = { 0.0f, 100.0f, -199.0f };
+	DirectX::XMFLOAT3 pos = { 0.0f, 100.0f, -400.0f };
+	DirectX::XMFLOAT3 front = { 0.0f, 100.0f, -399.0f };
 	DirectX::XMFLOAT3 up = { 0.0f, 1.0f, 0.0f };
 
 	auto view = DirectX::XMMatrixLookAtLH(DirectX::XMLoadFloat3(&pos), DirectX::XMLoadFloat3(&front), DirectX::XMLoadFloat3(&up));
@@ -67,7 +67,10 @@ void XGM::testGraphics() const
 
 		gfx->resetFrame();
 		for (const auto& model : m_models)
+		{
+			model.update(0, time, LoopControl::LOOP_ALL, PlaybackDirection::FORWARDS);
 			model.draw(DirectX::XMMatrixIdentity());
+		}
 		gfx->displayFrame();
 	}
 	auto t2 = std::chrono::high_resolution_clock::now();
