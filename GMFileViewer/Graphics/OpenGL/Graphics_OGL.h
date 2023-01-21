@@ -115,7 +115,6 @@ private:
 	//
 	// Release will have the shaders embedded in the exe
 #ifdef _DEBUG
-	static const char* s_envelope_compute;
 	static const char* s_model_vert;
 	static const char* s_model_frag;
 	static const char* s_sprite_vert;
@@ -127,9 +126,6 @@ private:
 	static const char* s_sky_vert;
 	static const char* s_sky_frag;
 #else
-	static constexpr const char* s_envelope_compute =
-#include "EnvelopeCompute.glsl"
-		;
 	static constexpr const char* s_model_vert =
 #include "ModelVertex.glsl"
 		;
@@ -164,7 +160,6 @@ private:
 
 	Window_OGL m_window;
 
-	Shader_OGL m_envelopeShader;
 	Shader_OGL m_modelShader;
 	Shader_OGL m_spriteShader;
 	Shader_OGL m_shadowShader;

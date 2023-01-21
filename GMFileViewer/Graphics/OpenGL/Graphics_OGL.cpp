@@ -3,7 +3,6 @@
 #include <map>
 
 #ifdef _DEBUG
-const char* Graphics_OGL::s_envelope_compute = "Graphics/OpenGL/EnvelopeCompute.glsl";
 const char* Graphics_OGL::s_model_vert = "Graphics/OpenGL/ModelVertex.glsl";
 const char* Graphics_OGL::s_model_frag = "Graphics/OpenGL/ModelFragment.glsl";
 const char* Graphics_OGL::s_sprite_vert = "Graphics/OpenGL/SpriteVertex.glsl";
@@ -14,9 +13,7 @@ const char* Graphics_OGL::s_shadow_geo = "Graphics/OpenGL/ShadowGeometry.glsl";
 const char* Graphics_OGL::s_shadow_frag = "Graphics/OpenGL/ShadowFragment.glsl";
 const char* Graphics_OGL::s_sky_vert = "Graphics/OpenGL/SkyVertex.glsl";
 const char* Graphics_OGL::s_sky_frag = "Graphics/OpenGL/SkyFragment.glsl";
-#endif
 
-#ifdef _DEBUG
 void GLAPIENTRY
 MessageCallback(GLenum source,
     GLenum type,
@@ -63,7 +60,6 @@ MessageCallback(GLenum source,
 
 Graphics_OGL::Graphics_OGL()
     : m_window(Graphics::getName(), Graphics::getWidth(), Graphics::getHeight())
-    , m_envelopeShader(s_envelope_compute)
     , m_modelShader(s_model_vert, s_model_frag)
     , m_shadowShader(s_shadow_vert, s_shadow_geo, s_shadow_frag)
     , m_spriteShader(s_sprite_vert, s_sprite_geo, s_sprite_frag)
@@ -139,7 +135,7 @@ void Graphics_OGL::activateShader(ShaderType type) const
     switch (type)
     {
     case Graphics::Envelope:
-        m_envelopeShader.use();
+        throw "Unused shader";
         break;
     case Graphics::Model:
         m_modelShader.use();

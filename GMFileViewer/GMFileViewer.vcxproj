@@ -330,7 +330,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Graphics\OpenGL\EnvelopeCompute.glsl" />
     <None Include="Graphics\OpenGL\ModelFragment.glsl" />
     <None Include="Graphics\OpenGL\ModelVertex.glsl" />
     <None Include="Graphics\OpenGL\ShadowFragment.glsl" />
