@@ -59,7 +59,7 @@ class VertexList
 	uint32_t m_vertexFlags = 0;
 	GMArray<Vertex> m_vertices;
 
-	size_t m_bufferIndex = 0;
+	size_t m_bufferIndex = -1;
 
 public:
 	VertexList() = default;
