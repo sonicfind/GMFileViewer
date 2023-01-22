@@ -20,17 +20,18 @@ XGM::XGM(const std::filesystem::path& filePath)
 	TaskQueue::getInstance().waitForCompletedTasks();
 }
 
-void XGM::createGraphicsBuffers()
+void XGM::createGraphicsBuffers(size_t index)
 {
 	for (auto& texture : m_textures)
 		texture.createTextureBuffer();
 
-	for (auto& model : m_models)
-		model.createVertexBuffers();
+	m_models[index].createVertexBuffers();
 }
 
-void XGM::testGraphics() const
+void XGM::testGraphics(size_t index)
 {
+	createGraphicsBuffers(index);
+
 	const Graphics* gfx = Graphics::getGraphics();
 	gfx->setClearColor(0.2f, 0.5f, 0.2f, 1.0f);
 	DirectX::XMFLOAT3 pos = { 0.0f, 100.0f, -400.0f };
@@ -65,15 +66,18 @@ void XGM::testGraphics() const
 		++count;
 
 		gfx->resetFrame();
-		for (const auto& model : m_models)
-		{
-			model.update(0, time, LoopControl::LOOP_ALL, PlaybackDirection::FORWARDS);
-			model.draw(DirectX::XMMatrixIdentity());
-		}
+		m_models[index].update(0, time, LoopControl::LOOP_ALL, PlaybackDirection::FORWARDS);
+		m_models[index].draw(DirectX::XMMatrixIdentity());
 		gfx->displayFrame();
 	}
 	auto t2 = std::chrono::high_resolution_clock::now();
 	std::cout << std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count() / 1000 << " milliseconds\n";
+}
+
+void XGM::displayModelList() const
+{
+	for (uint32_t i = 0; i < m_models.getSize(); ++i)
+		std::cout << i + 1 << " - " << m_models[i].m_name << "\n";
 }
 
 uint32_t XGM::XGMNode::load(FilePointer& file, const uint32_t index)
