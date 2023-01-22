@@ -322,6 +322,7 @@
   <ItemGroup>
     <Natvis Include="FileTypes\CHC\Notes\Notes.natvis" />
     <Natvis Include="FileTypes\GMArray.natvis" />
+    <Natvis Include="FileTypes\XGM\IMX\IMX.natvis" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\DirectX\ModelVertex.hlsl">

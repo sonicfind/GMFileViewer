@@ -488,6 +488,9 @@
     <Natvis Include="FileTypes\CHC\Notes\Notes.natvis">
       <Filter>FileTypes\CHC\Notes</Filter>
     </Natvis>
+    <Natvis Include="FileTypes\XGM\IMX\IMX.natvis">
+      <Filter>FileTypes\XGM\IMX</Filter>
+    </Natvis>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\OpenGL\ModelFragment.glsl">
