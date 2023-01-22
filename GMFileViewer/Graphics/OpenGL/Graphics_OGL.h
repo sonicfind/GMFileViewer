@@ -17,6 +17,7 @@ class Graphics_OGL : public Graphics
 		~Window_OGL();
 		void endFrame() const;
 		bool shouldClose() const;
+		void setTitle(const char* str) const;
 	};
 
 	class Shader_OGL
@@ -107,6 +108,7 @@ public:
 	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode mode) const override;
 	virtual void resetFrame() const override;
 	virtual void displayFrame() const override;
+	virtual void updateTitle(const std::string& str) const override;
 	virtual bool shouldClose() const override;
 
 private:

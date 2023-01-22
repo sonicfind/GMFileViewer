@@ -26,6 +26,7 @@ void XGM::createGraphicsBuffers(size_t index)
 		texture.createTextureBuffer();
 
 	m_models[index].createVertexBuffers();
+	Graphics::getGraphics()->updateTitle(m_models[index].m_name);
 }
 
 void XGM::testGraphics(size_t index)

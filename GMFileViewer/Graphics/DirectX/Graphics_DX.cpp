@@ -97,6 +97,10 @@ void Graphics_DX::displayFrame() const
 {
 }
 
+void Graphics_DX::updateTitle(const std::string& str) const
+{
+}
+
 bool Graphics_DX::shouldClose() const
 {
     return false;

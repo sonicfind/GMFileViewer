@@ -30,5 +30,6 @@ public:
 	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode mode) const override;
 	virtual void resetFrame() const override;
 	virtual void displayFrame() const override;
+	virtual void updateTitle(const std::string& str) const override;
 	virtual bool shouldClose() const override;
 };

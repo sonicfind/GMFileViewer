@@ -394,6 +394,11 @@ void Graphics_OGL::displayFrame() const
     m_window.endFrame();
 }
 
+void Graphics_OGL::updateTitle(const std::string& str) const
+{
+    m_window.setTitle(str.c_str());
+}
+
 bool Graphics_OGL::shouldClose() const
 {
     return m_window.shouldClose();
@@ -408,6 +413,11 @@ void Graphics_OGL::Window_OGL::endFrame() const
 bool Graphics_OGL::Window_OGL::shouldClose() const
 {
     return glfwWindowShouldClose(m_window);
+}
+
+void Graphics_OGL::Window_OGL::setTitle(const char* str) const
+{
+    glfwSetWindowTitle(m_window, str);
 }
 
 Graphics_OGL::TextureID::TextureID(std::string_view name, const void* imagePtr, uint32_t width, uint32_t height) : name(name)

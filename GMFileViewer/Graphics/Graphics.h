@@ -110,6 +110,7 @@ public:
 
 	virtual void resetFrame() const = 0;
 	virtual void displayFrame() const = 0;
+	virtual void updateTitle(const std::string& str) const = 0;
 	virtual bool shouldClose() const = 0;
 
 private:
