@@ -29,8 +29,8 @@ const int MAX_LIGHTS = 4;
 struct Light
 {
 	vec3 direction;
+	vec3 ambient;
 	vec3 diffuse;
-	vec3 specular;
 	float min;
 	float coefficient;
 	float max;
@@ -62,18 +62,9 @@ void main()
 	if (useTexture == 1)
 	{
 		vec4 texColor = texture(tex, vs_in.texCoord);
-		if (shadingType != 3)
-			result = getBlendColor(texColor.rgb);
-		else
-			result = getBlendColor(texColor.rgb * vs_in.color.rgb);
+		result = getBlendColor(texColor.rgb);
 		result.a *= texColor.a;
 	}	
-	else if (shadingType == 3)
-		result = getBlendColor(globalVertexColor + vs_in.color.rgb);
-	else if (useGlobal == 1)
-		result = getBlendColor(globalVertexColor);
-	else
-		result = getBlendColor(diffuse.rgb);
 
 	if (flags > 2)
 		result.a *= 2;
@@ -98,32 +89,41 @@ vec4 getBlendColor(const vec3 color)
 
 vec4 applyShading(const vec4 baseColor)
 {
-	if (doLights == 0 || shadingType == 0 || shadingType == 3)
+	if (doLights == 0 || shadingType == 0)
 		return baseColor;
+	else if (shadingType == 3)
+		return baseColor * vs_in.color;
 	
-	vec3 ambient = vec3(0);
-	vec3 diffvec = vec3(0);
-	vec3 specvec = vec3(0);
 	vec3 viewDir = normalize(vec3(view[0][3], view[1][3], view[2][3]) - vs_in.fragPos);
-	float recip = 1.0f / numLights;
+	vec3 result = vec3(0);
 	for (int i = 0; i < numLights; ++i)
 	{
-		ambient += lights[i].max * sceneAmbience * 2;
-		// diffuse shading
-		float diff = max(dot(vs_in.normal, -lights[i].direction), 0);
-		if (shadingType < 3)
-			diffvec += recip * diff * lights[i].diffuse;
-		else
-			diffvec += recip * diff * (lights[i].diffuse + globalVertexColor.rgb + vs_in.color.rgb);
+		vec3 lighting = vec3(0);
+		if (shadingType >= 3)
+			lighting = lights[i].ambient * vs_in.color.rgb;
 
-		if (shadingType == 1 || shadingType == 4)
+		if (shadingType != 3)
 		{
-			// specular shading
-			vec3 reflectDir = reflect(lights[i].direction, vs_in.normal);
-			float spec = pow(max(dot(viewDir, reflectDir), 0.0), specular.a);
-			specvec += recip * spec * lights[i].specular;
+			float dp = dot(vs_in.normal, lights[i].direction);
+			if (dp > 0)
+			{
+				lighting += (sceneAmbience + (lights[i].diffuse * diffuse.rgb)) * dp;
+
+				vec3 reflectDir = reflect(-lights[i].direction, vs_in.normal);
+				float specdot = 0;
+				if (shadingType == 1 || shadingType == 4)
+				{
+					float specdot = dot(viewDir, reflectDir);
+					if (specdot > 0)
+						lighting += specular.rgb * diffuse.a * pow(specdot, specular.a);
+				}					
+			}
 		}
+		result += lighting;
 	}
-	return vec4((ambient + diffvec + specvec * specular.rgb) * baseColor.rgb, baseColor.a);
+
+	float val = 1 - unknown;
+	result = result * val + unknown;
+	return vec4(result * baseColor.rgb, baseColor.a);
 };
 )"
