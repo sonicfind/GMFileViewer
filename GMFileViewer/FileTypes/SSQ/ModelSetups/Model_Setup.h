@@ -64,5 +64,12 @@ public:
 	Model_Setup(FileReader& file);
 	virtual void save(FileWriter& file) const;
 	virtual ~Model_Setup() = default;
+	
+	DirectX::XMMATRIX getModelMatrix(float frame) const;
+
+private:
+	DirectX::XMMATRIX getScalar(float frame) const;
+	DirectX::XMMATRIX getRotation(float frame) const;
+	DirectX::XMMATRIX getTranslation(float frame) const;
 
 };

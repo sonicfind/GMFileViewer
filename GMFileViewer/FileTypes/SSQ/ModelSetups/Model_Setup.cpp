@@ -53,3 +53,29 @@ void Model_Setup::save(FileWriter& file) const
 		file.write(m_baseValues);
 	}
 }
+
+DirectX::XMMATRIX Model_Setup::getModelMatrix(float frame) const
+{
+	return getScalar(frame) * getRotation(frame) * getTranslation(frame);
+}
+
+DirectX::XMMATRIX Model_Setup::getScalar(float frame) const
+{
+	if (m_scalars.isEmpty())
+		return DirectX::XMMatrixIdentity();
+
+	const auto key = InterpolateStruct(m_scalars, frame);
+	return DirectX::XMMatrixScalingFromVector(DirectX::XMLoadFloat3(&key.scalar));
+}
+
+DirectX::XMMATRIX Model_Setup::getRotation(float frame) const
+{
+	const auto quat = !m_rotations.isEmpty() ? InterpolateRotation(m_rotations, frame) : DirectX::XMLoadFloat4(&m_baseValues.baseRotation);
+	return DirectX::XMMatrixRotationQuaternion(quat);
+}
+
+DirectX::XMMATRIX Model_Setup::getTranslation(float frame) const
+{
+	const auto tsl = !m_positions.isEmpty() ? InterpolateFloat3(m_positions, frame) : DirectX::XMLoadFloat3(&m_baseValues.basePosition);
+	return DirectX::XMMatrixTranslationFromVector(tsl);
+}
