@@ -14,6 +14,12 @@ std::string_view PString::GetString(FilePointer& file)
 	return str;
 }
 
+void PString::WriteString(std::string_view str, FileWriter& file)
+{
+	file << unsigned char(str.length());
+	file.write(str.data(), str.length());
+}
+
 bool PString::CheckForString(std::string_view strToMatch, FilePointer& file) noexcept
 {
 	unsigned char length = *file;

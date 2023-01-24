@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "FilePointer.h"
+#include "FileWriter.h"
 #include "GMArray.h"
 #include "XGM/XG/SubNodes/VertexList.h"
 
@@ -8,6 +9,8 @@ namespace PString
 {
 	void GetString(std::string_view& str, FilePointer& file);
 	std::string_view GetString(FilePointer& file);
+
+	void WriteString(std::string_view str, FileWriter& file);
 
 	bool CheckForString(std::string_view strToMatch, FilePointer& file) noexcept;
 	void ThrowOnStringMismatch(std::string_view strToMatch, FilePointer& file);
@@ -31,4 +34,11 @@ namespace PString
 
 	template <>
 	void ReadNamedValue(std::string_view name, VertexList& value, FilePointer& file);
+
+	template<typename T>
+	void WriteNamedValue(std::string_view name, const T& value, FileWriter& file)
+	{
+		WriteString(name, file);
+		file << value;
+	}
 }
