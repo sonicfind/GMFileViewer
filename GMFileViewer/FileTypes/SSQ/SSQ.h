@@ -7,6 +7,7 @@
 #include "SpriteSetups/SpriteSetups.h"
 #include "TextureAnimations/TextureAnimation.h"
 #include "PSetup/PSetup.h"
+#include "XGM/XGM.h"
 
 class SSQ
 {
@@ -22,5 +23,7 @@ class SSQ
 public:
 	SSQ(const std::filesystem::path& filePath);
 	void saveToFile(const std::filesystem::path& filePath) const;
+	
+	void loadSequence(XGM& pack);
 	void update(float frame);
 };

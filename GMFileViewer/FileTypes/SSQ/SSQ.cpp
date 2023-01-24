@@ -92,6 +92,19 @@ void SSQ::saveToFile(const std::filesystem::path& filePath) const
 	}
 }
 
+void SSQ::loadSequence(XGM& pack)
+{
+	for (auto& entry : m_xgEntries)
+	{
+		if (!entry.isClone())
+			entry.setModelIndex(pack.getModelIndex(entry.getName()));
+		else
+			entry.setModelIndex(m_xgEntries[entry.getCloneID()].getModelIndex());
+	}
+
+
+}
+
 void SSQ::update(float frame)
 {
 	for (size_t i = 0; i < m_matrices.getSize(); ++i)
