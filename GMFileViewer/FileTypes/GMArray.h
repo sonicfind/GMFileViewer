@@ -1,5 +1,6 @@
 #pragma once
 #include "FilePointer.h"
+#include "FileWriter.h"
 #include <assert.h>
 
 template <typename T>
@@ -36,12 +37,9 @@ public:
 		return *this;
 	}
 
-	template <bool SizeInBytes = false>
 	bool reserve(FilePointer& file)
 	{
 		uint32_t size = file.read<uint32_t>();
-		if constexpr (SizeInBytes)
-			size /= sizeof(T);
 		return reserve(size);
 	}
 
@@ -56,10 +54,9 @@ public:
 		file.read(m_elements.get(), m_size * sizeof(T));
 	}
 
-	template <bool SizeInBytes = false>
 	void reserve_and_fill(FilePointer& file)
 	{
-		if (reserve<SizeInBytes>(file))
+		if (reserve(file))
 			fill(file);
 	}
 
@@ -67,6 +64,22 @@ public:
 	{
 		if (reserve(size))
 			fill(file);
+	}
+
+	void write_size(FileWriter& file) const
+	{
+		file << m_size;
+	}
+
+	void write_data(FileWriter& file) const
+	{
+		file.write(m_elements.get(), sizeof(T)* m_size);
+	}
+
+	void write_full(FileWriter& file) const
+	{
+		write_size(file);
+		write_data(file);
 	}
 
 	T& operator[](const size_t index)
