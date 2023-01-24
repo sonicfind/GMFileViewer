@@ -91,3 +91,11 @@ void SSQ::saveToFile(const std::filesystem::path& filePath) const
 			texAnim.save(file);
 	}
 }
+
+void SSQ::update(float frame)
+{
+	for (size_t i = 0; i < m_matrices.getSize(); ++i)
+		m_matrices[i] = m_models[i]->getModelMatrix(frame);
+
+
+}
