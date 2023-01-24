@@ -60,9 +60,7 @@ int main()
 			if (index == 0)
 				break;
 
-			Graphics::initGraphics(Graphics::Backend::OpenGL);
 			file.testGraphics(index - 1);
-			Graphics::closeGraphics();
 		}
 
 		testWrite(file);

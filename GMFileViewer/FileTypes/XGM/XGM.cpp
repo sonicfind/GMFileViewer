@@ -51,6 +51,7 @@ void XGM::createGraphicsBuffers(size_t index)
 
 void XGM::testGraphics(size_t index)
 {
+	Graphics::initGraphics(Graphics::Backend::OpenGL);
 	createGraphicsBuffers(index);
 
 	const Graphics* gfx = Graphics::getGraphics();
@@ -91,8 +92,7 @@ void XGM::testGraphics(size_t index)
 		m_models[index].draw(DirectX::XMMatrixIdentity());
 		gfx->displayFrame();
 	}
-	auto t2 = std::chrono::high_resolution_clock::now();
-	std::cout << std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count() / 1000 << " milliseconds\n";
+	Graphics::closeGraphics();
 }
 
 void XGM::displayModelList() const
