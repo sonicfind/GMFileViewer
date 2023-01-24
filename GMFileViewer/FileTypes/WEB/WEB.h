@@ -5,5 +5,5 @@ class WEB
 {
 	std::unique_ptr<PlayerModel_Setup> m_setup;
 public:
-	WEB(std::filesystem::path& filePath);
+	WEB(const std::filesystem::path& filePath);
 };
