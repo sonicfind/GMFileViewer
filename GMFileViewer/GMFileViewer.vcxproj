@@ -194,7 +194,6 @@
     <ClCompile Include="FileTypes\SSQ\CameraSetup\LightSetup.cpp" />
     <ClCompile Include="FileTypes\SSQ\Keyframe.cpp" />
     <ClCompile Include="FileTypes\SSQ\ModelSetups\AttDefModel_Setup.cpp" />
-    <ClCompile Include="FileTypes\SSQ\ModelSetups\ModelSetup_Factory.cpp" />
     <ClCompile Include="FileTypes\SSQ\ModelSetups\Model_Setup.cpp" />
     <ClCompile Include="FileTypes\SSQ\ModelSetups\PlayerModel_Setup.cpp" />
     <ClCompile Include="FileTypes\SSQ\ModelSetups\SnakeModel_Setup.cpp" />

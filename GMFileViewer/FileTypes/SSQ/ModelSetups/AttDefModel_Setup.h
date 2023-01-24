@@ -3,8 +3,6 @@
 
 class AttDefModel_Setup : public Model_Setup
 {
-	friend class Model_Setup;
-
 	float m_attackSize_Z;
 
 	struct AttackStreamValues
@@ -15,9 +13,7 @@ class AttDefModel_Setup : public Model_Setup
 		char targetModel[16];
 	} m_attackValues;
 
-private:
-	AttDefModel_Setup(FileReader& file);
-
 public:
+	AttDefModel_Setup(FileReader& file);
 	void save(FileWriter& file) const override;
 };

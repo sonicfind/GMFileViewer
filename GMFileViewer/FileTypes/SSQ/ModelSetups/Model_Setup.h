@@ -60,12 +60,9 @@ private:
 	KeyFrameArray<ModelScalar> m_scalars;
 	BaseValues m_baseValues;
 
-protected:
-	Model_Setup(FileReader& file);
-
 public:
+	Model_Setup(FileReader& file);
 	virtual void save(FileWriter& file) const;
 	virtual ~Model_Setup() = default;
 
-	static std::unique_ptr<Model_Setup> create(FileReader& file, SSQModelType type);
 };

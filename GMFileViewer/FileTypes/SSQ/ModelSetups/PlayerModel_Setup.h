@@ -3,8 +3,6 @@
 
 class PlayerModel_Setup : public Model_Setup
 {
-	friend class Model_Setup;
-	friend class WEB;
 	struct Controllable
 	{
 		alignas(16) float angleMin;
@@ -24,10 +22,8 @@ class PlayerModel_Setup : public Model_Setup
 	GMArray<GMArray<uint32_t>> m_connections;
 	GMArray<int32_t> m_defaults;
 
-private:
+public:
 	PlayerModel_Setup(FileReader& file);
 	PlayerModel_Setup(FileReader&& file);
-
-public:
 	void save(FileWriter& file) const override;
 };

@@ -223,9 +223,6 @@
     <ClCompile Include="FileTypes\SSQ\ModelSetups\AttDefModel_Setup.cpp">
       <Filter>FileTypes\SSQ\Model_Setup</Filter>
     </ClCompile>
-    <ClCompile Include="FileTypes\SSQ\ModelSetups\ModelSetup_Factory.cpp">
-      <Filter>FileTypes\SSQ\Model_Setup</Filter>
-    </ClCompile>
     <ClCompile Include="FileTypes\SSQ\Keyframe.cpp">
       <Filter>FileTypes\SSQ\Keyframe</Filter>
     </ClCompile>

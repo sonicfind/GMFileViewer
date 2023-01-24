@@ -3,7 +3,6 @@
 
 class SnakeModel_Setup : public Model_Setup
 {
-	friend class Model_Setup;
-private:
+public:
 	SnakeModel_Setup(FileReader& file);
 };

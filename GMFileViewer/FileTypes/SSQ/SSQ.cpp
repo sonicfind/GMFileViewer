@@ -1,11 +1,13 @@
 #include "SSQ.h"
-#include "FileReader.h"
+#include "ModelSetups/Model_Setup.h"
+#include "ModelSetups/PlayerModel_Setup.h"
+#include "ModelSetups/AttDefModel_Setup.h"
+#include "ModelSetups/SnakeModel_Setup.h"
 #include <iostream>
 
 SSQ::SSQ(const std::filesystem::path& filePath)
 {
 	FileReader file(filePath);
-
 	if (!file.checkTag("GMSX"))
 		throw "SSQ file read error";
 
@@ -18,7 +20,30 @@ SSQ::SSQ(const std::filesystem::path& filePath)
 	m_models.reserve(m_xgEntries.getSize());
 
 	for (uint32_t i = 0; i < m_xgEntries.getSize(); ++i)
-		m_models[i] = Model_Setup::create(file, m_xgEntries[i].getModelType());
+	{
+		switch (m_xgEntries[i].getModelType())
+		{
+		case SSQModelType::Normal:
+			m_models[i] = std::make_unique<Model_Setup>(file);
+			break;
+		case SSQModelType::Player1:
+		case SSQModelType::Player2:
+		case SSQModelType::DuetPlayer:
+			m_models[i] = std::make_unique<PlayerModel_Setup>(file);
+			break;
+		case SSQModelType::Player1AttDef:
+		case SSQModelType::Player2AttDef:
+		case SSQModelType::DuetPlayerAttDef:
+		case SSQModelType::DuetComboAttack:
+			m_models[i] = std::make_unique<AttDefModel_Setup>(file);
+			break;
+		case SSQModelType::Snake:
+			m_models[i] = std::make_unique<SnakeModel_Setup>(file);
+			break;
+		default:
+			throw "Bad modelSetup type";
+		}
+	}
 
 	m_camera.read(file);
 	m_sprites.read(file);
