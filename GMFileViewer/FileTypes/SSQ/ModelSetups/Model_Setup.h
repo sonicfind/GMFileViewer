@@ -54,8 +54,8 @@ private:
 	};
 
 	
-	PositionKeyframes m_positions;
-	RotationKeyframes m_rotations;
+	KeyFrameArray<DirectX::XMFLOAT3> m_positions;
+	KeyFrameArray<DirectX::XMFLOAT4> m_rotations;
 	KeyFrameArray<ModelAnim> m_animations;
 	KeyFrameArray<ModelScalar> m_scalars;
 	BaseValues m_baseValues;

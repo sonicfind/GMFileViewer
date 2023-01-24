@@ -51,8 +51,8 @@ class CameraSetup
 	};
 
 	BaseGlobalValues m_baseGlobalValues;
-	PositionKeyframes m_positions;
-	RotationKeyframes m_rotations;
+	KeyFrameArray<DirectX::XMFLOAT3> m_positions;
+	KeyFrameArray<DirectX::XMFLOAT4> m_rotations;
 	KeyFrameArray<Projection> m_projections;
 	KeyFrameArray<DirectX::XMFLOAT3> m_ambientColors;
 	GMArray<LightSetup> m_lights;

@@ -2,6 +2,30 @@
 #include "FileReader.h"
 #include "../Keyframe.h"
 
+struct LightColors
+{
+	DirectX::XMFLOAT3 ambient;
+	DirectX::XMFLOAT3 diffuse;
+};
+
+template<>
+struct Keyframe<LightColors>
+{
+	float time;
+	float coefficient;
+	LightColors object;
+	InterpolationToggle interpolation;
+	int32_t min;
+	float coef;
+	int32_t max;
+
+	friend bool operator<(float currFrame, const Keyframe& keyframe)
+	{
+		return currFrame < keyframe.time;
+	}
+};
+	
+
 class LightSetup
 {
 	union Val
@@ -15,13 +39,13 @@ class LightSetup
 	struct BaseValues
 	{
 		unsigned long isActive;
+		DirectX::XMFLOAT3 ambient;
 		DirectX::XMFLOAT3 diffuse;
-		DirectX::XMFLOAT3 specular;
 		DirectX::XMFLOAT4 rotation;
 		Val ulong_b;
 		Val l_a;
 		Val ulong_c;
-		Val ulong_d;
+		Val ulong_d; // Usually 0
 		Val ulong_e;
 		Val ulong_f;
 		Val ulong_g;
@@ -29,15 +53,9 @@ class LightSetup
 		Val ulong_i;
 	};
 
-	struct LightColors
-	{
-		DirectX::XMFLOAT3 diffuse;
-		DirectX::XMFLOAT3 specular;
-	};
-
 	BaseValues m_baseValues;
 	uint32_t m_headerVersion = 0;
-	RotationKeyframes m_rotations;
+	KeyFrameArray<DirectX::XMFLOAT4> m_rotations;
 	KeyFrameArray<LightColors> m_colors;
 
 public:

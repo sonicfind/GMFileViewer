@@ -20,30 +20,23 @@ struct Keyframe
 	{
 		return currFrame < keyframe.time;
 	}
-
-	static T Interpolate(const GMArray<Keyframe<T>>& keyframes, float currFrame)
-	{
-		const Keyframe* iter = std::upper_bound(keyframes.begin(), keyframes.end(), currFrame);
-		if (iter == keyframes.end() || (iter - 1)->interpolation != InterpolationToggle::On)
-			return (iter - 1)->object;
-
-		return T::mix(iter->object, (iter + 1)->object, (currFrame - iter->time) * iter->coefficient);
-	}
 };
-
-struct XMQuat : public DirectX::XMFLOAT4 {};
-
-template<>
-DirectX::XMFLOAT3 Keyframe<DirectX::XMFLOAT3>::Interpolate(const GMArray<Keyframe<DirectX::XMFLOAT3>>& keyframes, float currFrame);
-
-template<>
-DirectX::XMFLOAT4 Keyframe<DirectX::XMFLOAT4>::Interpolate(const GMArray<Keyframe<DirectX::XMFLOAT4>>& keyframes, float currFrame);
-
-template<>
-XMQuat Keyframe<XMQuat>::Interpolate(const GMArray<Keyframe<XMQuat>>& keyframes, float currFrame);
-
-using PositionKeyframes = GMArray<Keyframe<DirectX::XMFLOAT3>>;
-using RotationKeyframes = GMArray<Keyframe<XMQuat>>;
 
 template <typename T>
 using KeyFrameArray = GMArray<Keyframe<T>>;
+
+template <typename T, typename = std::enable_if<!std::is_same_v<T, DirectX::XMFLOAT3> && !std::is_same_v<T, DirectX::XMFLOAT4>>>
+T InterpolateStruct(const KeyFrameArray<T>& keyframes, float currFrame)
+{
+	const Keyframe<T>* iter = std::upper_bound(keyframes.begin(), keyframes.end(), currFrame) - 1;
+	if (iter + 1 == keyframes.end() || iter->interpolation != InterpolationToggle::On)
+		return iter->object;
+
+	return T::mix(iter->object, (iter + 1)->object, (currFrame - iter->time) * iter->coefficient);
+}
+
+DirectX::XMVECTOR InterpolateFloat3(const KeyFrameArray<DirectX::XMFLOAT3>& keyframes, float currFrame);
+DirectX::XMVECTOR InterpolateFloat4(const KeyFrameArray<DirectX::XMFLOAT4>& keyframes, float currFrame);
+DirectX::XMVECTOR InterpolateRotation(const KeyFrameArray<DirectX::XMFLOAT4>& keyframes, float currFrame);
+
+
