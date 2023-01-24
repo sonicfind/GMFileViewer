@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include "Palette.h"
+#include "FileWriter.h"
 
 class IMX
 {
@@ -10,6 +11,8 @@ class IMX
 
 public:
 	void load(FilePointer file);
+	void save(FileWriter& file) const;
+
 	void createTextureBuffer(std::string_view name) const;
 
 private:
@@ -26,4 +29,12 @@ private:
 
 	void readImage_RGB(FilePointer& file);
 	void readImage_RGBA(FilePointer& file);
+
+	struct Compression
+	{
+		GMArray<Pixel> palette;
+	};
+
+	void compress_palette(const Pixel* const palette, const uint32_t paletteSize, FileWriter& file) const;
+	void compress_bitmap(FileWriter& file) const;
 };

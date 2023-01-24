@@ -20,6 +20,22 @@ XGM::XGM(const std::filesystem::path& filePath)
 	TaskQueue::getInstance().waitForCompletedTasks();
 }
 
+void XGM::saveToFile(const std::filesystem::path& filePath) const
+{
+	FileWriter file(filePath);
+	if (!file.isOpen())
+	{
+		std::cout << "File could not be opened for writing.\n";
+		return;
+	}
+
+	file << m_textures.getSize() << uint32_t(0); //<< m_models.getSize();
+
+	uint32_t total = 0;
+	for (uint32_t i = 0; i < m_textures.getSize(); ++i)
+		m_textures[i].save(file, i, total);
+}
+
 void XGM::createGraphicsBuffers(size_t index)
 {
 	for (auto& texture : m_textures)
@@ -92,6 +108,13 @@ uint32_t XGM::XGMNode::load(FilePointer& file, const uint32_t index)
 	return file.read<uint32_t>();
 }
 
+void XGM::XGMNode::save(FileWriter& file, const uint32_t index) const
+{
+	file.write(m_filepath, 256);
+	file.write(m_name, 16);
+	file << index;
+}
+
 void XGM::XGMNode_IMX::load(FilePointer& file, const uint32_t index)
 {
 	const uint32_t fileSize = XGMNode::load(file, index);
@@ -103,6 +126,29 @@ void XGM::XGMNode_IMX::load(FilePointer& file, const uint32_t index)
 
 	TaskQueue::getInstance().addTask([this, file] { m_texture.load(file); });
 	file += fileSize;
+}
+
+uint32_t XGM::XGMNode_IMX::save(FileWriter& file, const uint32_t index, uint32_t totalSizes) const
+{
+	XGMNode::save(file, index);
+
+	const auto fileSizeLocation = file.tell();
+	uint32_t fileSize = 0;
+	file << fileSize << totalSizes << m_non_model << m_unk;
+
+	const char garbo[12]{};
+	file.write(garbo, 12);
+
+	const auto fileStart = file.tell();
+	m_texture.save(file);
+	const auto fileEnd = file.tell();
+
+	fileSize = fileEnd - fileStart;
+	file.seek(fileSizeLocation);
+	file << fileSize;
+	file.seek(fileEnd);
+
+	return totalSizes + fileSize;
 }
 
 void XGM::XGMNode_IMX::createTextureBuffer()

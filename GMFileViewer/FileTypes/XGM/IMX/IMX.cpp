@@ -30,6 +30,41 @@ void IMX::load(FilePointer file)
 		throw "Unknown Pixel Storage value combination";
 }
 
+void IMX::save(FileWriter& file) const
+{
+	file.writeTag("IMX");
+
+	const char md5[16]{};
+	file.write(md5);
+	file << m_width << m_height;
+	
+	uint32_t size = m_width * m_height;
+
+	static Pixel palette[256];
+	uint32_t paletteSize = 0;
+	for (uint32_t index = 0; index < size; ++index)
+	{
+		const Pixel& pixel = m_data[index];
+		auto iter = std::lower_bound(palette, palette + paletteSize, pixel);
+
+		if (iter == palette + paletteSize || *iter != pixel)
+		{
+			memmove(iter + 1, iter, sizeof(Pixel) * (palette + paletteSize - iter));
+			*iter = pixel;
+			++paletteSize;
+			if (paletteSize > 256)
+			{
+				compress_bitmap(file);
+				goto FileEnd;
+			}
+		}
+	}
+
+	compress_palette(palette, paletteSize, file);
+FileEnd:
+	file << uint32_t(3) << uint32_t(0);
+}
+
 void IMX::readImage_RGB(FilePointer& file)
 {
 	const auto size = file.read<uint32_t>() / 3;
@@ -43,6 +78,64 @@ void IMX::readImage_RGBA(FilePointer& file)
 	const auto size = file.read<uint32_t>();
 	m_data = std::make_unique<Pixel[]>(size / 4);
 	file.read(m_data.get(), size);
+}
+
+void IMX::compress_palette(const Pixel* const palette, const uint32_t paletteSize, FileWriter& file) const
+{
+	auto getIndex = [begin = palette, end = palette + paletteSize, data = m_data.get()](uint32_t index) -> uint32_t
+	{
+		return std::lower_bound(begin, end, data[index]) - begin;
+	};
+
+	uint32_t size = m_width * m_height;
+	if (paletteSize <= 16)
+	{
+		file << uint32_t(0) << uint32_t(0) << uint32_t(sizeof(Pixel) * 16);
+		file.write(palette, sizeof(Pixel) * 16);
+		file << (size + 1) / 2; // Accounts for odd number size
+
+		
+
+		for (uint32_t i = 0; i < size;)
+		{
+			HalfIndex indices;
+			indices.index1 = getIndex(i++);
+
+			if (i < size)
+				indices.index2 = getIndex(i++);
+
+			file << indices;
+		}
+	}
+	else
+	{
+		file << uint32_t(1) << uint32_t(1) << uint32_t(sizeof(Pixel) * 256);
+		file.write(palette, sizeof(Pixel) * 256);
+		file << size;
+
+		for (uint32_t i = 0; i < size; ++i)
+			file << char(getIndex(i));
+	}
+
+	file << uint32_t(2);
+}
+
+void IMX::compress_bitmap(FileWriter& file) const
+{
+	uint32_t size = m_width * m_height;
+	for (uint32_t index = 0; index < size; ++index)
+	{
+		if (m_data[index].alpha < 1)
+		{
+			file << uint32_t(4) << uint32_t(2) << 4 * size;
+			file.write(m_data.get(), 4ULL * size);
+			return;
+		} 
+	}
+
+	file << uint32_t(3) << uint32_t(2) << 3 * size;
+	for (uint32_t index = 0; index < size; ++index)
+		file.write(&m_data[index], 3ULL);
 }
 
 void IMX::createTextureBuffer(std::string_view name) const
