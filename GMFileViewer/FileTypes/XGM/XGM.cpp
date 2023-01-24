@@ -101,6 +101,15 @@ void XGM::displayModelList() const
 		std::cout << i + 1 << " - " << m_models[i].m_name << "\n";
 }
 
+uint32_t XGM::getModelIndex(std::string_view modelName) const
+{
+	for (uint32_t i = 0; i < m_models.getSize(); ++i)
+		if (modelName == m_models[i].m_name)
+			return i;
+
+	throw std::runtime_error("Name does not match any model");
+}
+
 uint32_t XGM::XGMNode::load(FileReader& file, const uint32_t index)
 {
 	file.read(m_filepath);
