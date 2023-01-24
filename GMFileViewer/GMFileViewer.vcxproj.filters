@@ -142,6 +142,9 @@
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgDagTransform">
       <UniqueIdentifier>{e7181128-e3cc-4701-8681-871b3bd40fbc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FileTypes\FileWriter">
+      <UniqueIdentifier>{709e95e8-a6b6-403d-a0d1-0abd1d23e807}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileTypes\XGM\XGM.cpp">
@@ -277,7 +280,6 @@
     <ClCompile Include="Graphics\OpenGL\Graphics_OGL.cpp">
       <Filter>Graphics\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="..\3rdparty\GLAD\glad.c" />
     <ClCompile Include="Graphics\OpenGL\Shaders_OGL.cpp">
       <Filter>Graphics\OpenGL\Shaders</Filter>
     </ClCompile>
@@ -289,6 +291,12 @@
     </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTexCoordInterpolator.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgTexCoordInterpolator</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\FileWriter.cpp">
+      <Filter>FileTypes\FileWriter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdparty\GLAD\glad.c">
+      <Filter>Graphics\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -468,6 +476,9 @@
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgTexCoordInterpolator.h">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgTexCoordInterpolator</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\FileWriter.h">
+      <Filter>FileTypes\FileWriter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
