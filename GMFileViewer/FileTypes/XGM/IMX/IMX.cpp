@@ -1,6 +1,18 @@
 #include "IMX.h"
 #include "Graphics.h"
 
+enum IMXFormat : uint32_t
+{
+	Palette_4bit,
+	Palette_8bit,
+	RGBA_5551,
+	RGB_888,
+	RGBA_8888,
+	Grayscale_16bit,
+	None,
+	AsInt = 0xFFFFFFFF
+};
+
 void IMX::load(FileReader file)
 {
 	if (!file.checkTag("IMX"))
@@ -10,7 +22,7 @@ void IMX::load(FileReader file)
 	file.read(m_width);
 	file.read(m_height);
 
-	const uint32_t pixelVal1 = file.read<uint32_t>();
+	const IMXFormat pixelVal1 = file.read<IMXFormat>();
 	const uint32_t pixelVal2 = file.read<uint32_t>();
 
 	if (pixelVal1 == 0 && pixelVal2 == 0)
