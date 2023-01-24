@@ -5,19 +5,37 @@
 #include "FileTypes/WEB/WEB.h"
 #include "Graphics.h"
 
+std::string g_filename;
+
+template <class T>
+void testWrite(const T& file)
+{
+	std::cout << "Test Write? [Y/N]\n";
+	while (true)
+	{
+		char answer;
+		std::cout << "Input: ";
+		std::cin >> answer;
+		if (answer == 'Y' || answer == 'y')
+		{
+			file.saveToFile(g_filename.insert(g_filename.length() - 4, "_test"));
+			break;
+		}
+		else if (answer == 'N' || answer == 'n')
+			break;
+	}
+}
 
 int main()
 {
-	std::string filename;
-	std::getline(std::cin, filename);
+	std::getline(std::cin, g_filename);
 
-	if (filename[0] == '\"')
-		filename = filename.substr(1, filename.length() - 2);
+	if (g_filename[0] == '\"')
+		g_filename = g_filename.substr(1, g_filename.length() - 2);
 
-	std::filesystem::path path(filename);
-	if (path.extension() == U".XGM")
+	if (g_filename.ends_with(".XGM"))
 	{
-		XGM file(path);
+		XGM file(g_filename);
 
 		while (true)
 		{
@@ -25,7 +43,7 @@ int main()
 			file.displayModelList();
 			std::cout << "Type the index for the model that you wish display [Or '0' to quit]\n";
 			std::cout << "Note: any non-numerical response will also quit\n";
-			uint32_t index;
+			size_t index;
 			while (true)
 			{
 				std::cout << "Input: ";
@@ -45,32 +63,34 @@ int main()
 			Graphics::closeGraphics();
 		}
 
+		testWrite(file);
+
 		std::cout << "Press Enter to Exit" << std::endl;
-		std::getline(std::cin, filename);
+		std::getline(std::cin, g_filename);
 	}
-	else if (path.extension() == U".CHC")
+	else if (g_filename.ends_with(".CHC"))
 	{
-		CHC file(path);
+		CHC file(g_filename);
 		std::cout << "Press Enter to Exit" << std::endl;
-		std::getline(std::cin, filename);
+		std::getline(std::cin, g_filename);
 	}
-	else if (path.extension() == U".SSQ")
+	else if (g_filename.ends_with(".SSQ"))
 	{
-		SSQ file(path);
+		SSQ file(g_filename);
 		std::cout << "Press Enter to Exit" << std::endl;
-		std::getline(std::cin, filename);
+		std::getline(std::cin, g_filename);
 	}
-	else if (path.extension() == U".WEB")
+	else if (g_filename.ends_with(".WEB"))
 	{
-		WEB file(path);
+		WEB file(g_filename);
 		std::cout << "Press Enter to Exit" << std::endl;
-		std::getline(std::cin, filename);
+		std::getline(std::cin, g_filename);
 	}
 	else
 	{
 		std::cout << "Filetype not yet supported\n";
 		std::cout << "Press Enter to Exit" << std::endl;
-		std::getline(std::cin, filename);
+		std::getline(std::cin, g_filename);
 	}
 	
 	return 0;
