@@ -49,8 +49,23 @@ public:
 		if constexpr (INTERPOLATION == InterpolatorType::TARGETED)
 			PString::ReadNamedValue("targets", m_targets, file);
 
-		while (XG_SubNode* node = xg->grabNode_optional("inputTime", "outputTime", file))
-			m_inputTime = static_cast<xgTime*>(node);
+		m_inputTime = static_cast<xgTime*>(xg->grabNode("inputTime", "outputTime", file));
+	}
+
+	void save(FileWriter& file, const XG* xg) const override
+	{
+		PString::WriteString("type", file);
+
+		if constexpr (INTERPOLATION >= InterpolatorType::TIMED)
+			PString::WriteNamedValue("times", m_times, file);
+
+		PString::WriteString("keys", file);
+		saveKeys(file);
+
+		if constexpr (INTERPOLATION == InterpolatorType::TARGETED)
+			PString::WriteNamedValue("targets", m_targets, file);
+
+		xg->writeNode("inputTime", "outputTime", m_inputTime, file);
 	}
 
 protected:
@@ -59,7 +74,16 @@ protected:
 		return interpolateFrame(calculateTimeFrame());
 	}
 
-	virtual void loadKeys(FilePointer& file) = 0;
+	virtual void loadKeys(FilePointer& file)
+	{
+		m_keys.reserve_and_fill(file);
+	}
+
+	virtual void saveKeys(FileWriter& file) const
+	{
+		m_keys.write_full(file);
+	}
+
 private:
 	Frame calculateTimeFrame() const
 	{

@@ -16,6 +16,26 @@ void xgMaterial::load(FilePointer& file, const XG* xg)
 		m_inputTexture = static_cast<xgTexture*>(node);
 }
 
+void xgMaterial::writeType(FileWriter& file) const
+{
+	PString::WriteString("xgMaterial", file);
+}
+
+void xgMaterial::save(FileWriter& file, const XG* xg) const
+{
+	PString::WriteNamedValue("blendType", m_blendType, file);
+	PString::WriteNamedValue("shadingType", m_shadingType, file);
+	PString::WriteNamedValue("diffuse", m_diffuse, file);
+	PString::WriteNamedValue("specular", m_specular, file);
+	PString::WriteNamedValue("flags", m_flags, file);
+	PString::WriteNamedValue("textureEnv", m_textureEnv, file);
+	PString::WriteNamedValue("uTile", m_uTile, file);
+	PString::WriteNamedValue("vTile", m_vTile, file);
+
+	if (m_inputTexture)
+		xg->writeNode("inputTexture", "outputTexture", m_inputTexture, file);
+}
+
 void xgMaterial::bind(size_t slot) const
 {
 	const Graphics* gfx = Graphics::getGraphics();

@@ -18,6 +18,9 @@ class xgDagMesh : public XG_SubNode
 public:
 	void load(FilePointer& file, const XG* xg) override;
 
+	void writeType(FileWriter& file) const override;
+	void save(FileWriter& file, const XG* xg) const override;
+
 	void createVertexBuffer();
 	void update();
 	void draw(const DirectX::XMMATRIX& meshMatrix) const;

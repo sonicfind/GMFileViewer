@@ -55,6 +55,32 @@ void XG::load(FilePointer file)
 		m_time = time;
 }
 
+void XG::save(FileWriter& file) const
+{
+	file.writeTag("XGBv1.00");
+	for (const auto& node : m_nodes)
+	{
+		node.second->writeType(file);
+		PString::WriteString(node.first, file);
+		PString::WriteString(";", file);
+	}
+
+	for (const auto& node : m_nodes)
+	{
+		node.second->writeType(file);
+		PString::WriteString(node.first, file);
+		PString::WriteString("{", file);
+		node.second->save(file, this);
+		PString::WriteString("}", file);
+	}
+
+	PString::WriteString("dag", file);
+	PString::WriteString("{", file);
+	for (const auto& dag : m_dag)
+		saveDag<true>(dag, file);
+	PString::WriteString("}", file);
+}
+
 void XG::createVertexBuffers()
 {
 	for (auto& dag : m_dag)
@@ -147,6 +173,14 @@ XG_SubNode* XG::searchForNode(std::string_view name) const
 	return nullptr;
 }
 
+std::string_view XG::getNodeName(const XG_SubNode* nodeToFind) const
+{
+	for (const auto& node : m_nodes)
+		if (node.second.get() == nodeToFind)
+			return node.first;
+	throw "How in the fu-";
+}
+
 XG_SubNode* XG::grabNode_optional(std::string_view inputString, std::string_view outputString, FilePointer& file) const
 {
 	if (!PString::CheckForString(inputString, file))
@@ -168,6 +202,13 @@ XG_SubNode* XG::grabNode(std::string_view inputString, std::string_view outputSt
 	if (node == nullptr)
 		throw "Input string not matched";
 	return node;
+}
+
+void XG::writeNode(std::string_view inputString, std::string_view outputString, const XG_SubNode* const node, FileWriter& file) const
+{
+	PString::WriteString("inputMatrix", file);
+	PString::WriteString(getNodeName(node), file);
+	PString::WriteString("outputMatrix", file);
 }
 
 void XG::fillDag(DagElement& dag, FilePointer& file)

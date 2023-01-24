@@ -1,5 +1,10 @@
 #include "xgNormalInterpolator.h"
 
+void xgNormalInterpolator::writeType(FileWriter& file) const
+{
+	PString::WriteString("xgNormalInterpolator", file);
+}
+
 void xgNormalInterpolator::updateVertices(VertexList& vertices) const
 {
 	const auto interpolatedKeys = getInterpolatedKey();

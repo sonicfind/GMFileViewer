@@ -29,6 +29,23 @@ public:
 		m_data.reserve_and_fill(file);
 	}
 
+	void save(FileWriter& file) const
+	{
+		if      constexpr (MODE == PrimitiveMode::PRIMITIVE)      PString::WriteString("primCount", file);
+		else if constexpr (MODE == PrimitiveMode::TRIANGLE_FAN)   PString::WriteString("triFanCount", file);
+		else if constexpr (MODE == PrimitiveMode::TRIANGLE_STRIP) PString::WriteString("triStripCount", file);
+		else                                                      PString::WriteString("triListCount", file);
+
+		file.write(m_numPrimitives);
+
+		if      constexpr (MODE == PrimitiveMode::PRIMITIVE)      PString::WriteString("primData", file);
+		else if constexpr (MODE == PrimitiveMode::TRIANGLE_FAN)   PString::WriteString("triFanData", file);
+		else if constexpr (MODE == PrimitiveMode::TRIANGLE_STRIP) PString::WriteString("triStripData", file);
+		else                                                      PString::WriteString("triListData", file);
+
+		m_data.write_full(file);
+	}
+
 	template <uint32_t PRIMTYPE>
 	void draw() const
 	{

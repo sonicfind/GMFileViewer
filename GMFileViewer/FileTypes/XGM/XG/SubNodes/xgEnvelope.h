@@ -6,6 +6,8 @@
 class xgEnvelope : public XG_SubNode, public XG_UpdatableNode
 {
 	static constexpr int MAX_BONES = 4;
+	static constexpr std::string_view MATRIXNAMES[MAX_BONES] = { "inputMatrix1", "inputMatrix2", "inputMatrix3", "inputMatrix4" };
+
 	struct Weight
 	{
 		float values[MAX_BONES];
@@ -20,6 +22,10 @@ class xgEnvelope : public XG_SubNode, public XG_UpdatableNode
 
 public:
 	void load(FilePointer& file, const XG* xg) override;
+
+	void writeType(FileWriter& file) const override;
+	void save(FileWriter& file, const XG* xg) const override;
+
 	void updateVertices(VertexList& vertices) const override;
 };
 

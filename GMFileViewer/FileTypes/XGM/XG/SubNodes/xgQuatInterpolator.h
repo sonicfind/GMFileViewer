@@ -4,8 +4,6 @@
 class xgQuatInterpolator : public XG_InterpolatorNode<DirectX::XMVECTOR>
 {
 public:
+	void writeType(FileWriter& file) const override;
 	DirectX::XMVECTOR calcMixedValue() const;
-
-private:
-	void loadKeys(FilePointer& file);
 };

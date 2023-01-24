@@ -6,13 +6,28 @@ void xgEnvelope::load(FilePointer& file, const XG* xg)
 	PString::ReadNamedValue("weights", m_weights, file);
 	PString::ReadNamedValue("vertexTargets", m_vertexTargets, file);
 
-	static constexpr std::string_view MATRICES[MAX_BONES] = { "inputMatrix1", "inputMatrix2", "inputMatrix3", "inputMatrix4"};
-
 	for (size_t i = 0; i < MAX_BONES; ++i)
-		if (!(m_inputMatrices[i] = static_cast<xgBone*>(xg->grabNode_optional(MATRICES[i], "envelopeMatrix", file))))
+		if (!(m_inputMatrices[i] = static_cast<xgBone*>(xg->grabNode_optional(MATRIXNAMES[i], "envelopeMatrix", file))))
 			break;
 
-	m_inputGeometry = static_cast<xgBgGeometry*>(xg->grabNode_optional("inputGeometry", "outputGeometry", file));
+	m_inputGeometry = static_cast<xgBgGeometry*>(xg->grabNode("inputGeometry", "outputGeometry", file));
+}
+
+void xgEnvelope::writeType(FileWriter& file) const
+{
+	PString::WriteString("xgEnvelope", file);
+}
+
+void xgEnvelope::save(FileWriter& file, const XG* xg) const
+{
+	PString::WriteNamedValue("startVertex", m_startVertex, file);
+	PString::WriteNamedValue("weights", m_weights, file);
+	PString::WriteNamedValue("vertexTargets", m_vertexTargets, file);
+
+	for (size_t i = 0; i < MAX_BONES && m_inputMatrices[i]; ++i)
+		xg->writeNode(MATRIXNAMES[i], "envelopeMatrix", m_inputMatrices[i], file);
+
+	 xg->writeNode("inputGeometry", "outputGeometry", m_inputGeometry, file);
 }
 
 void xgEnvelope::updateVertices(VertexList& vertices) const

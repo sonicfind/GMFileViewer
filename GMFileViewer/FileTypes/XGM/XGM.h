@@ -12,7 +12,7 @@ class XGM
 
 	protected:
 		uint32_t load(FilePointer& file, const uint32_t index);
-		void save(FileWriter& file, const uint32_t index) const;
+		std::streampos save(FileWriter& file, const uint32_t index) const;
 	};
 
 	struct XGMNode_IMX : public XGMNode

@@ -28,12 +28,16 @@ void XGM::saveToFile(const std::filesystem::path& filePath) const
 		std::cout << "File could not be opened for writing.\n";
 		return;
 	}
-
-	file << m_textures.getSize() << uint32_t(0); //<< m_models.getSize();
+	
+	m_textures.write_size(file);
+	m_models.write_size(file);
 
 	uint32_t total = 0;
 	for (uint32_t i = 0; i < m_textures.getSize(); ++i)
-		m_textures[i].save(file, i, total);
+		total = m_textures[i].save(file, i, total);
+
+	for (uint32_t i = 0; i < m_models.getSize(); ++i)
+		m_models[i].save(file, i);
 }
 
 void XGM::createGraphicsBuffers(size_t index)
@@ -78,7 +82,7 @@ void XGM::testGraphics(size_t index)
 			std::cout << 1000.0 / double(count) << " ms/frame\n";
 			std::cout << count << " frames" << std::endl;
 			count = 0;
-			prev = int(time / 30) * 30;
+			prev = int(time / 30) * 30.f;
 		}
 		++count;
 
@@ -108,11 +112,12 @@ uint32_t XGM::XGMNode::load(FilePointer& file, const uint32_t index)
 	return file.read<uint32_t>();
 }
 
-void XGM::XGMNode::save(FileWriter& file, const uint32_t index) const
+std::streampos XGM::XGMNode::save(FileWriter& file, const uint32_t index) const
 {
 	file.write(m_filepath, 256);
 	file.write(m_name, 16);
 	file << index;
+	return file.tell();
 }
 
 void XGM::XGMNode_IMX::load(FilePointer& file, const uint32_t index)
@@ -130,9 +135,7 @@ void XGM::XGMNode_IMX::load(FilePointer& file, const uint32_t index)
 
 uint32_t XGM::XGMNode_IMX::save(FileWriter& file, const uint32_t index, uint32_t totalSizes) const
 {
-	XGMNode::save(file, index);
-
-	const auto fileSizeLocation = file.tell();
+	const auto fileSizeLocation = XGMNode::save(file, index);
 	uint32_t fileSize = 0;
 	file << fileSize << totalSizes << m_non_model << m_unk;
 
@@ -143,7 +146,7 @@ uint32_t XGM::XGMNode_IMX::save(FileWriter& file, const uint32_t index, uint32_t
 	m_texture.save(file);
 	const auto fileEnd = file.tell();
 
-	fileSize = fileEnd - fileStart;
+	fileSize = uint32_t(fileEnd - fileStart);
 	file.seek(fileSizeLocation);
 	file << fileSize;
 	file.seek(fileEnd);
@@ -166,6 +169,25 @@ void XGM::XGMNode_XG::load(FilePointer& file, const uint32_t index)
 	
 	TaskQueue::getInstance().addTask([this, file] { m_model.load(file); });
 	file += fileSize;
+}
+
+void XGM::XGMNode_XG::save(FileWriter& file, const uint32_t index) const
+{
+	const auto fileSizeLocation = XGMNode::save(file, index);
+	uint32_t fileSize = 0;
+
+	m_animations.write_size(file);
+	file << uint32_t(0);
+	m_animations.write_data(file);
+
+	const auto fileStart = file.tell();
+	m_model.save(file);
+	const auto fileEnd = file.tell();
+
+	fileSize = uint32_t(fileEnd - fileStart);
+	file.seek(fileSizeLocation);
+	file << fileSize;
+	file.seek(fileEnd);
 }
 
 void XGM::XGMNode_XG::createVertexBuffers()

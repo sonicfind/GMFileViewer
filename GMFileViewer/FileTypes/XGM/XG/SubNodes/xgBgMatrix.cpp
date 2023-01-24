@@ -14,6 +14,30 @@ void xgBgMatrix::load(FilePointer& file, const XG* xg)
 		   xg->grabNode_nondestructive(m_inputParentMatrix , "inputParentMatrix", "outputMatrix", file));
 }
 
+void xgBgMatrix::writeType(FileWriter& file) const
+{
+	PString::WriteString("xgBgMatrix", file);
+}
+
+void xgBgMatrix::save(FileWriter& file, const XG* xg) const
+{
+	PString::WriteNamedValue("position", m_position, file);
+	PString::WriteNamedValue("rotation", m_rotation, file);
+	PString::WriteNamedValue("scale", m_scale, file);
+
+	if (m_inputPosition)
+		xg->writeNode("inputPosition", "outputVec3", m_inputPosition, file);
+
+	if (m_inputRotation)
+		xg->writeNode("inputRotation", "outputQuat", m_inputRotation, file);
+
+	if (m_inputScale)
+		xg->writeNode("inputScale", "outputVec3", m_inputScale, file);
+
+	if (m_inputParentMatrix)
+		xg->writeNode("inputParentMatrix", "outputMatrix", m_inputParentMatrix, file);
+}
+
 using namespace DirectX;
 
 XMMATRIX xgBgMatrix::transform() const

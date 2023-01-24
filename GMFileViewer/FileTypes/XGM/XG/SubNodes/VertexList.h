@@ -35,6 +35,31 @@ struct Vertex
 	}
 
 	template <uint32_t flags>
+	void write(FileWriter& file) const
+	{
+		if constexpr (flags == 15)
+			file.write(this, sizeof(Vertex));
+		else if constexpr (flags == 7)
+			file.write(this, 11 * sizeof(float));
+		else if constexpr (flags == 3)
+			file.write(this, 7 * sizeof(float));
+		else
+		{
+			if constexpr (flags & 1)
+				file.write(m_position);
+
+			if constexpr (flags & 2)
+				file.write(m_normal);
+
+			if constexpr (flags & 4)
+				file.write(m_color);
+
+			if constexpr (flags & 8)
+				file.write(m_texCoord);
+		}
+	}
+
+	template <uint32_t flags>
 	static Vertex mix(Vertex vertex, const Vertex& toMix, float coef)
 	{
 		if constexpr (flags & 1)
@@ -65,8 +90,10 @@ public:
 	VertexList() = default;
 	VertexList(const VertexList&) = default;
 	VertexList(VertexList&&) = default;
-	VertexList& operator=(VertexList&& list);
+	VertexList& operator=(VertexList&& list) noexcept;
+
 	void load(FilePointer& file);
+	void save(FileWriter& file) const;
 	VertexList mix(const VertexList& other, float coef) const;
 
 	void createVertexBuffer(bool isDynamic);
@@ -78,11 +105,19 @@ public:
 
 private:
 	template <uint32_t flags>
-	static void fillVertices(GMArray<Vertex>& vertices, FilePointer& file)
+	static void FillVertices(GMArray<Vertex>& vertices, FilePointer& file)
 	{
 		vertices.reserve(file);
 		for (auto& vertex : vertices)
 			vertex.fill<flags>(file);
+	}
+
+	template <uint32_t flags>
+	static void WriteVertices(const GMArray<Vertex>& vertices, FileWriter& file)
+	{
+		vertices.write_size(file);
+		for (auto& vertex : vertices)
+			vertex.write<flags>(file);
 	}
 
 	template <uint32_t flags>

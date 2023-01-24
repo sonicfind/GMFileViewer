@@ -8,6 +8,17 @@ void xgBone::load(FilePointer& file, const XG* xg)
 	m_inputMatrix = static_cast<xgBgMatrix*>(xg->grabNode("inputMatrix", "outputMatrix", file));
 }
 
+void xgBone::writeType(FileWriter& file) const
+{
+	PString::WriteString("xgBone", file);
+}
+
+void xgBone::save(FileWriter& file, const XG* xg) const
+{
+	PString::WriteNamedValue("restMatrix", m_restMatrix, file);
+	xg->writeNode("inputMatrix", "outputMatrix", m_inputMatrix, file);
+}
+
 DirectX::XMMATRIX xgBone::calcTransformMatrix() const
 {
 	if (!m_inputMatrix)

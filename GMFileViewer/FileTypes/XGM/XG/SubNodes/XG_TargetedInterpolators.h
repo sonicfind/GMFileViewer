@@ -11,6 +11,12 @@ private:
 			for (auto& element : this->m_keys)
 				element.reserve_and_fill(file);
 	}
+
+	void saveKeys(FileWriter& file) const override
+	{
+		for (const auto& key : this->m_keys)
+			key.write_full(file);
+	}
 };
 
 

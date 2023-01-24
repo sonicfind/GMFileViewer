@@ -16,6 +16,21 @@ void xgBgGeometry::load(FilePointer& file, const XG* xg)
 	}
 }
 
+void xgBgGeometry::writeType(FileWriter& file) const
+{
+	PString::WriteString("xgBgGeometry", file);
+}
+
+void xgBgGeometry::save(FileWriter& file, const XG* xg) const
+{
+	PString::WriteNamedValue("density", m_density, file);
+	PString::WriteNamedValue("vertices", m_vertices, file);
+
+	for (const auto node : m_inputGeometries)
+		xg->writeNode("inputGeometry", "outputGeometry", dynamic_cast<XG_SubNode*>(node), file);
+
+}
+
 void xgBgGeometry::createVertexBuffer()
 {
 	m_vertices.createVertexBuffer(!m_inputGeometries.empty());

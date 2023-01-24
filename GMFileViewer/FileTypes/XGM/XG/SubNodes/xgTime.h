@@ -7,6 +7,10 @@ class xgTime : public XG_SubNode
 
 public:
 	void load(FilePointer& file, const XG* xg) override;
+
+	void writeType(FileWriter& file) const override;
+	void save(FileWriter& file, const XG* xg) const override;
+
 	void setTime(float time);
 	float getTime() const noexcept;
 };

@@ -8,6 +8,17 @@ void xgTime::load(FilePointer& file, const XG* xg)
 	PString::ReadNamedValue("time", m_time, file);
 }
 
+void xgTime::writeType(FileWriter& file) const
+{
+	PString::WriteString("xgTime", file);
+}
+
+void xgTime::save(FileWriter& file, const XG* xg) const
+{
+	PString::WriteNamedValue("numFrames", m_numFrames, file);
+	PString::WriteNamedValue("time", m_time, file);
+}
+
 void xgTime::setTime(float time)
 {
 	m_time = time;

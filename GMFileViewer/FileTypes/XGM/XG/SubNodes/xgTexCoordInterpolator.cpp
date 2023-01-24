@@ -1,5 +1,10 @@
 #include "xgTexCoordInterpolator.h"
 
+void xgTexCoordInterpolator::writeType(FileWriter& file) const
+{
+	PString::WriteString("xgTexCoordInterpolator", file);
+}
+
 void xgTexCoordInterpolator::updateVertices(VertexList& vertices) const
 {
 	const auto interpolatedKeys = getInterpolatedKey();

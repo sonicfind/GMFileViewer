@@ -1,7 +1,7 @@
 #include "VertexList.h"
 #include "Graphics.h"
 
-VertexList& VertexList::operator=(VertexList&& list)
+VertexList& VertexList::operator=(VertexList&& list) noexcept
 {
 	m_vertices = std::move(list.m_vertices);
 	return *this;
@@ -15,13 +15,28 @@ void VertexList::load(FilePointer& file)
 
 	static constexpr void (*vertexFillers[])(GMArray<Vertex>&, FilePointer&) =
 	{
-		VertexList::fillVertices<0>,  VertexList::fillVertices<1>,  VertexList::fillVertices<2>,  VertexList::fillVertices<3>,
-		VertexList::fillVertices<4>,  VertexList::fillVertices<5>,  VertexList::fillVertices<6>,  VertexList::fillVertices<7>,
-		VertexList::fillVertices<8>,  VertexList::fillVertices<9>,  VertexList::fillVertices<10>, VertexList::fillVertices<11>,
-		VertexList::fillVertices<12>, VertexList::fillVertices<13>, VertexList::fillVertices<14>, VertexList::fillVertices<15>,
+		VertexList::FillVertices<0>,  VertexList::FillVertices<1>,  VertexList::FillVertices<2>,  VertexList::FillVertices<3>,
+		VertexList::FillVertices<4>,  VertexList::FillVertices<5>,  VertexList::FillVertices<6>,  VertexList::FillVertices<7>,
+		VertexList::FillVertices<8>,  VertexList::FillVertices<9>,  VertexList::FillVertices<10>, VertexList::FillVertices<11>,
+		VertexList::FillVertices<12>, VertexList::FillVertices<13>, VertexList::FillVertices<14>, VertexList::FillVertices<15>,
 	};
 
 	vertexFillers[m_vertexFlags](m_vertices, file);
+}
+
+void VertexList::save(FileWriter& file) const
+{
+	file.write(m_vertexFlags);
+
+	static constexpr void (*vertexWriters[])(const GMArray<Vertex>&, FileWriter&) =
+	{
+		VertexList::WriteVertices<0>,  VertexList::WriteVertices<1>,  VertexList::WriteVertices<2>,  VertexList::WriteVertices<3>,
+		VertexList::WriteVertices<4>,  VertexList::WriteVertices<5>,  VertexList::WriteVertices<6>,  VertexList::WriteVertices<7>,
+		VertexList::WriteVertices<8>,  VertexList::WriteVertices<9>,  VertexList::WriteVertices<10>, VertexList::WriteVertices<11>,
+		VertexList::WriteVertices<12>, VertexList::WriteVertices<13>, VertexList::WriteVertices<14>, VertexList::WriteVertices<15>,
+	};
+
+	vertexWriters[m_vertexFlags](m_vertices, file);
 }
 
 VertexList VertexList::mix(const VertexList& other, float coef) const
