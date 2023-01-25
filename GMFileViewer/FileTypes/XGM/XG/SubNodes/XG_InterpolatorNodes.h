@@ -54,7 +54,7 @@ public:
 
 	void save(FileWriter& file, const XG* xg) const override
 	{
-		PString::WriteString("type", file);
+		PString::WriteNamedValue("type", m_type, file);
 
 		if constexpr (INTERPOLATION >= InterpolatorType::TIMED)
 			PString::WriteNamedValue("times", m_times, file);
