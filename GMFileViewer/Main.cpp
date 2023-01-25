@@ -24,6 +24,7 @@ void testWrite(const T& file)
 		else if (answer == 'N' || answer == 'n')
 			break;
 	}
+	std::getline(std::cin, g_filename);
 }
 
 int main()
