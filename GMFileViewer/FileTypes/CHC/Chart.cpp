@@ -23,3 +23,20 @@ void Chart::load(FilePointer& file)
 	parseNotesFromBuffer<Phrase>(currPtr);
 	parseNotesFromBuffer<Guard>(currPtr);
 }
+
+void Chart::save(FileWriter& file) const
+{
+	file.writeTag("CHCH");
+
+	file << uint32_t(0x1300);
+	m_noteBuffer.write_size(file);
+	file << uint32_t(0) << uint32_t(0);
+
+	static constexpr char ZERO[16]{};
+	file << ZERO;
+
+	file.write(m_pivotTime);
+	file.write(m_endTime);
+
+	m_noteBuffer.write_data(file);
+}

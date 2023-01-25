@@ -19,3 +19,24 @@ void SongSection::load(FilePointer& file)
 	for (auto& chart : m_charts)
 		chart.load(file);
 }
+
+void SongSection::save(FileWriter& file) const
+{
+	file.writeTag("CHLS");
+
+	static constexpr char ZERO[16]{};
+	file << uint32_t(0x1300);
+	file.write(ZERO, 12);
+	file << ZERO;
+
+	file.write(m_phase);
+	file.write(m_tempo);
+	file.write(m_duration_samples);
+	file << uint32_t(0);
+
+	m_conditions.write_full(file);
+	file.write(m_numPlayers);
+	file.write(m_numChartsPerPlayer);
+	for (const auto& chart : m_charts)
+		chart.save(file);
+}

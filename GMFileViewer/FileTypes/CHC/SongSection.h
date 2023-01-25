@@ -26,4 +26,5 @@ private:
 
 public:
 	void load(FilePointer& file);
+	void save(FileWriter& file) const;
 };

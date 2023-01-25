@@ -72,6 +72,8 @@ int main()
 	else if (g_filename.ends_with(".CHC"))
 	{
 		CHC file(g_filename);
+		testWrite(file);
+
 		std::cout << "Press Enter to Exit" << std::endl;
 		std::getline(std::cin, g_filename);
 	}

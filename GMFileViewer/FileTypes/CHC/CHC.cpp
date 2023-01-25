@@ -18,3 +18,22 @@ CHC::CHC(const std::filesystem::path& filePath)
 
 	m_healthValues.reserve_and_fill(file);
 }
+
+void CHC::saveToFile(const std::filesystem::path& filePath) const
+{
+	FileWriter file(filePath);
+	file.writeTag("SNGS");
+	
+	static constexpr char ZERO[12]{};
+	file << uint32_t(0x1800) << ZERO << uint32_t(0x1069) << ZERO;
+	file.write(m_imcName);
+	file.write(m_events);
+	file.write(m_audio);
+	file.write(m_speed);
+	m_cues.write_full(file);
+	m_sections.write_size(file);
+	for (const auto& section : m_sections)
+		section.save(file);
+
+	m_healthValues.write_full(file);
+}

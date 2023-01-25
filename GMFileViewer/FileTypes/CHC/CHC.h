@@ -45,4 +45,5 @@ class CHC
 
 public:
 	CHC(const std::filesystem::path& filePath);
+	void saveToFile(const std::filesystem::path& filePath) const;
 };

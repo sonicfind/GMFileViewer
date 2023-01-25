@@ -30,6 +30,7 @@ class Chart
 
 public:
 	void load(FilePointer& file);
+	void save(FileWriter& file) const;
 
 private:
 	template<typename T, typename = std::enable_if<std::is_base_of<Note, T>::value>>
