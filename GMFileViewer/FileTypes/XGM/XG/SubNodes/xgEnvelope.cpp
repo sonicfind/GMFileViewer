@@ -18,16 +18,16 @@ void xgEnvelope::writeType(FileWriter& file) const
 	PString::WriteString("xgEnvelope", file);
 }
 
-void xgEnvelope::save(FileWriter& file, const XG* xg) const
+void xgEnvelope::save(FileWriter& file) const
 {
 	PString::WriteNamedValue("startVertex", m_startVertex, file);
 	PString::WriteNamedValue("weights", m_weights, file);
 	PString::WriteNamedValue("vertexTargets", m_vertexTargets, file);
 
 	for (size_t i = 0; i < MAX_BONES && m_inputMatrices[i]; ++i)
-		xg->writeNode(MATRIXNAMES[i], "envelopeMatrix", m_inputMatrices[i], file);
+		WriteNode(MATRIXNAMES[i], "envelopeMatrix", m_inputMatrices[i], file);
 
-	 xg->writeNode("inputGeometry", "outputGeometry", m_inputGeometry, file);
+	 WriteNode("inputGeometry", "outputGeometry", m_inputGeometry, file);
 }
 
 void xgEnvelope::updateVertices(VertexList& vertices) const

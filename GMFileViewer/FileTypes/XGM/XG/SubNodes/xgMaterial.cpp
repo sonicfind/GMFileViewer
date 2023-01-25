@@ -21,7 +21,7 @@ void xgMaterial::writeType(FileWriter& file) const
 	PString::WriteString("xgMaterial", file);
 }
 
-void xgMaterial::save(FileWriter& file, const XG* xg) const
+void xgMaterial::save(FileWriter& file) const
 {
 	PString::WriteNamedValue("blendType", m_blendType, file);
 	PString::WriteNamedValue("shadingType", m_shadingType, file);
@@ -33,7 +33,7 @@ void xgMaterial::save(FileWriter& file, const XG* xg) const
 	PString::WriteNamedValue("vTile", m_vTile, file);
 
 	if (m_inputTexture)
-		xg->writeNode("inputTexture", "outputTexture", m_inputTexture, file);
+		WriteNode("inputTexture", "outputTexture", m_inputTexture, file);
 }
 
 void xgMaterial::bind(size_t slot) const

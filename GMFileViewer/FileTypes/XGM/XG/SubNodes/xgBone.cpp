@@ -13,10 +13,10 @@ void xgBone::writeType(FileWriter& file) const
 	PString::WriteString("xgBone", file);
 }
 
-void xgBone::save(FileWriter& file, const XG* xg) const
+void xgBone::save(FileWriter& file) const
 {
 	PString::WriteNamedValue("restMatrix", m_restMatrix, file);
-	xg->writeNode("inputMatrix", "outputMatrix", m_inputMatrix, file);
+	WriteNode("inputMatrix", "outputMatrix", m_inputMatrix, file);
 }
 
 DirectX::XMMATRIX xgBone::calcTransformMatrix() const

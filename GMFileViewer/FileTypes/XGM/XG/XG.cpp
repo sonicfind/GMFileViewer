@@ -16,6 +16,20 @@
 #include "SubNodes/xgVec3Interpolator.h"
 #include "SubNodes/xgVertexInterpolator.h"
 
+XG_SubNode::XG_SubNode(std::string_view name) : m_name(name) {}
+
+void XG_SubNode::writeName(FileWriter& file) const
+{
+	PString::WriteString(m_name, file);
+}
+
+void XG_SubNode::WriteNode(std::string_view inputString, std::string_view outputString, const XG_SubNode* const node, FileWriter& file)
+{
+	PString::WriteString(inputString, file);
+	node->writeName(file);
+	PString::WriteString(outputString, file);
+}
+
 void XG::load(FilePointer file)
 {
 	if (!file.checkTag("XGBv1.00"))
@@ -25,7 +39,7 @@ void XG::load(FilePointer file)
 	std::string_view name = PString::GetString(file);
 	while (PString::CheckForString(";", file))
 	{
-		m_nodes.push_back({ std::string(name), constructNode(type) });
+		m_nodes.push_back(constructNode(type, name));
 		PString::GetString(type, file);
 		PString::GetString(name, file);
 	}
@@ -33,7 +47,7 @@ void XG::load(FilePointer file)
 	for (const auto& node : m_nodes)
 	{
 		PString::ThrowOnStringMismatch("{", file);
-		node.second->load(file, this);
+		node->load(file, this);
 		PString::ThrowOnStringMismatch("}", file);
 
 		if (PString::CheckForString("dag", file))
@@ -60,24 +74,24 @@ void XG::save(FileWriter& file) const
 	file.writeTag("XGBv1.00");
 	for (const auto& node : m_nodes)
 	{
-		node.second->writeType(file);
-		PString::WriteString(node.first, file);
+		node->writeType(file);
+		node->writeName(file);
 		PString::WriteString(";", file);
 	}
 
 	for (const auto& node : m_nodes)
 	{
-		node.second->writeType(file);
-		PString::WriteString(node.first, file);
+		node->writeType(file);
+		node->writeName(file);
 		PString::WriteString("{", file);
-		node.second->save(file, this);
+		node->save(file);
 		PString::WriteString("}", file);
 	}
 
 	PString::WriteString("dag", file);
 	PString::WriteString("{", file);
 	for (const auto& dag : m_dag)
-		saveDag<true>(dag, file);
+		saveDag(dag, file, true);
 	PString::WriteString("}", file);
 }
 
@@ -138,24 +152,24 @@ void XG::DagElement::draw(DirectX::XMMATRIX meshMatrix) const
 	}
 }
 
-std::unique_ptr<XG_SubNode> XG::constructNode(std::string_view type)
+std::unique_ptr<XG_SubNode> XG::constructNode(std::string_view type, std::string_view name)
 {
-	if (type == "xgVec3Interpolator")			return std::make_unique<xgVec3Interpolator>();
-	else if (type == "xgQuatInterpolator") 		return std::make_unique<xgQuatInterpolator>();
-	else if (type == "xgBone") 					return std::make_unique<xgBone>();
-	else if (type == "xgBgMatrix")				return std::make_unique<xgBgMatrix>();
-	else if (type == "xgEnvelope") 				return std::make_unique<xgEnvelope>();
-	else if (type == "xgMaterial") 				return std::make_unique<xgMaterial>();
-	else if (type == "xgTexture") 				return std::make_unique<xgTexture>();
-	else if (type == "xgDagMesh") 				return std::make_unique<xgDagMesh>();
-	else if (type == "xgBgGeometry") 			return std::make_unique<xgBgGeometry>();
-	else if (type == "xgDagTransform") 			return std::make_unique<xgDagTransform>();
-	else if (type == "xgMultiPassMaterial") 	return std::make_unique<xgMultiPassMaterial>();
-	else if (type == "xgVertexInterpolator") 	return std::make_unique<xgVertexInterpolator>();
-	else if (type == "xgNormalInterpolator") 	return std::make_unique<xgNormalInterpolator>();
-	else if (type == "xgShapeInterpolator") 	return std::make_unique<xgShapeInterpolator>();
-	else if (type == "xgTexCoordInterpolator")	return std::make_unique<xgTexCoordInterpolator>();
-	else if (type == "xgTime")					return std::make_unique<xgTime>();
+	if (type == "xgVec3Interpolator")			return std::make_unique<xgVec3Interpolator>(name);
+	else if (type == "xgQuatInterpolator") 		return std::make_unique<xgQuatInterpolator>(name);
+	else if (type == "xgBone") 					return std::make_unique<xgBone>(name);
+	else if (type == "xgBgMatrix")				return std::make_unique<xgBgMatrix>(name);
+	else if (type == "xgEnvelope") 				return std::make_unique<xgEnvelope>(name);
+	else if (type == "xgMaterial") 				return std::make_unique<xgMaterial>(name);
+	else if (type == "xgTexture") 				return std::make_unique<xgTexture>(name);
+	else if (type == "xgDagMesh") 				return std::make_unique<xgDagMesh>(name);
+	else if (type == "xgBgGeometry") 			return std::make_unique<xgBgGeometry>(name);
+	else if (type == "xgDagTransform") 			return std::make_unique<xgDagTransform>(name);
+	else if (type == "xgMultiPassMaterial") 	return std::make_unique<xgMultiPassMaterial>(name);
+	else if (type == "xgVertexInterpolator") 	return std::make_unique<xgVertexInterpolator>(name);
+	else if (type == "xgNormalInterpolator") 	return std::make_unique<xgNormalInterpolator>(name);
+	else if (type == "xgShapeInterpolator") 	return std::make_unique<xgShapeInterpolator>(name);
+	else if (type == "xgTexCoordInterpolator")	return std::make_unique<xgTexCoordInterpolator>(name);
+	else if (type == "xgTime")					return std::make_unique<xgTime>(name);
 	else
 		throw "Unrecognized node";
 }
@@ -168,17 +182,9 @@ XG_SubNode* XG::searchForNode(FilePointer& file) const
 XG_SubNode* XG::searchForNode(std::string_view name) const
 {
 	for (const auto& node : m_nodes)
-		if (node.first == name)
-			return node.second.get();
+		if (node->getName() == name)
+			return node.get();
 	return nullptr;
-}
-
-std::string_view XG::getNodeName(const XG_SubNode* nodeToFind) const
-{
-	for (const auto& node : m_nodes)
-		if (node.second.get() == nodeToFind)
-			return node.first;
-	throw "How in the fu-";
 }
 
 XG_SubNode* XG::grabNode_optional(std::string_view inputString, std::string_view outputString, FilePointer& file) const
@@ -204,13 +210,6 @@ XG_SubNode* XG::grabNode(std::string_view inputString, std::string_view outputSt
 	return node;
 }
 
-void XG::writeNode(std::string_view inputString, std::string_view outputString, const XG_SubNode* const node, FileWriter& file) const
-{
-	PString::WriteString("inputMatrix", file);
-	PString::WriteString(getNodeName(node), file);
-	PString::WriteString("outputMatrix", file);
-}
-
 void XG::fillDag(DagElement& dag, FilePointer& file)
 {
 	while (!PString::CheckForString("]", file))
@@ -218,5 +217,21 @@ void XG::fillDag(DagElement& dag, FilePointer& file)
 		DagElement& newDag = dag.m_connections.emplace_back(searchForNode(file));
 		if (PString::CheckForString("[", file))
 			fillDag(newDag, file);
+	}
+}
+
+void XG::saveDag(const DagElement& dag, FileWriter& file, bool forceBrackets) const
+{
+	if (dag.m_mesh)
+		dag.m_mesh->writeName(file);
+	else
+		dag.m_transform->writeName(file);
+
+	if (!dag.m_connections.empty() || forceBrackets)
+	{
+		PString::WriteString("[", file);
+		for (const auto& connection : dag.m_connections)
+			saveDag(connection, file, false);
+		PString::WriteString("]", file);
 	}
 }

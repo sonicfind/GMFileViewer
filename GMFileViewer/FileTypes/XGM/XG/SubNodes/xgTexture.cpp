@@ -23,7 +23,7 @@ void xgTexture::writeType(FileWriter& file) const
 	PString::WriteString("xgTexture", file);
 }
 
-void xgTexture::save(FileWriter& file, const XG* xg) const
+void xgTexture::save(FileWriter& file) const
 {
 	char buffer[16]{};
 	for (size_t i = 0; i < 16 && m_url[i]; ++i)

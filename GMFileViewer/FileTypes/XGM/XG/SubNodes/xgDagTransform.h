@@ -5,10 +5,11 @@ class xgDagTransform : public XG_SubNode
 	xgBgMatrix* m_inputMatrix = nullptr;
 
 public:
+	using XG_SubNode::XG_SubNode;
 	void load(FilePointer& file, const XG* xg) override;
 
 	void writeType(FileWriter& file) const override;
-	void save(FileWriter& file, const XG* xg) const override;
+	void save(FileWriter& file) const override;
 
 	DirectX::XMMATRIX calcTransformMatrix() const;
 };

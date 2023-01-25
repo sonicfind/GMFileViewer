@@ -10,10 +10,11 @@ class xgBgGeometry : public XG_SubNode
 	std::vector<XG_UpdatableNode*> m_inputGeometries;
 
 public:
+	using XG_SubNode::XG_SubNode;
 	void load(FilePointer& file, const XG* xg) override;
 
 	void writeType(FileWriter& file) const override;
-	void save(FileWriter& file, const XG* xg) const override;
+	void save(FileWriter& file) const override;
 
 	void createVertexBuffer();
 	void bindVertexBuffer() const;

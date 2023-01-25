@@ -23,7 +23,7 @@ void xgBgGeometry::writeType(FileWriter& file) const
 	PString::WriteString("xgBgGeometry", file);
 }
 
-void xgBgGeometry::save(FileWriter& file, const XG* xg) const
+void xgBgGeometry::save(FileWriter& file) const
 {
 	PString::WriteNamedValue("density", m_density, file);
 
@@ -31,7 +31,7 @@ void xgBgGeometry::save(FileWriter& file, const XG* xg) const
 	m_vertices.save(file);
 
 	for (const auto node : m_inputGeometries)
-		xg->writeNode("inputGeometry", "outputGeometry", dynamic_cast<XG_SubNode*>(node), file);
+		WriteNode("inputGeometry", "outputGeometry", dynamic_cast<XG_SubNode*>(node), file);
 
 }
 

@@ -11,10 +11,10 @@ void xgMultiPassMaterial::writeType(FileWriter& file) const
 	PString::WriteString("xgMultiPassMaterial", file);
 }
 
-void xgMultiPassMaterial::save(FileWriter& file, const XG* xg) const
+void xgMultiPassMaterial::save(FileWriter& file) const
 {
 	for (const auto node : m_inputMaterials)
-		xg->writeNode("inputMaterial", "outputMaterial", node, file);
+		WriteNode("inputMaterial", "outputMaterial", node, file);
 }
 
 void xgMultiPassMaterial::bind(size_t slot) const

@@ -5,6 +5,7 @@
 class xgShapeInterpolator : public XG_InterpolatorNode<VertexList, InterpolatorType::TIMED>, public XG_UpdatableNode
 {
 public:
+	using XG_InterpolatorNode::XG_InterpolatorNode;
 	void writeType(FileWriter& file) const override;
 	void updateVertices(VertexList& vertices) const override;
 

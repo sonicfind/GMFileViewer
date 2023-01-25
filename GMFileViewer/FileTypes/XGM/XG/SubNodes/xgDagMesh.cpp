@@ -20,7 +20,7 @@ void xgDagMesh::writeType(FileWriter& file) const
 	PString::WriteString("xgDagMesh", file);
 }
 
-void xgDagMesh::save(FileWriter& file, const XG* xg) const
+void xgDagMesh::save(FileWriter& file) const
 {
 	PString::WriteNamedValue("primType", m_primType, file);
 
@@ -31,9 +31,9 @@ void xgDagMesh::save(FileWriter& file, const XG* xg) const
 
 	PString::WriteNamedValue("cullFunc", m_cullFunc, file);
 
-	xg->writeNode("inputGeometry", "outputGeometry", m_inputGeometry, file);
+	WriteNode("inputGeometry", "outputGeometry", m_inputGeometry, file);
 	if (m_inputMaterial)
-		xg->writeNode("inputMaterial", "outputMaterial", reinterpret_cast<XG_SubNode*>(m_inputMaterial), file);
+		WriteNode("inputMaterial", "outputMaterial", m_inputMaterial, file);
 }
 
 void xgDagMesh::createVertexBuffer()

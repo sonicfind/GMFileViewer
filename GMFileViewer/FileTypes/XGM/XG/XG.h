@@ -5,11 +5,20 @@
 class XG;
 class XG_SubNode
 {
+protected:
+	std::string m_name;
+
 public:
+	XG_SubNode(std::string_view name);
+	void writeName(FileWriter& file) const;
+	std::string_view getName() const { return m_name; }
+
 	virtual void load(FilePointer& file, const XG* xg) = 0;
 	virtual void writeType(FileWriter& file) const = 0;
-	virtual void save(FileWriter& file, const XG* xg) const = 0;
+	virtual void save(FileWriter& file) const = 0;
 	virtual ~XG_SubNode() {}
+
+	static void WriteNode(std::string_view inputString, std::string_view outputString, const XG_SubNode* const node, FileWriter& file);
 };
 
 class xgTime;
@@ -50,7 +59,7 @@ class XG
 		void draw(DirectX::XMMATRIX meshMatrix) const;
 	};
 
-	std::vector<std::pair<std::string, std::unique_ptr<XG_SubNode>>> m_nodes;
+	std::vector<std::unique_ptr<XG_SubNode>> m_nodes;
 	std::vector<DagElement> m_dag;
 	xgTime* m_time = nullptr;
 	
@@ -63,35 +72,15 @@ public:
 
 private:
 	void fillDag(DagElement& dag, FilePointer& file);
-	template <bool forceBrackets>
-	void saveDag(const DagElement& dag, FileWriter& file) const
-	{
-		PString::WriteString(getNodeName(dag.m_mesh ? (XG_SubNode*)dag.m_mesh : dag.m_transform), file);
-		if (!dag.m_connections.empty())
-		{
-			PString::WriteString("[", file);
-			for (const auto& connection : dag.m_connections)
-				saveDag<false>(connection, file);
-			PString::WriteString("]", file);
-		}
-		else if constexpr (forceBrackets)
-		{
-			PString::WriteString("[", file);
-			PString::WriteString("]", file);
-		}
+	void saveDag(const DagElement& dag, FileWriter& file, bool forceBrackets) const;
 
-	}
-
-	static std::unique_ptr<XG_SubNode> constructNode(std::string_view type);
+	static std::unique_ptr<XG_SubNode> constructNode(std::string_view type, std::string_view name);
 
 public:
 	XG_SubNode* searchForNode(FilePointer& file) const;
 	XG_SubNode* searchForNode(std::string_view name) const;
-	std::string_view getNodeName(const XG_SubNode* nodeToFind) const;
-
 	XG_SubNode* grabNode_optional(std::string_view inputString, std::string_view outputString, FilePointer& file) const;
 	XG_SubNode* grabNode(std::string_view inputString, std::string_view outputString, FilePointer& file) const;
-	void writeNode(std::string_view inputString, std::string_view outputString, const XG_SubNode* const node, FileWriter& file) const;
 
 	template <typename NodeType = XG_SubNode, typename = std::enable_if<std::is_base_of<XG_SubNode, NodeType>::value>>
 	bool grabNode_nondestructive(NodeType*& dst, std::string_view inputString, std::string_view outputString, FilePointer& file) const

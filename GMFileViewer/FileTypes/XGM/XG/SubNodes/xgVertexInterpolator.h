@@ -5,6 +5,7 @@
 class xgVertexInterpolator : public XG_TargetedInterpolator<DirectX::XMFLOAT3>, public XG_UpdatableNode
 {
 public:
+	using XG_TargetedInterpolator::XG_TargetedInterpolator;
 	void writeType(FileWriter& file) const override;
 	void updateVertices(VertexList& vertices) const override;
 };

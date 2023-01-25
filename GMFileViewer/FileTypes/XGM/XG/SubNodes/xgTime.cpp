@@ -13,7 +13,7 @@ void xgTime::writeType(FileWriter& file) const
 	PString::WriteString("xgTime", file);
 }
 
-void xgTime::save(FileWriter& file, const XG* xg) const
+void xgTime::save(FileWriter& file) const
 {
 	PString::WriteNamedValue("numFrames", m_numFrames, file);
 	PString::WriteNamedValue("time", m_time, file);

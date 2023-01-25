@@ -11,10 +11,10 @@ void xgDagTransform::writeType(FileWriter& file) const
 	PString::WriteString("xgDagTransform", file);
 }
 
-void xgDagTransform::save(FileWriter& file, const XG* xg) const
+void xgDagTransform::save(FileWriter& file) const
 {
 	if (m_inputMatrix)
-		xg->writeNode("inputMatrix", "outputMatrix", m_inputMatrix, file);
+		WriteNode("inputMatrix", "outputMatrix", m_inputMatrix, file);
 }
 
 DirectX::XMMATRIX xgDagTransform::calcTransformMatrix() const

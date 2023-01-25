@@ -36,6 +36,7 @@ protected:
 	xgTime* m_inputTime = nullptr;
 
 public:
+	using XG_SubNode::XG_SubNode;
 	void load(FilePointer& file, const XG* xg) override
 	{
 		PString::ReadNamedValue("type", m_type, file);
@@ -52,7 +53,7 @@ public:
 		m_inputTime = static_cast<xgTime*>(xg->grabNode("inputTime", "outputTime", file));
 	}
 
-	void save(FileWriter& file, const XG* xg) const override
+	void save(FileWriter& file) const override
 	{
 		PString::WriteNamedValue("type", m_type, file);
 
@@ -65,7 +66,7 @@ public:
 		if constexpr (INTERPOLATION == InterpolatorType::TARGETED)
 			PString::WriteNamedValue("targets", m_targets, file);
 
-		xg->writeNode("inputTime", "outputTime", m_inputTime, file);
+		WriteNode("inputTime", "outputTime", m_inputTime, file);
 	}
 
 protected:

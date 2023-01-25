@@ -4,6 +4,8 @@
 template <typename T>
 class XG_TargetedInterpolator : public XG_InterpolatorNode<GMArray<T>, InterpolatorType::TARGETED>
 {
+public:
+	using XG_InterpolatorNode<GMArray<T>, InterpolatorType::TARGETED>::XG_InterpolatorNode;
 private:
 	void loadKeys(FilePointer& file) override
 	{
@@ -14,6 +16,7 @@ private:
 
 	void saveKeys(FileWriter& file) const override
 	{
+		this->m_keys.write_size(file);
 		for (const auto& key : this->m_keys)
 			key.write_full(file);
 	}

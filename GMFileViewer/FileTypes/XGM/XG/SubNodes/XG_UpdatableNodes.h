@@ -1,5 +1,6 @@
 #pragma once
 #include "VertexList.h"
+
 class XG_UpdatableNode
 {
 public:

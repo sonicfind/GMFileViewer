@@ -1,10 +1,9 @@
 #pragma once
-#include "../XG.h"
 #include "XG_MaterialNode.h"
 #include "xgTexture.h"
 #include "Graphics.h"
 
-class xgMaterial : public XG_SubNode, public XG_MaterialNode
+class xgMaterial : public XG_MaterialNode
 {
 	enum Shading : uint32_t
 	{
@@ -42,10 +41,11 @@ class xgMaterial : public XG_SubNode, public XG_MaterialNode
 	xgTexture* m_inputTexture = nullptr;
 
 public:
+	using XG_MaterialNode::XG_MaterialNode;
 	void load(FilePointer& file, const XG* xg) override;
 
 	void writeType(FileWriter& file) const override;
-	void save(FileWriter& file, const XG* xg) const override;
+	void save(FileWriter& file) const override;
 
 	void bind(size_t slot) const override;
 	size_t getNumMaterials() const override;
