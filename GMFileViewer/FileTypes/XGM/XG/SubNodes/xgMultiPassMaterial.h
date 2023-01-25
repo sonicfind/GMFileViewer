@@ -7,7 +7,7 @@ class xgMultiPassMaterial : public XG_MaterialNode
 
 public:
 	using XG_MaterialNode::XG_MaterialNode;
-	void load(FilePointer& file, const XG* xg) override;
+	void load(FileReader& file, const XG* xg) override;
 
 	void writeType(FileWriter& file) const override;
 	void save(FileWriter& file) const override;

@@ -1,6 +1,6 @@
 #include "FixedSprite_Setup.h"
 
-void FixedSpriteSetup::read(FilePointer& file)
+void FixedSpriteSetup::read(FileReader& file)
 {
 	if (!file.checkTag("GMF0"))
 		throw "Sprite Setup read error";

@@ -16,7 +16,7 @@ class AttDefModel_Setup : public Model_Setup
 	} m_attackValues;
 
 private:
-	AttDefModel_Setup(FilePointer& file);
+	AttDefModel_Setup(FileReader& file);
 
 public:
 	void save(FileWriter& file) const override;

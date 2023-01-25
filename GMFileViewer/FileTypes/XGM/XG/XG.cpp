@@ -1,5 +1,5 @@
 #include "XG.h"
-#include "FilePointer.h"
+#include "FileReader.h"
 #include "SubNodes/xgBgGeometry.h"
 #include "SubNodes/xgBgMatrix.h"
 #include "SubNodes/xgBone.h"
@@ -30,7 +30,7 @@ void XG_SubNode::WriteNode(std::string_view inputString, std::string_view output
 	PString::WriteString(outputString, file);
 }
 
-void XG::load(FilePointer file)
+void XG::load(FileReader file)
 {
 	if (!file.checkTag("XGBv1.00"))
 		throw "XG file read error";
@@ -174,7 +174,7 @@ std::unique_ptr<XG_SubNode> XG::constructNode(std::string_view type, std::string
 		throw "Unrecognized node";
 }
 
-XG_SubNode* XG::searchForNode(FilePointer& file) const
+XG_SubNode* XG::searchForNode(FileReader& file) const
 {
 	return searchForNode(PString::GetString(file));
 }
@@ -187,7 +187,7 @@ XG_SubNode* XG::searchForNode(std::string_view name) const
 	return nullptr;
 }
 
-XG_SubNode* XG::grabNode_optional(std::string_view inputString, std::string_view outputString, FilePointer& file) const
+XG_SubNode* XG::grabNode_optional(std::string_view inputString, std::string_view outputString, FileReader& file) const
 {
 	if (!PString::CheckForString(inputString, file))
 		return nullptr;
@@ -202,7 +202,7 @@ XG_SubNode* XG::grabNode_optional(std::string_view inputString, std::string_view
 	return node;
 }
 
-XG_SubNode* XG::grabNode(std::string_view inputString, std::string_view outputString, FilePointer& file) const
+XG_SubNode* XG::grabNode(std::string_view inputString, std::string_view outputString, FileReader& file) const
 {
 	XG_SubNode* node = grabNode_optional(inputString, outputString, file);
 	if (node == nullptr)
@@ -210,7 +210,7 @@ XG_SubNode* XG::grabNode(std::string_view inputString, std::string_view outputSt
 	return node;
 }
 
-void XG::fillDag(DagElement& dag, FilePointer& file)
+void XG::fillDag(DagElement& dag, FileReader& file)
 {
 	while (!PString::CheckForString("]", file))
 	{

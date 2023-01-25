@@ -1,8 +1,8 @@
 #include "xgBone.h"
 #include "../PString.h"
-#include "FilePointer.h"
+#include "FileReader.h"
 
-void xgBone::load(FilePointer& file, const XG* xg)
+void xgBone::load(FileReader& file, const XG* xg)
 {
 	PString::ReadNamedValue("restMatrix", m_restMatrix, file);
 	m_inputMatrix = static_cast<xgBgMatrix*>(xg->grabNode("inputMatrix", "outputMatrix", file));

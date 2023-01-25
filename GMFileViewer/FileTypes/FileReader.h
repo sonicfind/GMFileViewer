@@ -11,7 +11,7 @@ template <typename T>
 	return value;
 }
 
-class FilePointer
+class FileReader
 {
 	size_t m_fileSize = 0;
 	std::shared_ptr<char[]> m_fileData;
@@ -20,8 +20,8 @@ class FilePointer
 	const char* m_fileEnd = nullptr;
 
 public:
-	FilePointer(const std::filesystem::path& path);
-	FilePointer(const FilePointer& file);
+	FileReader(const std::filesystem::path& path);
+	FileReader(const FileReader& file);
 
 	template<size_t SIZE>
 	[[nodiscard]] bool checkTag(const char(&tag)[SIZE])
@@ -68,9 +68,9 @@ public:
 	}
 
 	void move(size_t amount);
-	FilePointer& operator+=(size_t amount);
-	FilePointer& operator++();
-	FilePointer operator++(int);
+	FileReader& operator+=(size_t amount);
+	FileReader& operator++();
+	FileReader operator++(int);
 	[[nodiscard]] const char* get() const;
 	[[nodiscard]] char operator*() const;
 

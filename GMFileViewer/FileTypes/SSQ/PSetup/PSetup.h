@@ -1,8 +1,8 @@
 #pragma once
-#include "FilePointer.h"
+#include "FileReader.h"
 
 class PSetup
 {
 public:
-	void read(FilePointer& file);
+	void read(FileReader& file);
 };

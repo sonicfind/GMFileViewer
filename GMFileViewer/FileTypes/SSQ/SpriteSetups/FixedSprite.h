@@ -50,6 +50,6 @@ class FixedSprite
 	KeyFrameArray<SpriteFrame> m_spriteFrames;
 
 public:
-	void read(FilePointer& file);
+	void read(FileReader& file);
 	void save(FileWriter& file) const;
 };

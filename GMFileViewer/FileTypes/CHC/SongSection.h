@@ -25,6 +25,6 @@ private:
 	GMArray<Chart> m_charts;
 
 public:
-	void load(FilePointer& file);
+	void load(FileReader& file);
 	void save(FileWriter& file) const;
 };

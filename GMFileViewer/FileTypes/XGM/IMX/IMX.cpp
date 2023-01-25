@@ -1,7 +1,7 @@
 #include "IMX.h"
 #include "Graphics.h"
 
-void IMX::load(FilePointer file)
+void IMX::load(FileReader file)
 {
 	if (!file.checkTag("IMX"))
 		throw "IMX file read error";
@@ -65,7 +65,7 @@ FileEnd:
 	file << uint32_t(3) << uint32_t(0);
 }
 
-void IMX::readImage_RGB(FilePointer& file)
+void IMX::readImage_RGB(FileReader& file)
 {
 	const auto size = file.read<uint32_t>() / 3;
 	m_data = std::make_unique<Pixel[]>(size);
@@ -73,7 +73,7 @@ void IMX::readImage_RGB(FilePointer& file)
 		file.read(m_data[i], 3);		
 }
 
-void IMX::readImage_RGBA(FilePointer& file)
+void IMX::readImage_RGBA(FileReader& file)
 {
 	const auto size = file.read<uint32_t>();
 	m_data = std::make_unique<Pixel[]>(size / 4);

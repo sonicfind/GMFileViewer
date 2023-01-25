@@ -1,10 +1,10 @@
 #include "SSQ.h"
-#include "FilePointer.h"
+#include "FileReader.h"
 #include <iostream>
 
 SSQ::SSQ(const std::filesystem::path& filePath)
 {
-	FilePointer file(filePath);
+	FileReader file(filePath);
 
 	if (!file.checkTag("GMSX"))
 		throw "SSQ file read error";

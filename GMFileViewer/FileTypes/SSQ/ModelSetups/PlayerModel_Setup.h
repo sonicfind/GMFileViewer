@@ -25,8 +25,8 @@ class PlayerModel_Setup : public Model_Setup
 	GMArray<int32_t> m_defaults;
 
 private:
-	PlayerModel_Setup(FilePointer& file);
-	PlayerModel_Setup(FilePointer&& file);
+	PlayerModel_Setup(FileReader& file);
+	PlayerModel_Setup(FileReader&& file);
 
 public:
 	void save(FileWriter& file) const override;

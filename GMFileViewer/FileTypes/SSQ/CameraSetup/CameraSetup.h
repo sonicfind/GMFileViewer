@@ -59,6 +59,6 @@ class CameraSetup
 	KeyFrameArray<Struct64_7f> m_64bytes_v;
 
 public:
-	void read(FilePointer& file);
+	void read(FileReader& file);
 	void save(FileWriter& file) const;
 };

@@ -1,6 +1,6 @@
 #include "AttDefModel_Setup.h"
 
-AttDefModel_Setup::AttDefModel_Setup(FilePointer& file) : Model_Setup(file)
+AttDefModel_Setup::AttDefModel_Setup(FileReader& file) : Model_Setup(file)
 {
 	if (m_headerVersion < 0x1200)
 		return;

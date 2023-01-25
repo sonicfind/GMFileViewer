@@ -7,13 +7,13 @@ VertexList& VertexList::operator=(VertexList&& list) noexcept
 	return *this;
 }
 
-void VertexList::load(FilePointer& file)
+void VertexList::load(FileReader& file)
 {
 	file.read(m_vertexFlags);
 	if (m_vertexFlags >= 16)
 		throw "why'd you edit the vertexFlags to an invalid value you dumb SOB?";
 
-	static constexpr void (*vertexFillers[])(GMArray<Vertex>&, FilePointer&) =
+	static constexpr void (*vertexFillers[])(GMArray<Vertex>&, FileReader&) =
 	{
 		VertexList::FillVertices<0>,  VertexList::FillVertices<1>,  VertexList::FillVertices<2>,  VertexList::FillVertices<3>,
 		VertexList::FillVertices<4>,  VertexList::FillVertices<5>,  VertexList::FillVertices<6>,  VertexList::FillVertices<7>,

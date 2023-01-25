@@ -1,7 +1,7 @@
 #include "PSetup.h"
-#include "FilePointer.h"
+#include "FileReader.h"
 
-void PSetup::read(FilePointer& file)
+void PSetup::read(FileReader& file)
 {
 	if (!file.checkTag("PSTP"))
 		throw "Unused Particle Setup read error";

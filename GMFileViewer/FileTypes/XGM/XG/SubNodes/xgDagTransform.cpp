@@ -1,7 +1,7 @@
 #include "xgDagTransform.h"
 #include "../PString.h"
 
-void xgDagTransform::load(FilePointer& file, const XG* xg)
+void xgDagTransform::load(FileReader& file, const XG* xg)
 {
 	m_inputMatrix = static_cast<xgBgMatrix*>(xg->grabNode_optional("inputMatrix", "outputMatrix", file));
 }

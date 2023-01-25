@@ -1,6 +1,6 @@
 #include "PlayerModel_Setup.h"
 
-PlayerModel_Setup::PlayerModel_Setup(FilePointer& file) : Model_Setup(file)
+PlayerModel_Setup::PlayerModel_Setup(FileReader& file) : Model_Setup(file)
 {
 	if (m_headerVersion < 0x1300)
 		return;
@@ -13,7 +13,7 @@ PlayerModel_Setup::PlayerModel_Setup(FilePointer& file) : Model_Setup(file)
 	m_defaults.reserve_and_fill(file, numControllables);
 }
 
-PlayerModel_Setup::PlayerModel_Setup(FilePointer&& file) : PlayerModel_Setup(file) {}
+PlayerModel_Setup::PlayerModel_Setup(FileReader&& file) : PlayerModel_Setup(file) {}
 
 void PlayerModel_Setup::save(FileWriter& file) const
 {

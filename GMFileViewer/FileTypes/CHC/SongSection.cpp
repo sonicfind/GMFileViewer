@@ -1,7 +1,7 @@
 #include "SongSection.h"
-#include "FilePointer.h"
+#include "FileReader.h"
 
-void SongSection::load(FilePointer& file)
+void SongSection::load(FileReader& file)
 {
 	if (!file.checkTag("CHLS"))
 		throw "SongSection read error";

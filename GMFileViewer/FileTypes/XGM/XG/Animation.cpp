@@ -1,5 +1,5 @@
 #include "Animation.h"
-#include "FilePointer.h"
+#include "FileReader.h"
 
 float Animation::calcLength(float tempo) const
 {

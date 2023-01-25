@@ -2,7 +2,7 @@
 
 CHC::CHC(const std::filesystem::path& filePath)
 {
-	FilePointer file(filePath);
+	FileReader file(filePath);
 	if (!file.checkTag("SNGS"))
 		throw "CHC file read error";
 

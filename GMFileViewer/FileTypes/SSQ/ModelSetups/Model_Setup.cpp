@@ -1,7 +1,7 @@
 #include "Model_Setup.h"
-#include "FilePointer.h"
+#include "FileReader.h"
 
-Model_Setup::Model_Setup(FilePointer& file)
+Model_Setup::Model_Setup(FileReader& file)
 {
 	if (!file.checkTag("GMPX"))
 		throw "Model Setup read error";

@@ -1,6 +1,6 @@
 #include "xgEnvelope.h"
 
-void xgEnvelope::load(FilePointer& file, const XG* xg)
+void xgEnvelope::load(FileReader& file, const XG* xg)
 {
 	PString::ReadNamedValue("startVertex", m_startVertex, file);
 	PString::ReadNamedValue("weights", m_weights, file);

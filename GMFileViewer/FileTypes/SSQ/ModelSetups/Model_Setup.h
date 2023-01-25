@@ -1,5 +1,5 @@
 #pragma once
-#include "FilePointer.h"
+#include "FileReader.h"
 #include "../Keyframe.h"
 #include "../SSQModelType.h"
 
@@ -61,11 +61,11 @@ private:
 	BaseValues m_baseValues;
 
 protected:
-	Model_Setup(FilePointer& file);
+	Model_Setup(FileReader& file);
 
 public:
 	virtual void save(FileWriter& file) const;
 	virtual ~Model_Setup() = default;
 
-	static std::unique_ptr<Model_Setup> create(FilePointer& file, SSQModelType type);
+	static std::unique_ptr<Model_Setup> create(FileReader& file, SSQModelType type);
 };

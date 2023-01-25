@@ -1,6 +1,6 @@
 #include "Chart.h"
 
-void Chart::load(FilePointer& file)
+void Chart::load(FileReader& file)
 {
 	if (!file.checkTag("CHCH"))
 		throw "Chart read error";

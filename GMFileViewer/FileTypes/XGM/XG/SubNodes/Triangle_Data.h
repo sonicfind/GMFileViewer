@@ -12,7 +12,7 @@ protected:
 	GMArray<uint32_t> m_data;
 
 public:
-	void load(FilePointer& file)
+	void load(FileReader& file)
 	{
 		if      constexpr (MODE == PrimitiveMode::PRIMITIVE)      PString::ThrowOnStringMismatch("primCount", file);
 		else if constexpr (MODE == PrimitiveMode::TRIANGLE_FAN)   PString::ThrowOnStringMismatch("triFanCount", file);

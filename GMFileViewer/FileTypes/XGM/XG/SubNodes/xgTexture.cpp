@@ -1,9 +1,9 @@
 #include "xgTexture.h"
 #include "../PString.h"
-#include "FilePointer.h"
+#include "FileReader.h"
 #include "Graphics.h"
 
-void xgTexture::load(FilePointer& file, const XG* xg)
+void xgTexture::load(FileReader& file, const XG* xg)
 {
 	PString::ThrowOnStringMismatch("url", file);
 	std::string_view parsed = PString::GetString(file);

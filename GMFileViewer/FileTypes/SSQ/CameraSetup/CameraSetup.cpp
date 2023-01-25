@@ -1,6 +1,6 @@
 #include "CameraSetup.h"
 
-void CameraSetup::read(FilePointer& file)
+void CameraSetup::read(FileReader& file)
 {
 	if (!file.checkTag("GMPX"))
 		throw "Camera Setup read error";

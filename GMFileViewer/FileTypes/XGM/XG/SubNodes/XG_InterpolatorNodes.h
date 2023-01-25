@@ -37,7 +37,7 @@ protected:
 
 public:
 	using XG_SubNode::XG_SubNode;
-	void load(FilePointer& file, const XG* xg) override
+	void load(FileReader& file, const XG* xg) override
 	{
 		PString::ReadNamedValue("type", m_type, file);
 
@@ -75,7 +75,7 @@ protected:
 		return interpolateFrame(calculateTimeFrame());
 	}
 
-	virtual void loadKeys(FilePointer& file)
+	virtual void loadKeys(FileReader& file)
 	{
 		m_keys.reserve_and_fill(file);
 	}

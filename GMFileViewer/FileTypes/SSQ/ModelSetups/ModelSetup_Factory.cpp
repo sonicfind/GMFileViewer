@@ -3,7 +3,7 @@
 #include "AttDefModel_Setup.h"
 #include "SnakeModel_Setup.h"
 
-std::unique_ptr<Model_Setup> Model_Setup::create(FilePointer& file, SSQModelType type)
+std::unique_ptr<Model_Setup> Model_Setup::create(FileReader& file, SSQModelType type)
 {
 	switch (type)
 	{

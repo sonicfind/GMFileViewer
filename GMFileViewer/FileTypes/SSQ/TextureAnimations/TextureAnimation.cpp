@@ -1,6 +1,6 @@
 #include "TextureAnimation.h"
 
-void TexAnim::read(FilePointer& file)
+void TexAnim::read(FileReader& file)
 {
 	if (!file.checkTag("\0\0\0\0"))
 		throw "Texture Animation read error";

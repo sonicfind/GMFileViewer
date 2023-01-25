@@ -10,7 +10,7 @@ void xgShapeInterpolator::updateVertices(VertexList& vertices) const
 	vertices = getInterpolatedKey();
 }
 
-void xgShapeInterpolator::loadKeys(FilePointer& file)
+void xgShapeInterpolator::loadKeys(FileReader& file)
 {
 	if (m_keys.reserve(file))
 		for (auto& element : m_keys)

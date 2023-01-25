@@ -1,5 +1,5 @@
 #include "FixedSprite.h"
-void FixedSprite::read(FilePointer& file)
+void FixedSprite::read(FileReader& file)
 {
 
 	if (!file.checkTag("GMSP"))

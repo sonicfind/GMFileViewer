@@ -1,6 +1,6 @@
 #include "xgDagMesh.h"
 
-void xgDagMesh::load(FilePointer& file, const XG* xg)
+void xgDagMesh::load(FileReader& file, const XG* xg)
 {
 	PString::ReadNamedValue("primType", m_primType, file);
 

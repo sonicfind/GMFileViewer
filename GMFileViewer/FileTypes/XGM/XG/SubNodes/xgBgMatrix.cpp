@@ -1,8 +1,8 @@
 #include "xgBgMatrix.h"
 #include "../PString.h"
-#include "FilePointer.h"
+#include "FileReader.h"
 
-void xgBgMatrix::load(FilePointer& file, const XG* xg)
+void xgBgMatrix::load(FileReader& file, const XG* xg)
 {
 	PString::ReadNamedValue("position", m_position, file);
 	PString::ReadNamedValue("rotation", m_rotation, file);

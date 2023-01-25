@@ -29,7 +29,7 @@ class Chart
 	std::vector<NotePair> m_timeline;
 
 public:
-	void load(FilePointer& file);
+	void load(FileReader& file);
 	void save(FileWriter& file) const;
 
 private:

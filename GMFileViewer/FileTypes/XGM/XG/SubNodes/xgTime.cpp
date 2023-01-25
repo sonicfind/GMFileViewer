@@ -1,8 +1,8 @@
 #include "xgTime.h"
 #include "../PString.h"
-#include "FilePointer.h"
+#include "FileReader.h"
 
-void xgTime::load(FilePointer& file, const XG* xg)
+void xgTime::load(FileReader& file, const XG* xg)
 {
 	PString::ReadNamedValue("numFrames", m_numFrames, file);
 	PString::ReadNamedValue("time", m_time, file);

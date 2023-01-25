@@ -1,6 +1,6 @@
 #include "LightSetup.h"
 
-void LightSetup::read(FilePointer& file)
+void LightSetup::read(FileReader& file)
 {
 	file.read(m_baseValues);
 	if (!m_baseValues.isActive)

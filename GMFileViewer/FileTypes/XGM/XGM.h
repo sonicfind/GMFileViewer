@@ -11,7 +11,7 @@ class XGM
 		char m_name[16];
 
 	protected:
-		uint32_t load(FilePointer& file, const uint32_t index);
+		uint32_t load(FileReader& file, const uint32_t index);
 		std::streampos save(FileWriter& file, const uint32_t index) const;
 	};
 
@@ -21,7 +21,7 @@ class XGM
 		unsigned long m_unk = 0;
 		IMX m_texture;
 
-		void load(FilePointer& file, const uint32_t index);
+		void load(FileReader& file, const uint32_t index);
 		uint32_t save(FileWriter& file, const uint32_t index, uint32_t totalSizes) const;
 		void createTextureBuffer();
 	};
@@ -31,7 +31,7 @@ class XGM
 		GMArray<Animation> m_animations;
 		XG m_model;
 
-		void load(FilePointer& file, const uint32_t index);
+		void load(FileReader& file, const uint32_t index);
 		void save(FileWriter& file, const uint32_t index) const;
 
 		void createVertexBuffers();

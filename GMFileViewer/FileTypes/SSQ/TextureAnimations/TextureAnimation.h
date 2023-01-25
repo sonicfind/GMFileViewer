@@ -18,6 +18,6 @@ class TexAnim
 	GMArray<CutOut> m_cutOuts;
 	KeyFrameArray<TexFrame> m_cutoutTimeline;
 public:
-	void read(FilePointer& file);
+	void read(FileReader& file);
 	void save(FileWriter& file) const;
 };

@@ -1,6 +1,6 @@
 #include "SpriteSetups.h"
 
-void SpritesSetup::read(FilePointer& file)
+void SpritesSetup::read(FileReader& file)
 {
 	if (!file.checkTag("GMSP"))
 		throw "Sprite Setup read error";

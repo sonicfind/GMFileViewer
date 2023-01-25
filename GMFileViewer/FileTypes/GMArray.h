@@ -1,5 +1,5 @@
 #pragma once
-#include "FilePointer.h"
+#include "FileReader.h"
 #include "FileWriter.h"
 #include <assert.h>
 
@@ -37,7 +37,7 @@ public:
 		return *this;
 	}
 
-	bool reserve(FilePointer& file)
+	bool reserve(FileReader& file)
 	{
 		uint32_t size = file.read<uint32_t>();
 		return reserve(size);
@@ -49,18 +49,18 @@ public:
 		return reserve();
 	}
 
-	void fill(FilePointer& file)
+	void fill(FileReader& file)
 	{
 		file.read(m_elements.get(), m_size * sizeof(T));
 	}
 
-	void reserve_and_fill(FilePointer& file)
+	void reserve_and_fill(FileReader& file)
 	{
 		if (reserve(file))
 			fill(file);
 	}
 
-	void reserve_and_fill(FilePointer& file, uint32_t size)
+	void reserve_and_fill(FileReader& file, uint32_t size)
 	{
 		if (reserve(size))
 			fill(file);
@@ -117,7 +117,7 @@ class GMArray_View
 
 public:
 	template <bool SizeInBytes = false>
-	void view(FilePointer& file)
+	void view(FileReader& file)
 	{
 		uint32_t bytes = 0;
 		if constexpr (SizeInBytes)

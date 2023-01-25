@@ -1,8 +1,8 @@
 #include "xgBgGeometry.h"
 #include "../PString.h"
-#include "FilePointer.h"
+#include "FileReader.h"
 
-void xgBgGeometry::load(FilePointer& file, const XG* xg)
+void xgBgGeometry::load(FileReader& file, const XG* xg)
 {
 	PString::ReadNamedValue("density", m_density, file);
 

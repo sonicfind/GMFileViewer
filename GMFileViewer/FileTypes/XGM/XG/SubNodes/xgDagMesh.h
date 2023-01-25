@@ -17,7 +17,7 @@ class xgDagMesh : public XG_SubNode
 
 public:
 	using XG_SubNode::XG_SubNode;
-	void load(FilePointer& file, const XG* xg) override;
+	void load(FileReader& file, const XG* xg) override;
 
 	void writeType(FileWriter& file) const override;
 	void save(FileWriter& file) const override;

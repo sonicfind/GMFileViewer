@@ -1,6 +1,6 @@
 #pragma once
 #include "Pixel.h"
-#include "FilePointer.h"
+#include "FileReader.h"
 #include "GMArray.h"
 
 struct HalfIndex
@@ -13,7 +13,7 @@ struct Palette
 {
 	GMArray_View<Pixel> m_colors;
 	GMArray_View<T> m_indices;
-	Palette(FilePointer& file)
+	Palette(FileReader& file)
 	{
 		m_colors.view<true>(file);
 		file += 4;

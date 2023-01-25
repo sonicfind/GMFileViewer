@@ -10,6 +10,6 @@ public:
 	void updateVertices(VertexList& vertices) const override;
 
 private:
-	void loadKeys(FilePointer& file) override;
+	void loadKeys(FileReader& file) override;
 	void saveKeys(FileWriter& file) const override;
 };

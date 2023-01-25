@@ -1,5 +1,5 @@
 #pragma once
-#include "FilePointer.h"
+#include "FileReader.h"
 #include "../Keyframe.h"
 
 class LightSetup
@@ -41,6 +41,6 @@ class LightSetup
 	KeyFrameArray<LightColors> m_colors;
 
 public:
-	void read(FilePointer& file);
+	void read(FileReader& file);
 	void save(FileWriter& file) const;
 };

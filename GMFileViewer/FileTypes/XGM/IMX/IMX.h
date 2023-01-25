@@ -10,14 +10,14 @@ class IMX
 	std::unique_ptr<Pixel[]> m_data;
 
 public:
-	void load(FilePointer file);
+	void load(FileReader file);
 	void save(FileWriter& file) const;
 
 	void createTextureBuffer(std::string_view name) const;
 
 private:
 	template <typename T>
-	void readImage_Indexed(FilePointer& file)
+	void readImage_Indexed(FileReader& file)
 	{
 		const Palette<T> palette(file);
 		const uint32_t size = m_height * m_width;
@@ -27,8 +27,8 @@ private:
 			m_data[i] = palette[i];
 	}
 
-	void readImage_RGB(FilePointer& file);
-	void readImage_RGBA(FilePointer& file);
+	void readImage_RGB(FileReader& file);
+	void readImage_RGBA(FileReader& file);
 
 	struct Compression
 	{

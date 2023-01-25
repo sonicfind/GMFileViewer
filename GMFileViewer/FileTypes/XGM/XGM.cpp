@@ -6,7 +6,7 @@
 
 XGM::XGM(const std::filesystem::path& filePath)
 {
-	FilePointer file(filePath);
+	FileReader file(filePath);
 
 	m_textures.reserve(file);
 	m_models.reserve(file);
@@ -101,7 +101,7 @@ void XGM::displayModelList() const
 		std::cout << i + 1 << " - " << m_models[i].m_name << "\n";
 }
 
-uint32_t XGM::XGMNode::load(FilePointer& file, const uint32_t index)
+uint32_t XGM::XGMNode::load(FileReader& file, const uint32_t index)
 {
 	file.read(m_filepath);
 	file.read(m_name);
@@ -120,7 +120,7 @@ std::streampos XGM::XGMNode::save(FileWriter& file, const uint32_t index) const
 	return file.tell();
 }
 
-void XGM::XGMNode_IMX::load(FilePointer& file, const uint32_t index)
+void XGM::XGMNode_IMX::load(FileReader& file, const uint32_t index)
 {
 	const uint32_t fileSize = XGMNode::load(file, index);
 
@@ -159,7 +159,7 @@ void XGM::XGMNode_IMX::createTextureBuffer()
 	m_texture.createTextureBuffer(m_name);
 }
 
-void XGM::XGMNode_XG::load(FilePointer& file, const uint32_t index)
+void XGM::XGMNode_XG::load(FileReader& file, const uint32_t index)
 {
 	const uint32_t fileSize = XGMNode::load(file, index);
 

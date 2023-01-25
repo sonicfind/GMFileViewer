@@ -85,9 +85,6 @@
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgShapeInterpolator">
       <UniqueIdentifier>{97076c7c-ad06-4cf1-9616-6e7a82db7624}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FileTypes\FilePointer">
-      <UniqueIdentifier>{490c2e0b-0d25-4ab3-8a24-c2dbaeb700c1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FileTypes\XGM\XG\SubNodes\xgBgMatrix\xgQuatInterpolator">
       <UniqueIdentifier>{69672585-1784-4fa4-b7a7-65dc1aca04b6}</UniqueIdentifier>
     </Filter>
@@ -144,6 +141,9 @@
     </Filter>
     <Filter Include="FileTypes\FileWriter">
       <UniqueIdentifier>{709e95e8-a6b6-403d-a0d1-0abd1d23e807}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FileTypes\FileReader">
+      <UniqueIdentifier>{490c2e0b-0d25-4ab3-8a24-c2dbaeb700c1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -265,8 +265,8 @@
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgMatrix\xgVec3Interpolator</Filter>
     </ClCompile>
-    <ClCompile Include="FileTypes\FilePointer.cpp">
-      <Filter>FileTypes\FilePointer</Filter>
+    <ClCompile Include="FileTypes\FileReader.cpp">
+      <Filter>FileTypes\FileReader</Filter>
     </ClCompile>
     <ClCompile Include="TaskQueue\TaskQueue.cpp">
       <Filter>TaskQueue</Filter>
@@ -450,8 +450,8 @@
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator.h">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgMatrix\xgVec3Interpolator</Filter>
     </ClInclude>
-    <ClInclude Include="FileTypes\FilePointer.h">
-      <Filter>FileTypes\FilePointer</Filter>
+    <ClInclude Include="FileTypes\FileReader.h">
+      <Filter>FileTypes\FileReader</Filter>
     </ClInclude>
     <ClInclude Include="TaskQueue\TaskQueue.h">
       <Filter>TaskQueue</Filter>

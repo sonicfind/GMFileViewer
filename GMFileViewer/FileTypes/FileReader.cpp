@@ -1,6 +1,6 @@
-#include "FilePointer.h"
+#include "FileReader.h"
 
-FilePointer::FilePointer(const std::filesystem::path& path)
+FileReader::FileReader(const std::filesystem::path& path)
 {
 	FILE* file;
 	if (_wfopen_s(&file, path.c_str(), L"rb") != 0 || !file)
@@ -20,34 +20,32 @@ FilePointer::FilePointer(const std::filesystem::path& path)
 	m_fileEnd = m_currentPosition + m_fileSize;
 }
 
-FilePointer::FilePointer(const FilePointer& file) : m_fileSize(file.m_fileSize), m_currentPosition(file.m_currentPosition), m_fileEnd(file.m_fileEnd) {}
+FileReader::FileReader(const FileReader& file) : m_fileSize(file.m_fileSize), m_currentPosition(file.m_currentPosition), m_fileEnd(file.m_fileEnd) {}
 
-void FilePointer::move(size_t amount)
+void FileReader::move(size_t amount)
 {
 	m_currentPosition += amount;
 	if (m_currentPosition > m_fileEnd)
-		throw std::runtime_error("FilePointer out of bounds");
+		throw std::runtime_error("FileReader out of bounds");
 }
 
-FilePointer& FilePointer::operator+=(size_t amount)
+FileReader& FileReader::operator+=(size_t amount)
 {
 	move(amount);
 	return *this;
 }
 
-FilePointer& FilePointer::operator++()
+FileReader& FileReader::operator++()
 {
 	return operator+=(1);
 }
 
-FilePointer FilePointer::operator++(int)
+FileReader FileReader::operator++(int)
 {
-	FilePointer copy(*this);
+	FileReader copy(*this);
 	move(1);
 	return copy;
 }
 
-
-
-const char* FilePointer::get() const { return m_currentPosition; }
-char FilePointer::operator*() const { return *m_currentPosition; }
+const char* FileReader::get() const { return m_currentPosition; }
+char FileReader::operator*() const { return *m_currentPosition; }

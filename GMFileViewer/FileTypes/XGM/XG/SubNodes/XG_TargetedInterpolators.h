@@ -7,7 +7,7 @@ class XG_TargetedInterpolator : public XG_InterpolatorNode<GMArray<T>, Interpola
 public:
 	using XG_InterpolatorNode<GMArray<T>, InterpolatorType::TARGETED>::XG_InterpolatorNode;
 private:
-	void loadKeys(FilePointer& file) override
+	void loadKeys(FileReader& file) override
 	{
 		if (this->m_keys.reserve(file))
 			for (auto& element : this->m_keys)

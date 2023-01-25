@@ -6,6 +6,6 @@ class SpritesSetup
 	FixedSpriteSetup m_fixedSpriteSetup;
 
 public:
-	void read(FilePointer& file);
+	void read(FileReader& file);
 	void save(FileWriter& file) const;
 };

@@ -1,7 +1,7 @@
 #include "xgMaterial.h"
 #include "Graphics.h"
 
-void xgMaterial::load(FilePointer& file, const XG* xg)
+void xgMaterial::load(FileReader& file, const XG* xg)
 {
 	PString::ReadNamedValue("blendType", m_blendType, file);
 	PString::ReadNamedValue("shadingType", m_shadingType, file);

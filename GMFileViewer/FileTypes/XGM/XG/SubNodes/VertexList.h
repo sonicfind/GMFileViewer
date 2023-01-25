@@ -10,7 +10,7 @@ struct Vertex
 	DirectX::XMFLOAT2 m_texCoord;
 
 	template <uint32_t flags>
-	void fill(FilePointer& file)
+	void fill(FileReader& file)
 	{
 		if constexpr (flags == 15)
 			file.read(this, sizeof(Vertex));
@@ -92,7 +92,7 @@ public:
 	VertexList(VertexList&&) = default;
 	VertexList& operator=(VertexList&& list) noexcept;
 
-	void load(FilePointer& file);
+	void load(FileReader& file);
 	void save(FileWriter& file) const;
 	VertexList mix(const VertexList& other, float coef) const;
 
@@ -105,7 +105,7 @@ public:
 
 private:
 	template <uint32_t flags>
-	static void FillVertices(GMArray<Vertex>& vertices, FilePointer& file)
+	static void FillVertices(GMArray<Vertex>& vertices, FileReader& file)
 	{
 		vertices.reserve(file);
 		for (auto& vertex : vertices)
