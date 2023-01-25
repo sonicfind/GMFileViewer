@@ -3,7 +3,6 @@
 #include "FilePointer.h"
 #include "FileWriter.h"
 #include "GMArray.h"
-#include "XGM/XG/SubNodes/VertexList.h"
 
 namespace PString
 {
@@ -31,9 +30,6 @@ namespace PString
 
 	template <>
 	void ReadNamedValue(std::string_view name, char (&str)[16], FilePointer& file);
-
-	template <>
-	void ReadNamedValue(std::string_view name, VertexList& value, FilePointer& file);
 
 	template<typename T>
 	void WriteNamedValue(std::string_view name, const T& value, FileWriter& file)

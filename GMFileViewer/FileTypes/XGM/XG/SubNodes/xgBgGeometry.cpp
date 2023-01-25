@@ -5,7 +5,9 @@
 void xgBgGeometry::load(FilePointer& file, const XG* xg)
 {
 	PString::ReadNamedValue("density", m_density, file);
-	PString::ReadNamedValue("vertices", m_vertices, file);
+
+	PString::ThrowOnStringMismatch("vertices", file);
+	m_vertices.load(file);
 
 	while (XG_SubNode* node = xg->grabNode_optional("inputGeometry", "outputGeometry", file))
 	{
@@ -24,7 +26,9 @@ void xgBgGeometry::writeType(FileWriter& file) const
 void xgBgGeometry::save(FileWriter& file, const XG* xg) const
 {
 	PString::WriteNamedValue("density", m_density, file);
-	PString::WriteNamedValue("vertices", m_vertices, file);
+
+	PString::WriteString("vertices", file);
+	m_vertices.save(file);
 
 	for (const auto node : m_inputGeometries)
 		xg->writeNode("inputGeometry", "outputGeometry", dynamic_cast<XG_SubNode*>(node), file);

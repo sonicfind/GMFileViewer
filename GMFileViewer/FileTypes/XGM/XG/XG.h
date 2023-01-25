@@ -1,5 +1,6 @@
 #pragma once
 #include "PString.h"
+#include <DirectXMath.h>
 
 class XG;
 class XG_SubNode

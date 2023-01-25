@@ -43,10 +43,3 @@ void PString::ReadNamedValue(std::string_view name, char(&str)[16], FilePointer&
 	std::string_view parsed = PString::GetString(file);
 	strncpy_s(str, parsed.data(), parsed.size());
 }
-
-template <>
-void PString::ReadNamedValue(std::string_view name, VertexList& value, FilePointer& file)
-{
-	ThrowOnStringMismatch(name, file);
-	value.load(file);
-}
