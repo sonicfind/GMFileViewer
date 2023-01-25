@@ -36,10 +36,3 @@ void PString::ThrowOnStringMismatch(std::string_view strToMatch, FilePointer& fi
 		throw "PString mismatch";
 }
 
-template <>
-void PString::ReadNamedValue(std::string_view name, char(&str)[16], FilePointer& file)
-{
-	ThrowOnStringMismatch(name, file);
-	std::string_view parsed = PString::GetString(file);
-	strncpy_s(str, parsed.data(), parsed.size());
-}

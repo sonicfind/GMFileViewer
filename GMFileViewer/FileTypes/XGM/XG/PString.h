@@ -28,9 +28,6 @@ namespace PString
 		value.reserve_and_fill(file);
 	}
 
-	template <>
-	void ReadNamedValue(std::string_view name, char (&str)[16], FilePointer& file);
-
 	template<typename T>
 	void WriteNamedValue(std::string_view name, const T& value, FileWriter& file)
 	{
