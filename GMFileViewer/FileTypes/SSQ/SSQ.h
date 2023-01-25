@@ -21,4 +21,5 @@ class SSQ
 
 public:
 	SSQ(const std::filesystem::path& filePath);
+	void saveToFile(const std::filesystem::path& filePath) const;
 };

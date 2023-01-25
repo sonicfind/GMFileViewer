@@ -60,4 +60,5 @@ class CameraSetup
 
 public:
 	void read(FilePointer& file);
+	void save(FileWriter& file) const;
 };

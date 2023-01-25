@@ -20,3 +20,25 @@ void LightSetup::read(FilePointer& file)
 	if (numColors >= 2)
 		m_colors.reserve_and_fill(file, numColors);
 }
+
+void LightSetup::save(FileWriter& file) const
+{
+	file.write(m_baseValues);
+	if (!m_baseValues.isActive)
+		return;
+
+	file.writeTag("GMLT");
+	file.write(m_headerVersion);
+
+	static constexpr char ZERO[12]{};
+	static char garbo[16];
+	file << ZERO << garbo;
+
+	m_rotations.write_size(file);
+	m_colors.write_size(file);
+	if (m_rotations.getSize() >= 2)
+		m_rotations.write_data(file);
+
+	if (m_colors.getSize() >= 2)
+		m_colors.write_data(file);
+}

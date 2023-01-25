@@ -14,3 +14,16 @@ PlayerModel_Setup::PlayerModel_Setup(FilePointer& file) : Model_Setup(file)
 }
 
 PlayerModel_Setup::PlayerModel_Setup(FilePointer&& file) : PlayerModel_Setup(file) {}
+
+void PlayerModel_Setup::save(FileWriter& file) const
+{
+	Model_Setup::save(file);
+	if (m_headerVersion < 0x1300)
+		return;
+
+	m_controllables.write_size(file);
+	m_controllables.write_data(file);
+	for (auto& connection : m_connections)
+		connection.write_full(file);
+	m_defaults.write_data(file);
+}

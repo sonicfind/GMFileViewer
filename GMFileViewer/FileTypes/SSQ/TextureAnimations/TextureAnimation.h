@@ -19,4 +19,5 @@ class TexAnim
 	KeyFrameArray<TexFrame> m_cutoutTimeline;
 public:
 	void read(FilePointer& file);
+	void save(FileWriter& file) const;
 };

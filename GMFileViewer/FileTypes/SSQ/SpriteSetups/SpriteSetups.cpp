@@ -19,3 +19,19 @@ void SpritesSetup::read(FilePointer& file)
 	if (numUnk_1 > 0 || numUnk_2 > 0)
 		throw "Unsuppored sprite type. Please send this file to the GitarooPals discord for research.";
 }
+
+void SpritesSetup::save(FileWriter& file) const
+{
+	file.writeTag("GMSP");
+	file << uint32_t(0x1000);
+
+	static constexpr char ZERO[12]{};
+	static char garbo[16];
+	file << ZERO << garbo;
+
+	const uint32_t numFixed = m_fixedSpriteSetup.getNumSprites();
+	file << numFixed << uint32_t(0) << uint32_t(0) << uint32_t(0);
+
+	if (numFixed > 0)
+		m_fixedSpriteSetup.save(file);
+}

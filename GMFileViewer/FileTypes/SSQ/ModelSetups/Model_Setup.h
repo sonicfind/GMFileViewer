@@ -64,6 +64,7 @@ protected:
 	Model_Setup(FilePointer& file);
 
 public:
+	virtual void save(FileWriter& file) const;
 	virtual ~Model_Setup() = default;
 
 	static std::unique_ptr<Model_Setup> create(FilePointer& file, SSQModelType type);

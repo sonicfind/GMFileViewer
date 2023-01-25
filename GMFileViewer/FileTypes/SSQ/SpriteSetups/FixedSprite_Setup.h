@@ -26,4 +26,7 @@ class FixedSpriteSetup
 
 public:
 	void read(FilePointer& file);
+	void save(FileWriter& file) const;
+
+	uint32_t getNumSprites() const;
 };

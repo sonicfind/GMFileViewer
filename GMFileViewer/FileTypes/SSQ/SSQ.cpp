@@ -1,5 +1,6 @@
 #include "SSQ.h"
 #include "FilePointer.h"
+#include <iostream>
 
 SSQ::SSQ(const std::filesystem::path& filePath)
 {
@@ -27,8 +28,41 @@ SSQ::SSQ(const std::filesystem::path& filePath)
 		m_textureAnims.reserve(file);
 		for (auto& texAnim : m_textureAnims)
 			texAnim.read(file);
+
+		if (headerVersion >= 0x1200)
+			m_pSetup.read(file);
+	}
+}
+
+void SSQ::saveToFile(const std::filesystem::path& filePath) const
+{
+	FileWriter file(filePath);
+	if (!file.isOpen())
+	{
+		std::cout << "File could not be opened for writing.\n";
+		return;
 	}
 
-	if (headerVersion >= 0x1200)
-		m_pSetup.read(file);
+	file.writeTag("GMSX");
+	file << uint32_t(0x1000 + 0x100 * !m_textureAnims.isEmpty());
+	static constexpr char ZERO[12]{};
+	static char garbo[16];
+	file << ZERO << garbo;
+
+	m_matrices.write_size(file);
+	m_imxEntries.write_full(file);
+	m_xgEntries.write_full(file);
+
+	for (const auto& model : m_models)
+		model->save(file);
+
+	m_camera.save(file);
+	m_sprites.save(file);
+
+	if (!m_textureAnims.isEmpty())
+	{
+		m_textureAnims.write_size(file);
+		for (const auto& texAnim : m_textureAnims)
+			texAnim.save(file);
+	}
 }

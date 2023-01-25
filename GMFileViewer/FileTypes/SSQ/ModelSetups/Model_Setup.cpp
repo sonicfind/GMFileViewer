@@ -26,3 +26,30 @@ Model_Setup::Model_Setup(FilePointer& file)
 		file.read(m_baseValues);
 	}
 }
+
+void Model_Setup::save(FileWriter& file) const
+{
+	file.writeTag("GMPX");
+	file << m_headerVersion;
+
+	static constexpr char ZERO[12]{};
+	static char garbo[16];
+	file << ZERO << garbo;
+
+	m_positions.write_size(file);
+	m_rotations.write_size(file);
+	m_positions.write_data(file);
+	m_rotations.write_data(file);
+
+	m_animations.write_size(file);
+	if (m_animations.getSize() >= 2)
+		m_animations.write_data(file);
+
+	if (m_headerVersion >= 0x1100)
+	{
+		m_scalars.write_size(file);
+		if (m_scalars.getSize() >= 2)
+			m_scalars.write_data(file);
+		file.write(m_baseValues);
+	}
+}

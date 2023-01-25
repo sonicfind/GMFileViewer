@@ -78,12 +78,16 @@ int main()
 	else if (g_filename.ends_with(".SSQ"))
 	{
 		SSQ file(g_filename);
+		testWrite(file);
+
 		std::cout << "Press Enter to Exit" << std::endl;
 		std::getline(std::cin, g_filename);
 	}
 	else if (g_filename.ends_with(".WEB"))
 	{
 		WEB file(g_filename);
+		testWrite(file);
+
 		std::cout << "Press Enter to Exit" << std::endl;
 		std::getline(std::cin, g_filename);
 	}

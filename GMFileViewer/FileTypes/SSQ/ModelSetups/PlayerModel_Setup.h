@@ -27,4 +27,7 @@ class PlayerModel_Setup : public Model_Setup
 private:
 	PlayerModel_Setup(FilePointer& file);
 	PlayerModel_Setup(FilePointer&& file);
+
+public:
+	void save(FileWriter& file) const override;
 };

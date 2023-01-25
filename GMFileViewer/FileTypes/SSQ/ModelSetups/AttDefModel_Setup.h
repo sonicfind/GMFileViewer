@@ -17,4 +17,7 @@ class AttDefModel_Setup : public Model_Setup
 
 private:
 	AttDefModel_Setup(FilePointer& file);
+
+public:
+	void save(FileWriter& file) const override;
 };
