@@ -35,6 +35,6 @@ private:
 		GMArray<Pixel> palette;
 	};
 
-	void compress_palette(const Pixel* const palette, const uint32_t paletteSize, FileWriter& file) const;
+	void compress_palette(const Pixel (&palette)[256], const uint32_t paletteSize, FileWriter& file) const;
 	void compress_bitmap(FileWriter& file) const;
 };

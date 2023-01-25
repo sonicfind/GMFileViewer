@@ -80,11 +80,11 @@ void IMX::readImage_RGBA(FilePointer& file)
 	file.read(m_data.get(), size);
 }
 
-void IMX::compress_palette(const Pixel* const palette, const uint32_t paletteSize, FileWriter& file) const
+void IMX::compress_palette(const Pixel(&palette)[256], const uint32_t paletteSize, FileWriter& file) const
 {
-	auto getIndex = [begin = palette, end = palette + paletteSize, data = m_data.get()](uint32_t index) -> uint32_t
+	auto getIndex = [begin = palette, end = palette + paletteSize, data = m_data.get()](uint32_t index) -> unsigned char
 	{
-		return std::lower_bound(begin, end, data[index]) - begin;
+		return (unsigned char)(std::lower_bound(begin, end, data[index]) - begin);
 	};
 
 	uint32_t size = m_width * m_height;
@@ -92,9 +92,7 @@ void IMX::compress_palette(const Pixel* const palette, const uint32_t paletteSiz
 	{
 		file << uint32_t(0) << uint32_t(0) << uint32_t(sizeof(Pixel) * 16);
 		file.write(palette, sizeof(Pixel) * 16);
-		file << (size + 1) / 2; // Accounts for odd number size
-
-		
+		file << uint32_t(2) << (size + 1) / 2; // Accounts for odd number size
 
 		for (uint32_t i = 0; i < size;)
 		{
@@ -110,14 +108,12 @@ void IMX::compress_palette(const Pixel* const palette, const uint32_t paletteSiz
 	else
 	{
 		file << uint32_t(1) << uint32_t(1) << uint32_t(sizeof(Pixel) * 256);
-		file.write(palette, sizeof(Pixel) * 256);
-		file << size;
+		file.write(palette);
+		file << uint32_t(2) << size;
 
 		for (uint32_t i = 0; i < size; ++i)
-			file << char(getIndex(i));
+			file << getIndex(i);
 	}
-
-	file << uint32_t(2);
 }
 
 void IMX::compress_bitmap(FileWriter& file) const
