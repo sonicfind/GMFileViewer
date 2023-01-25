@@ -175,6 +175,7 @@ void XGM::XGMNode_XG::save(FileWriter& file, const uint32_t index) const
 {
 	const auto fileSizeLocation = XGMNode::save(file, index);
 	uint32_t fileSize = 0;
+	file << fileSize;
 
 	m_animations.write_size(file);
 	file << uint32_t(0);
