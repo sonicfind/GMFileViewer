@@ -29,6 +29,7 @@ void testWrite(const T& file)
 
 int main()
 {
+	std::cout << "Drag and drop a file:";
 	std::getline(std::cin, g_filename);
 
 	if (g_filename[0] == '\"')
@@ -95,7 +96,7 @@ int main()
 	}
 	else
 	{
-		std::cout << "Filetype not yet supported\n";
+		std::cout << "Filetype not supported\n";
 		std::cout << "Press Enter to Exit" << std::endl;
 		std::getline(std::cin, g_filename);
 	}
