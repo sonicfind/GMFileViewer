@@ -37,4 +37,11 @@ namespace PString
 		WriteString(name, file);
 		file << value;
 	}
+
+	template <typename T>
+	void WriteNamedValue(std::string_view name, const GMArray<T>& value, FileWriter& file)
+	{
+		WriteString(name, file);
+		value.write_full(file);
+	}
 }
