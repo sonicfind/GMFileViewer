@@ -23,3 +23,8 @@ void xgShapeInterpolator::saveKeys(FileWriter& file) const
 	for (const auto& key : m_keys)
 		key.save(file);
 }
+
+VertexList xgShapeInterpolator::mixKeys(const VertexList& first, const VertexList& second, float coef) const
+{
+	return first.mix(second, coef);
+}

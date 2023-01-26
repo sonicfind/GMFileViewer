@@ -20,6 +20,14 @@ private:
 		for (const auto& key : this->m_keys)
 			key.write_full(file);
 	}
+
+	GMArray<T> mixKeys(const GMArray<T>& first, const GMArray<T>& second, float coef) const override
+	{
+		GMArray<T> result(first.getSize());
+		for (uint32_t i = 0; i < result.getSize(); ++i)
+			result[i] = glm::mix(first[i], second[i], coef);
+		return result;
+	}
 };
 
 

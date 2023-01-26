@@ -4,8 +4,8 @@
 
 struct LightColors
 {
-	DirectX::XMFLOAT3 ambient;
-	DirectX::XMFLOAT3 diffuse;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
 };
 
 template<>
@@ -39,9 +39,9 @@ class LightSetup
 	struct BaseValues
 	{
 		unsigned long isActive;
-		DirectX::XMFLOAT3 ambient;
-		DirectX::XMFLOAT3 diffuse;
-		DirectX::XMFLOAT4 rotation;
+		glm::vec3 ambient;
+		glm::vec3 diffuse;
+		glm::vec4 rotation;
 		Val ulong_b;
 		Val l_a;
 		Val ulong_c;
@@ -55,7 +55,7 @@ class LightSetup
 
 	BaseValues m_baseValues;
 	uint32_t m_headerVersion = 0;
-	KeyFrameArray<DirectX::XMFLOAT4> m_rotations;
+	KeyFrameArray<glm::quat> m_rotations;
 	KeyFrameArray<LightColors> m_colors;
 
 public:

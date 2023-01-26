@@ -85,6 +85,8 @@ protected:
 		m_keys.write_full(file);
 	}
 
+	virtual T mixKeys(const T& first, const T& second, float coef) const = 0;
+
 private:
 	Frame calculateTimeFrame() const
 	{
@@ -117,7 +119,7 @@ private:
 		else if (time == index)
 			return m_keys[index];
 		else
-			return MixKeys(m_keys[index], m_keys[index + 1], time - index);
+			return mixKeys(m_keys[index], m_keys[index + 1], time - index);
 	}
 
 	T interpolateFrame(const Frame frame) const
@@ -133,26 +135,6 @@ private:
 		else if (frame.first == frame.second || frame.coef == 0)
 			return getKeyPoint(frame.first);
 		else
-			return MixKeys(getKeyPoint(frame.first), getKeyPoint(frame.second), frame.coef);
-	}
-
-	static T MixKeys(const T& first, const T& second, const float coef)
-	{
-		return first + (second - first) * coef;
+			return mixKeys(getKeyPoint(frame.first), getKeyPoint(frame.second), frame.coef);
 	}
 };
-
-template<>
-DirectX::XMFLOAT3 XG_InterpolatorNode<DirectX::XMFLOAT3>::MixKeys(const DirectX::XMFLOAT3& first, const DirectX::XMFLOAT3& second, const float coef);
-
-template<>
-DirectX::XMVECTOR XG_InterpolatorNode<DirectX::XMVECTOR>::MixKeys(const DirectX::XMVECTOR& first, const DirectX::XMVECTOR& second, const float coef);
-
-template<>
-GMArray<DirectX::XMFLOAT3> XG_InterpolatorNode<GMArray<DirectX::XMFLOAT3>, InterpolatorType::TARGETED>::MixKeys(const GMArray<DirectX::XMFLOAT3>& first, const GMArray<DirectX::XMFLOAT3>& second, const float coef);
-
-template<>
-GMArray<DirectX::XMFLOAT2> XG_InterpolatorNode<GMArray<DirectX::XMFLOAT2>, InterpolatorType::TARGETED>::MixKeys(const GMArray<DirectX::XMFLOAT2>& first, const GMArray<DirectX::XMFLOAT2>& second, const float coef);
-
-template<>
-VertexList XG_InterpolatorNode<VertexList, InterpolatorType::TIMED>::MixKeys(const VertexList& first, const VertexList& second, const float coef);

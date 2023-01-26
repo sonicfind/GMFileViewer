@@ -27,12 +27,12 @@ private:
 
 	struct ModelScalar
 	{
-		DirectX::XMFLOAT3 scalar;
+		glm::vec3 scalar;
 		unsigned long envMap_maybe;
 		static ModelScalar mix(const ModelScalar& current, const ModelScalar& next, float coef)
 		{
 			ModelScalar result;
-			DirectX::XMStoreFloat3(&result.scalar, DirectX::XMVectorLerp(DirectX::XMLoadFloat3(&current.scalar), DirectX::XMLoadFloat3(&next.scalar), coef));
+			result.scalar = glm::mix(current.scalar, next.scalar, coef);
 			result.envMap_maybe = current.envMap_maybe;
 			return result;
 		}
@@ -40,8 +40,8 @@ private:
 
 	struct BaseValues
 	{
-		DirectX::XMFLOAT3 basePosition;
-		DirectX::XMFLOAT4 baseRotation;
+		glm::vec3 basePosition;
+		glm::quat baseRotation;
 		unsigned long baseAnimIndex_maybe;
 		unsigned long ulong_b;
 		unsigned long depthTest;
@@ -54,8 +54,8 @@ private:
 	};
 
 	
-	KeyFrameArray<DirectX::XMFLOAT3> m_positions;
-	KeyFrameArray<DirectX::XMFLOAT4> m_rotations;
+	KeyFrameArray<glm::vec3> m_positions;
+	KeyFrameArray<glm::quat> m_rotations;
 	KeyFrameArray<ModelAnim> m_animations;
 	KeyFrameArray<ModelScalar> m_scalars;
 	BaseValues m_baseValues;
@@ -65,11 +65,11 @@ public:
 	virtual void save(FileWriter& file) const;
 	virtual ~Model_Setup() = default;
 	
-	DirectX::XMMATRIX getModelMatrix(float frame) const;
+	glm::mat4 getModelMatrix(float frame) const;
 
 private:
-	DirectX::XMMATRIX getScalar(float frame) const;
-	DirectX::XMMATRIX getRotation(float frame) const;
-	DirectX::XMMATRIX getTranslation(float frame) const;
+	glm::vec3 getScalar(float frame) const;
+	glm::quat getRotation(float frame) const;
+	glm::vec3 getTranslation(float frame) const;
 
 };

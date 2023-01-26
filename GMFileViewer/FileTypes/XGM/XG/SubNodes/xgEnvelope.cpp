@@ -1,4 +1,5 @@
 #include "xgEnvelope.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 void xgEnvelope::load(FileReader& file, const XG* xg)
 {
@@ -32,10 +33,8 @@ void xgEnvelope::save(FileWriter& file) const
 
 void xgEnvelope::updateVertices(VertexList& vertices) const
 {
-	using namespace DirectX;
-
-	static const auto IDENTITY = XMMatrixIdentity();
-	const DirectX::XMMATRIX boneMatrices[4] =
+	static const auto IDENTITY = glm::identity<glm::mat4>();
+	const glm::mat4 boneMatrices[4] =
 	{
 		m_inputMatrices[0] ? m_inputMatrices[0]->calcTransformMatrix() : IDENTITY,
 		m_inputMatrices[1] ? m_inputMatrices[1]->calcTransformMatrix() : IDENTITY,
@@ -45,10 +44,10 @@ void xgEnvelope::updateVertices(VertexList& vertices) const
 
 	for (size_t index = 0, targetIndex = 0; index < m_weights.getSize(); ++index, ++targetIndex)
 	{
-		const XMVECTOR position = boneMatrices[0] * m_inputGeometry->getVertex(m_startVertex + index);
+		const glm::vec4 position = boneMatrices[0] * m_inputGeometry->getVertex(m_startVertex + index);
 		while (m_vertexTargets[targetIndex] != -1)
 		{
-			XMStoreFloat4(&vertices[m_vertexTargets[targetIndex]].m_position, position);
+			vertices[m_vertexTargets[targetIndex]].m_position = position;
 			++targetIndex;
 		}
 	}

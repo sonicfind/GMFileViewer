@@ -19,10 +19,10 @@ void xgBone::save(FileWriter& file) const
 	WriteNode("inputMatrix", "outputMatrix", m_inputMatrix, file);
 }
 
-DirectX::XMMATRIX xgBone::calcTransformMatrix() const
+glm::mat4 xgBone::calcTransformMatrix() const
 {
 	if (!m_inputMatrix)
 		return m_restMatrix;
 
-	return m_restMatrix *  m_inputMatrix->transform();
+	return m_inputMatrix->transform() * m_restMatrix;
 }

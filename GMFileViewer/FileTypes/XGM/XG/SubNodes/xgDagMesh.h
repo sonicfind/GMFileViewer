@@ -24,6 +24,6 @@ public:
 
 	void createVertexBuffer();
 	void update();
-	void draw(const DirectX::XMMATRIX& meshMatrix) const;
+	void draw(const glm::mat4& meshMatrix) const;
 };
 

@@ -1,5 +1,6 @@
 #include "Model_Setup.h"
 #include "FileReader.h"
+#include <glm/gtx/quaternion.hpp>
 
 Model_Setup::Model_Setup(FileReader& file)
 {
@@ -54,28 +55,33 @@ void Model_Setup::save(FileWriter& file) const
 	}
 }
 
-DirectX::XMMATRIX Model_Setup::getModelMatrix(float frame) const
+glm::mat4 Model_Setup::getModelMatrix(float frame) const
 {
-	return getScalar(frame) * getRotation(frame) * getTranslation(frame);
+	glm::mat4 matrix = glm::toMat4(getRotation(frame));
+	matrix[3] = glm::vec4(getTranslation(frame), 1);
+
+	const glm::vec scale = getScalar(frame);
+	matrix[0] *= scale.x;
+	matrix[1] *= scale.y;
+	matrix[2] *= scale.z;
+	return matrix;
 }
 
-DirectX::XMMATRIX Model_Setup::getScalar(float frame) const
+glm::vec3 Model_Setup::getScalar(float frame) const
 {
 	if (m_scalars.isEmpty())
-		return DirectX::XMMatrixIdentity();
+		return { 1,1,1 };
 
 	const auto key = InterpolateStruct(m_scalars, frame);
-	return DirectX::XMMatrixScalingFromVector(DirectX::XMLoadFloat3(&key.scalar));
+	return key.scalar;
 }
 
-DirectX::XMMATRIX Model_Setup::getRotation(float frame) const
+glm::quat Model_Setup::getRotation(float frame) const
 {
-	const auto quat = !m_rotations.isEmpty() ? InterpolateRotation(m_rotations, frame) : DirectX::XMLoadFloat4(&m_baseValues.baseRotation);
-	return DirectX::XMMatrixRotationQuaternion(quat);
+	return !m_rotations.isEmpty() ? Interpolate(m_rotations, frame) : m_baseValues.baseRotation;
 }
 
-DirectX::XMMATRIX Model_Setup::getTranslation(float frame) const
+glm::vec3 Model_Setup::getTranslation(float frame) const
 {
-	const auto tsl = !m_positions.isEmpty() ? InterpolateFloat3(m_positions, frame) : DirectX::XMLoadFloat3(&m_baseValues.basePosition);
-	return DirectX::XMMatrixTranslationFromVector(tsl);
+	return !m_positions.isEmpty() ? Interpolate(m_positions, frame) : m_baseValues.basePosition;
 }

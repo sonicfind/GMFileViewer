@@ -228,7 +228,6 @@
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgTime.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgVec3Interpolator.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgVertexInterpolator.cpp" />
-    <ClCompile Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.cpp" />
     <ClCompile Include="FileTypes\XGM\XG\XG.cpp" />
     <ClCompile Include="Graphics\DirectX\Graphics_DX.cpp" />
     <ClCompile Include="Graphics\Graphics.cpp">

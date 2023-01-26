@@ -3,7 +3,7 @@
 
 class xgBone : public XG_SubNode
 {
-	DirectX::XMMATRIX m_restMatrix;
+	glm::mat4 m_restMatrix;
 	xgBgMatrix* m_inputMatrix = nullptr;
 
 public:
@@ -13,6 +13,6 @@ public:
 	void writeType(FileWriter& file) const override;
 	void save(FileWriter& file) const override;
 
-	DirectX::XMMATRIX calcTransformMatrix() const;
+	glm::mat4 calcTransformMatrix() const;
 };
 

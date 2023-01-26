@@ -12,4 +12,5 @@ public:
 private:
 	void loadKeys(FileReader& file) override;
 	void saveKeys(FileWriter& file) const override;
+	VertexList mixKeys(const VertexList& first, const VertexList& second, float coef) const override;
 };

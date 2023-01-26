@@ -3,6 +3,7 @@
 #include "TaskQueue.h"
 #include "Graphics.h"
 #include <iostream>
+#include <glm/gtc/matrix_transform.hpp>
 
 XGM::XGM(const std::filesystem::path& filePath)
 {
@@ -56,18 +57,19 @@ void XGM::testGraphics(size_t index)
 
 	const Graphics* gfx = Graphics::getGraphics();
 	gfx->setClearColor(0.2f, 0.5f, 0.2f, 1.0f);
-	DirectX::XMFLOAT3 pos = { 0.0f, 100.0f, -400.0f };
-	DirectX::XMFLOAT3 front = { 0.0f, 100.0f, -399.0f };
-	DirectX::XMFLOAT3 up = { 0.0f, 1.0f, 0.0f };
+	glm::vec3 pos = { 0.0f, 100.0f, 400.0f };
+	glm::vec3 front = { 0.0f, 100.0f, 401.0f };
+	glm::vec3 up = { 0.0f, 1.0f, 0.0f };
 
-	auto view = DirectX::XMMatrixLookAtLH(DirectX::XMLoadFloat3(&pos), DirectX::XMLoadFloat3(&front), DirectX::XMLoadFloat3(&up));
-	auto combo = view * DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45.f), 4.f / 3, 1.0f, 1800000.0f);
+	auto view = glm::lookAtLH(pos, front, up);
+	view[2] *= -1.f;
+	auto combo = glm::perspective(glm::radians(45.f), 4.f / 3, 1.0f, 1800000.0f) * view;
 
 	gfx->bindConstantBuffer(Graphics::View);
-	gfx->updateConstantBuffer(0, &view, sizeof(DirectX::XMMATRIX));
+	gfx->updateConstantBuffer(0, &view, sizeof(glm::mat4));
 
 	gfx->bindConstantBuffer(Graphics::ComboViewAndProjection);
-	gfx->updateConstantBuffer(0, &combo, sizeof(DirectX::XMMATRIX));
+	gfx->updateConstantBuffer(0, &combo, sizeof(glm::mat4));
 
 	gfx->enable(Graphics::Depth_Test);
 
@@ -89,7 +91,7 @@ void XGM::testGraphics(size_t index)
 
 		gfx->resetFrame();
 		m_models[index].update(0, time, LoopControl::LOOP_ALL, PlaybackDirection::FORWARDS);
-		m_models[index].draw(DirectX::XMMatrixIdentity());
+		m_models[index].draw(glm::identity<glm::mat4>());
 		gfx->displayFrame();
 	}
 	Graphics::closeGraphics();
@@ -232,7 +234,7 @@ void XGM::XGMNode_XG::update(uint32_t index, float frame, LoopControl control, P
 	m_model.update(key);
 }
 
-void XGM::XGMNode_XG::draw(const DirectX::XMMATRIX& modelMatrix) const
+void XGM::XGMNode_XG::draw(const glm::mat4& modelMatrix) const
 {
 	m_model.draw(modelMatrix);
 }
