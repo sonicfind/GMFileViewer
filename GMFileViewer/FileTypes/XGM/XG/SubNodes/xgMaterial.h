@@ -16,8 +16,9 @@ class xgMaterial : public XG_MaterialNode
 
 	Blending m_blendType = Blending::Opaque;
 	Shading m_shadingType = Shading::Unshaded;
+	uint32_t :32, :32;
 
-	alignas(16) struct Diffuse
+	struct Diffuse
 	{
 		float red = 0;
 		float green = 0;
