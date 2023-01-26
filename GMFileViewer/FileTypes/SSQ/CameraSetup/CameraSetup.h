@@ -26,6 +26,17 @@ class CameraSetup
 		float zNear;
 		float zFar;
 		uint32_t unknown;
+
+		static Projection Mix(const Projection& current, const Projection& next, float coef)
+		{
+			return {
+				::Mix(current.fov, next.fov, coef),
+				::Mix(current.aspectRatio, next.aspectRatio, coef),
+				::Mix(current.zNear, next.zNear, coef),
+				::Mix(current.zFar, next.zFar, coef),
+				current.unknown
+			};
+		}
 	};
 
 	union Val
