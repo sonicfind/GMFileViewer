@@ -45,11 +45,12 @@ class XGM
 public:
 	XGM(const std::filesystem::path& filePath);
 	void saveToFile(const std::filesystem::path& filePath) const;
-	void testGraphics(size_t index);
 	void displayModelList() const;
 	uint32_t getNumModels() const { return m_models.getSize(); }
 	uint32_t getModelIndex(std::string_view modelName) const;
 
+	void testGraphics(size_t index);
+	void createGraphicsBuffers();
 
 private:
 	void createGraphicsBuffers(size_t index);

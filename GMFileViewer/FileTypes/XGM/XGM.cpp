@@ -50,6 +50,15 @@ void XGM::createGraphicsBuffers(size_t index)
 	Graphics::getGraphics()->updateTitle(m_models[index].m_name);
 }
 
+void XGM::createGraphicsBuffers()
+{
+	for (auto& texture : m_textures)
+		texture.createTextureBuffer();
+
+	for (auto& model : m_models)
+		model.createVertexBuffers();
+}
+
 void XGM::testGraphics(size_t index)
 {
 	Graphics::initGraphics(Graphics::Backend::OpenGL);
