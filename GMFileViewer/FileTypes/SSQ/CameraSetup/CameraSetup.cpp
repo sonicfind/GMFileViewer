@@ -1,4 +1,5 @@
 #include "CameraSetup.h"
+#include "Graphics.h"
 
 void CameraSetup::read(FileReader& file)
 {
@@ -44,6 +45,7 @@ void CameraSetup::save(FileWriter& file) const
 	file << ZERO << garbo;
 
 	file.write(m_baseGlobalValues);
+
 	m_positions.write_size(file);
 	m_rotations.write_size(file);
 	m_positions.write_data(file);
@@ -63,4 +65,36 @@ void CameraSetup::save(FileWriter& file) const
 
 	if (m_64bytes_v.getSize() >= 2)
 		m_64bytes_v.write_full(file);
+}
+
+void CameraSetup::update(float frame) const
+{
+	Graphics* gfx = Graphics::getGraphics();
+	auto view = calcViewMatrix(frame);
+	gfx->bindConstantBuffer(Graphics::View);
+	gfx->updateConstantBuffer(0, &view, sizeof(glm::mat4));
+
+	auto combo = calcProjectionMatrix(frame) * view;
+	gfx->bindConstantBuffer(Graphics::ComboViewAndProjection);
+	gfx->updateConstantBuffer(0, &combo, sizeof(glm::mat4));
+}
+
+glm::mat4 CameraSetup::calcProjectionMatrix(float frame) const
+{
+	if (m_projections.isEmpty())
+		return glm::perspective(glm::radians(m_baseGlobalValues.fov), m_baseGlobalValues.aspectRatio, m_baseGlobalValues.zNear, m_baseGlobalValues.zFar);
+
+	const auto projection = InterpolateStruct(m_projections, frame);
+	return glm::perspective(glm::radians(projection.fov), projection.aspectRatio, projection.zNear, projection.zFar);
+}
+
+glm::mat4 CameraSetup::calcViewMatrix(float frame) const
+{
+	auto position = Interpolate(m_positions, frame);
+	position.z *= -1;
+
+	const auto rotation = Interpolate(m_rotations, frame);
+	glm::mat4 view = glm::toMat4(rotation) * glm::lookAt(position, position + glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
+	view[2] *= -1.f;
+	return view;
 }
