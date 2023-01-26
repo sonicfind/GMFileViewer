@@ -385,6 +385,7 @@ void Graphics_OGL::drawElements(uint32_t count, const uint32_t* indices, Primiti
 
 void Graphics_OGL::resetFrame() const
 {
+    glDepthMask(GL_TRUE);
     if (!m_skyTexture)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

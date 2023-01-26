@@ -50,15 +50,18 @@ void xgMaterial::bind(size_t slot) const
 	
 	gfx->bindConstantBuffer(Graphics::Material);
 	gfx->updateConstantBuffer(0, &m_blendType, 64);
+	gfx->setBlendFunc(m_blendType);
 
-	if (m_blendType != Blending::Opaque)
+	if (m_blendType == Blending::Opaque && !(m_flags & 1))
 	{
-		gfx->enable(Graphics::AlphaBlending);
-		gfx->setBlendFunc(m_blendType);
+		gfx->enable(Graphics::Depth_Mask);
+		gfx->disable(Graphics::AlphaBlending);
 	}
 	else
-		gfx->disable(Graphics::AlphaBlending);
-	
+	{
+		gfx->disable(Graphics::Depth_Mask);
+		gfx->enable(Graphics::AlphaBlending);
+	}
 }
 
 size_t xgMaterial::getNumMaterials() const
