@@ -27,4 +27,5 @@ public:
 	
 	void loadSequence(XGM& pack);
 	void update(float frame);
+	void draw();
 };

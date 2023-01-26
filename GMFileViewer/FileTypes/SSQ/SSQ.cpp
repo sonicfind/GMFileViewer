@@ -112,5 +112,10 @@ void SSQ::update(float frame)
 		m_matrices[i] = m_models[i]->getModelMatrix(frame);
 
 	m_camera.update(frame);
+}
 
+void SSQ::draw()
+{
+	for (size_t i = 0; i < m_matrices.getSize(); ++i)
+		m_pack->drawModel(m_xgEntries[i].getModelIndex(), m_matrices[i]);
 }
