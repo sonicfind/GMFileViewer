@@ -27,6 +27,8 @@ void testWrite(const T& file)
 	std::getline(std::cin, g_filename);
 }
 
+void runSequnce(SSQ& sequence, XGM& pack);
+
 int main()
 {
 	std::cout << "Drag and drop a file:";
@@ -78,8 +80,25 @@ int main()
 	}
 	else if (g_filename.ends_with(".SSQ"))
 	{
-		SSQ file(g_filename);
-		testWrite(file);
+		SSQ sequence(g_filename);
+
+		std::cout << "Drag and drop an XGM file:";
+		std::getline(std::cin, g_filename);
+
+		if (g_filename[0] == '\"')
+			g_filename = g_filename.substr(1, g_filename.length() - 2);
+
+		try
+		{
+			XGM pack(g_filename);
+			runSequnce(sequence, pack);
+		}
+		catch (...)
+		{
+		}
+
+		std::getline(std::cin, g_filename);
+		testWrite(sequence);
 
 		std::cout << "Press Enter to Exit" << std::endl;
 		std::getline(std::cin, g_filename);
@@ -100,4 +119,38 @@ int main()
 	}
 	
 	return 0;
+}
+
+void runSequnce(SSQ& sequence, XGM& pack)
+{
+	Graphics::initGraphics(Graphics::Backend::OpenGL);
+	pack.createGraphicsBuffers();
+	sequence.loadSequence(pack);
+
+	Graphics* gfx = Graphics::getGraphics();
+	gfx->enable(Graphics::Depth_Test);
+
+	auto t1 = std::chrono::high_resolution_clock::now();
+	size_t count = 0;
+	float prev = 240;
+	for (size_t i = 0; !gfx->shouldClose(); ++i)
+	{
+		auto t2 = std::chrono::high_resolution_clock::now();
+		float time = 30 * std::chrono::duration<float>(t2 - t1).count() + 240;
+		if (time >= prev + 30)
+		{
+			std::cout << 1000.0 / double(count) << " ms/frame\n";
+			std::cout << count << " frames" << std::endl;
+			count = 0;
+			prev = int(time / 30) * 30.f;
+		}
+		++count;
+
+		gfx->resetFrame();
+		sequence.update(time);
+		sequence.draw();
+		gfx->displayFrame();
+	}
+
+	Graphics::closeGraphics();
 }
