@@ -19,7 +19,7 @@ private:
 		unsigned long ulong_f;
 		unsigned long holdLastFrame;
 		unsigned long dropShadow;
-		static ModelAnim mix(const ModelAnim& current, const ModelAnim& next, float coef)
+		static ModelAnim Mix(const ModelAnim& current, const ModelAnim& next, float coef)
 		{
 			return current;
 		}
@@ -29,7 +29,7 @@ private:
 	{
 		glm::vec3 scalar;
 		unsigned long envMap_maybe;
-		static ModelScalar mix(const ModelScalar& current, const ModelScalar& next, float coef)
+		static ModelScalar Mix(const ModelScalar& current, const ModelScalar& next, float coef)
 		{
 			ModelScalar result;
 			result.scalar = glm::mix(current.scalar, next.scalar, coef);

@@ -45,5 +45,5 @@ T InterpolateStruct(const KeyFrameArray<T>& keyframes, float currFrame)
 	if (iter + 1 == keyframes.end() || iter->interpolation != InterpolationToggle::On)
 		return iter->object;
 
-	return T::mix(iter->object, (iter + 1)->object, (currFrame - iter->time) * iter->coefficient);
+	return T::Mix(iter->object, (iter + 1)->object, (currFrame - iter->time) * iter->coefficient);
 }
