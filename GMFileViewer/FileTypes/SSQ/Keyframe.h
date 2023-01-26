@@ -38,6 +38,12 @@ T Interpolate(const KeyFrameArray<T>& keyframes, float currFrame)
 template <>
 glm::quat Interpolate<glm::quat>(const KeyFrameArray<glm::quat>& keyframes, float currFrame);
 
+template <typename T, typename = std::enable_if<std::is_arithmetic<T>::value>>
+T Mix(T first, T second, float coef)
+{
+	return first + (second - first) * coef;
+}
+
 template <typename T>
 T InterpolateStruct(const KeyFrameArray<T>& keyframes, float currFrame)
 {
