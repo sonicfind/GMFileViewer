@@ -78,7 +78,11 @@ glm::vec3 Model_Setup::getScalar(float frame) const
 
 glm::quat Model_Setup::getRotation(float frame) const
 {
-	return !m_rotations.isEmpty() ? Interpolate(m_rotations, frame) : m_baseValues.baseRotation;
+	glm::quat rotation = !m_rotations.isEmpty() ? Interpolate(m_rotations, frame) : m_baseValues.baseRotation;
+	float tmp = rotation.z;
+	rotation.z = rotation.y;
+	rotation.y = tmp;
+	return rotation;
 }
 
 glm::vec3 Model_Setup::getTranslation(float frame) const
