@@ -94,10 +94,11 @@ void SSQ::saveToFile(const std::filesystem::path& filePath) const
 
 void SSQ::loadSequence(XGM& pack)
 {
+	m_pack = &pack;
 	for (auto& entry : m_xgEntries)
 	{
 		if (!entry.isClone())
-			entry.setModelIndex(pack.getModelIndex(entry.getName()));
+			entry.setModelIndex(m_pack->getModelIndex(entry.getName()));
 		else
 			entry.setModelIndex(m_xgEntries[entry.getCloneID()].getModelIndex());
 	}

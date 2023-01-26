@@ -20,6 +20,7 @@ class SSQ
 	GMArray<TexAnim> m_textureAnims;
 	PSetup m_pSetup;
 
+	XGM* m_pack = nullptr;
 public:
 	SSQ(const std::filesystem::path& filePath);
 	void saveToFile(const std::filesystem::path& filePath) const;
