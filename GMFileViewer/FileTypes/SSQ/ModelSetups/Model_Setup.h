@@ -27,12 +27,12 @@ private:
 
 	struct ModelScalar
 	{
-		DirectX::XMFLOAT3 scalar;
+		glm::vec3 scalar;
 		unsigned long envMap_maybe;
 		static ModelScalar mix(const ModelScalar& current, const ModelScalar& next, float coef)
 		{
 			ModelScalar result;
-			DirectX::XMStoreFloat3(&result.scalar, DirectX::XMVectorLerp(DirectX::XMLoadFloat3(&current.scalar), DirectX::XMLoadFloat3(&next.scalar), coef));
+			result.scalar = glm::mix(current.scalar, next.scalar, coef);
 			result.envMap_maybe = current.envMap_maybe;
 			return result;
 		}
@@ -40,8 +40,8 @@ private:
 
 	struct BaseValues
 	{
-		DirectX::XMFLOAT3 basePosition;
-		DirectX::XMFLOAT4 baseRotation;
+		glm::vec3 basePosition;
+		glm::vec4 baseRotation;
 		unsigned long baseAnimIndex_maybe;
 		unsigned long ulong_b;
 		unsigned long depthTest;

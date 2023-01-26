@@ -1,5 +1,5 @@
 #pragma once
-#include <DirectXMath.h>
+#include <glm/gtc/quaternion.hpp>
 #include "GMArray.h"
 
 enum class InterpolationToggle : uint32_t
@@ -31,19 +31,17 @@ struct Keyframe
 	}
 };
 
-struct XMQuat : public DirectX::XMFLOAT4 {};
+template<>
+glm::vec3 Keyframe<glm::vec3>::Interpolate(const GMArray<Keyframe<glm::vec3>>& keyframes, float currFrame);
 
 template<>
-DirectX::XMFLOAT3 Keyframe<DirectX::XMFLOAT3>::Interpolate(const GMArray<Keyframe<DirectX::XMFLOAT3>>& keyframes, float currFrame);
+glm::vec4 Keyframe<glm::vec4>::Interpolate(const GMArray<Keyframe<glm::vec4>>& keyframes, float currFrame);
 
 template<>
-DirectX::XMFLOAT4 Keyframe<DirectX::XMFLOAT4>::Interpolate(const GMArray<Keyframe<DirectX::XMFLOAT4>>& keyframes, float currFrame);
+glm::quat Keyframe<glm::quat>::Interpolate(const GMArray<Keyframe<glm::quat>>& keyframes, float currFrame);
 
-template<>
-XMQuat Keyframe<XMQuat>::Interpolate(const GMArray<Keyframe<XMQuat>>& keyframes, float currFrame);
-
-using PositionKeyframes = GMArray<Keyframe<DirectX::XMFLOAT3>>;
-using RotationKeyframes = GMArray<Keyframe<XMQuat>>;
+using PositionKeyframes = GMArray<Keyframe<glm::vec3>>;
+using RotationKeyframes = GMArray<Keyframe<glm::quat>>;
 
 template <typename T>
 using KeyFrameArray = GMArray<Keyframe<T>>;

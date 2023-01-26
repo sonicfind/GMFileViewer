@@ -70,7 +70,7 @@ void VertexList::updateBuffer() const
 	Graphics::getGraphics()->updateVertexBuffer(0, m_vertices.begin(), m_vertices.getSize() * sizeof(Vertex));
 }
 
-DirectX::XMVECTOR operator*(const DirectX::XMMATRIX& matrix, const Vertex& vertex)
+glm::vec4 operator*(const glm::mat4& matrix, const Vertex& vertex)
 {
-	return XMVector4Transform(DirectX::XMLoadFloat4(&vertex.m_position), matrix);
+	return matrix * vertex.m_position;
 }

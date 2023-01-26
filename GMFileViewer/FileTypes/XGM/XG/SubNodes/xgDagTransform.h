@@ -11,6 +11,6 @@ public:
 	void writeType(FileWriter& file) const override;
 	void save(FileWriter& file) const override;
 
-	DirectX::XMMATRIX calcTransformMatrix() const;
+	glm::mat4 calcTransformMatrix() const;
 };
 

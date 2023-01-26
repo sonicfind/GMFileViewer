@@ -2,7 +2,7 @@
 #include "XG_TargetedInterpolators.h"
 #include "XG_UpdatableNodes.h"
 
-class xgVertexInterpolator : public XG_TargetedInterpolator<DirectX::XMFLOAT3>, public XG_UpdatableNode
+class xgVertexInterpolator : public XG_TargetedInterpolator<glm::vec3>, public XG_UpdatableNode
 {
 public:
 	using XG_TargetedInterpolator::XG_TargetedInterpolator;

@@ -36,7 +36,7 @@ class XGM
 
 		void createVertexBuffers();
 		void update(uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection) const;
-		void draw(const DirectX::XMMATRIX& modelMatrix) const;
+		void draw(const glm::mat4& modelMatrix) const;
 	};
 
 	GMArray<XGMNode_IMX> m_textures;

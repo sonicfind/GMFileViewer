@@ -17,9 +17,9 @@ void xgDagTransform::save(FileWriter& file) const
 		WriteNode("inputMatrix", "outputMatrix", m_inputMatrix, file);
 }
 
-DirectX::XMMATRIX xgDagTransform::calcTransformMatrix() const
+glm::mat4 xgDagTransform::calcTransformMatrix() const
 {
 	if (!m_inputMatrix)
-		return DirectX::XMMatrixIdentity();
+		return glm::identity<glm::mat4>();
 	return m_inputMatrix->transform();
 }

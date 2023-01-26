@@ -46,11 +46,11 @@ void xgDagMesh::update()
 	m_inputGeometry->update();
 }
 
-void xgDagMesh::draw(const DirectX::XMMATRIX& meshMatrix) const
+void xgDagMesh::draw(const glm::mat4& meshMatrix) const
 {
 	Graphics* gfx = Graphics::getGraphics();
 	gfx->bindConstantBuffer(Graphics::ModelMatrix);
-	gfx->updateConstantBuffer(0, &meshMatrix, sizeof(DirectX::XMMATRIX));
+	gfx->updateConstantBuffer(0, &meshMatrix, sizeof(glm::mat4));
 
 	m_inputGeometry->bindVertexBuffer();
 

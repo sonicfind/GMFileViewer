@@ -1,6 +1,6 @@
 #pragma once
 #include "PString.h"
-#include <DirectXMath.h>
+#include <glm/glm.hpp>
 
 class XG;
 class XG_SubNode
@@ -56,7 +56,7 @@ class XG
 
 		void createVertexBuffers();
 		void update() const;
-		void draw(DirectX::XMMATRIX meshMatrix) const;
+		void draw(glm::mat4 meshMatrix) const;
 	};
 
 	std::vector<std::unique_ptr<XG_SubNode>> m_nodes;
@@ -68,7 +68,7 @@ public:
 	void save(FileWriter& file) const;
 	void createVertexBuffers();
 	void update(float frame) const;
-	void draw(const DirectX::XMMATRIX& modelMatrix) const;
+	void draw(const glm::mat4& modelMatrix) const;
 
 private:
 	void fillDag(DagElement& dag, FileReader& file);

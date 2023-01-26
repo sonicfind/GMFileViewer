@@ -1,13 +1,13 @@
 #pragma once
-#include <DirectXMath.h>
+#include <glm/glm.hpp>
 #include "GMArray.h"
 
 struct Vertex
 {
-	DirectX::XMFLOAT4 m_position;
-	DirectX::XMFLOAT3 m_normal;
-	DirectX::XMFLOAT4 m_color;
-	DirectX::XMFLOAT2 m_texCoord;
+	glm::vec4 m_position;
+	glm::vec3 m_normal;
+	glm::vec4 m_color;
+	glm::vec2 m_texCoord;
 
 	template <uint32_t flags>
 	void fill(FileReader& file)
@@ -63,21 +63,21 @@ struct Vertex
 	static Vertex mix(Vertex vertex, const Vertex& toMix, float coef)
 	{
 		if constexpr (flags & 1)
-			DirectX::XMStoreFloat4(&vertex.m_position, DirectX::XMVectorLerp(DirectX::XMLoadFloat4(&vertex.m_position), DirectX::XMLoadFloat4(&toMix.m_position), coef));
+			vertex.m_position = glm::mix(vertex.m_position, toMix.m_position, coef);
 
 		if constexpr (flags & 2)
-			DirectX::XMStoreFloat3(&vertex.m_normal, DirectX::XMVectorLerp(DirectX::XMLoadFloat3(&vertex.m_normal), DirectX::XMLoadFloat3(&toMix.m_normal), coef));
+			vertex.m_normal = glm::mix(vertex.m_normal, toMix.m_normal, coef);
 
 		if constexpr (flags & 4)
-			DirectX::XMStoreFloat4(&vertex.m_color, DirectX::XMVectorLerp(DirectX::XMLoadFloat4(&vertex.m_color), DirectX::XMLoadFloat4(&toMix.m_color), coef));
+			vertex.m_color = glm::mix(vertex.m_color, toMix.m_color, coef);
 
 		if constexpr (flags & 8)
-			DirectX::XMStoreFloat2(&vertex.m_texCoord, DirectX::XMVectorLerp(DirectX::XMLoadFloat2(&vertex.m_texCoord), DirectX::XMLoadFloat2(&toMix.m_texCoord), coef));
+			vertex.m_texCoord = glm::mix(vertex.m_texCoord, toMix.m_texCoord, coef);
 		return vertex;
 	}
 };
 
-DirectX::XMVECTOR operator*(const DirectX::XMMATRIX& matrix, const Vertex& vertex);
+glm::vec4 operator*(const glm::mat4& matrix, const Vertex& vertex);
 
 class VertexList
 {

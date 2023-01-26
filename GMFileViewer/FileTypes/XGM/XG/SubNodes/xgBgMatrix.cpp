@@ -1,6 +1,7 @@
 #include "xgBgMatrix.h"
 #include "../PString.h"
 #include "FileReader.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 void xgBgMatrix::load(FileReader& file, const XG* xg)
 {
@@ -38,27 +39,30 @@ void xgBgMatrix::save(FileWriter& file) const
 		WriteNode("inputParentMatrix", "outputMatrix", m_inputParentMatrix, file);
 }
 
-using namespace DirectX;
+using namespace glm;
 
-XMMATRIX xgBgMatrix::transform() const
+glm::mat4 xgBgMatrix::transform() const
 {
-	XMMATRIX matrix = m_inputParentMatrix ? m_inputParentMatrix->transform() : XMMatrixIdentity();
-	if (!m_inputScale)
-		matrix *= XMMatrixScalingFromVector(XMLoadFloat3(&m_scale));
-	else
-	{
-		const XMFLOAT3 scale = m_inputScale->calcMixedValue();
-		matrix *= XMMatrixScalingFromVector(XMLoadFloat3(&scale));
-	}
+	Transformations transforms = gatherTransformations();
 
-	matrix *= XMMatrixRotationQuaternion(XMQuaternionConjugate(m_inputRotation ? m_inputRotation->calcMixedValue() : m_rotation));
-
-	if (!m_inputPosition)
-		matrix *= XMMatrixTranslationFromVector(XMLoadFloat3(&m_position));
-	else
-	{
-		const XMFLOAT3 translation = m_inputPosition->calcMixedValue();
-		matrix *= XMMatrixTranslationFromVector(XMLoadFloat3(&translation));
-	}
-	return matrix;
+	mat4 result = glm::toMat4(conjugate(transforms.rotation));
+	result[0] *= transforms.scale.x;
+	result[1] *= transforms.scale.y;
+	result[2] *= transforms.scale.z;
+	result[3] = vec4(transforms.translation, 1);
+	return result;
 }
+
+xgBgMatrix::Transformations xgBgMatrix::gatherTransformations() const
+{
+	Transformations transforms;
+	if (m_inputParentMatrix)
+		transforms = m_inputParentMatrix->gatherTransformations();
+
+	transforms.translation += m_inputPosition ? m_inputPosition->calcMixedValue() : m_position;
+	transforms.rotation *= m_inputRotation ? m_inputRotation->calcMixedValue() : m_rotation;
+	transforms.scale *= m_inputScale ? m_inputScale->calcMixedValue() : m_scale;
+	return transforms;
+}
+
+

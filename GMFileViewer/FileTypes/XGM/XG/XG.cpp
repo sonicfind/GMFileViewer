@@ -110,7 +110,7 @@ void XG::update(float frame) const
 		dag.update();
 }
 
-void XG::draw(const DirectX::XMMATRIX& modelMatrix) const
+void XG::draw(const glm::mat4& modelMatrix) const
 {
 	for (const auto& dag : m_dag)
 		dag.draw(modelMatrix);
@@ -140,7 +140,7 @@ void XG::DagElement::update() const
 		dag.update();
 }
 
-void XG::DagElement::draw(DirectX::XMMATRIX meshMatrix) const
+void XG::DagElement::draw(glm::mat4 meshMatrix) const
 {
 	if (m_mesh)
 		m_mesh->draw(meshMatrix);
