@@ -38,7 +38,6 @@ struct Light
 
 layout (std140) uniform Lights
 {
-	int doLights;
 	int numLights;
 	float unknown;
 	int useGlobal;
@@ -58,13 +57,13 @@ vec4 applyShading(const vec4 baseColor);
 
 void main()
 {	
-	vec4 result;
+	vec4 result = vec4(1,1,1,1);
 	if (useTexture == 1)
 	{
 		vec4 texColor = texture(tex, vs_in.texCoord);
 		result = getBlendColor(texColor.rgb);
 		result.a *= texColor.a;
-	}	
+	}
 
 	if (flags > 2)
 		result.a *= 2;
@@ -89,10 +88,16 @@ vec4 getBlendColor(const vec3 color)
 
 vec4 applyShading(const vec4 baseColor)
 {
-	if (doLights == 0 || shadingType == 0)
+	if (shadingType < 3)
 		return baseColor;
-	else if (shadingType == 3)
+	else
 		return baseColor * vs_in.color;
+
+	//if (shadingType == 0)
+		//return baseColor;
+	//else if (shadingType == 3)
+		//return baseColor * vs_in.color;
+
 	
 	vec3 viewDir = normalize(vec3(view[0][3], view[1][3], view[2][3]) - vs_in.fragPos);
 	vec3 result = vec3(0);
