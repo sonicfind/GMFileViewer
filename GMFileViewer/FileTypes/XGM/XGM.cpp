@@ -121,6 +121,11 @@ uint32_t XGM::getModelIndex(std::string_view modelName) const
 	throw std::runtime_error("Name does not match any model");
 }
 
+void XGM::drawModel(uint32_t index, const glm::mat4& modelMatrix) const
+{
+	m_models[index].draw(modelMatrix);
+}
+
 uint32_t XGM::XGMNode::load(FileReader& file, const uint32_t index)
 {
 	file.read(m_filepath);

@@ -51,6 +51,7 @@ public:
 
 	void testGraphics(size_t index);
 	void createGraphicsBuffers();
+	void drawModel(uint32_t index, const glm::mat4& modelMatrix) const;
 
 private:
 	void createGraphicsBuffers(size_t index);
