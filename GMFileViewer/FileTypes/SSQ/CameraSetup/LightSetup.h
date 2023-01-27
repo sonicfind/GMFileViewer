@@ -4,8 +4,8 @@
 
 struct LightColors
 {
+	glm::vec3 ambient;
 	glm::vec3 diffuse;
-	glm::vec3 specular;
 };
 
 template<>
@@ -41,7 +41,7 @@ class LightSetup
 		unsigned long isActive;
 		glm::vec3 ambient;
 		glm::vec3 diffuse;
-		glm::vec4 rotation;
+		glm::quat rotation;
 		Val ulong_b;
 		Val l_a;
 		Val ulong_c;
