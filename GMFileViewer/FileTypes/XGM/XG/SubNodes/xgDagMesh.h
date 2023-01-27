@@ -23,7 +23,8 @@ public:
 	void save(FileWriter& file) const override;
 
 	void createVertexBuffer();
-	void update();
-	void draw(const glm::mat4& meshMatrix) const;
+	void addInstance();
+	void update(uint32_t instance);
+	void draw(uint32_t instance, const glm::mat4& meshMatrix) const;
 };
 

@@ -101,19 +101,25 @@ void XG::createVertexBuffers()
 		dag.createVertexBuffers();
 }
 
-void XG::update(float frame) const
+void XG::addInstance()
+{
+	for (auto& dag : m_dag)
+		dag.addInstance();
+}
+
+void XG::update(uint32_t instance, float frame) const
 {
 	if (m_time)
 		m_time->setTime(frame);
 
 	for (const auto& dag : m_dag)
-		dag.update();
+		dag.update(instance);
 }
 
-void XG::draw(const glm::mat4& modelMatrix) const
+void XG::draw(uint32_t instance, const glm::mat4& modelMatrix) const
 {
 	for (const auto& dag : m_dag)
-		dag.draw(modelMatrix);
+		dag.draw(instance, modelMatrix);
 }
 
 XG::DagElement::DagElement(XG_SubNode* node)
@@ -131,24 +137,33 @@ void XG::DagElement::createVertexBuffers()
 		dag.createVertexBuffers();
 }
 
-void XG::DagElement::update() const
+void XG::DagElement::addInstance()
 {
 	if (m_mesh)
-		m_mesh->update();
+		m_mesh->addInstance();
 
-	for (const auto& dag : m_connections)
-		dag.update();
+	for (auto& dag : m_connections)
+		dag.addInstance();
 }
 
-void XG::DagElement::draw(glm::mat4 meshMatrix) const
+void XG::DagElement::update(uint32_t instance) const
 {
 	if (m_mesh)
-		m_mesh->draw(meshMatrix);
+		m_mesh->update(instance);
+
+	for (const auto& dag : m_connections)
+		dag.update(instance);
+}
+
+void XG::DagElement::draw(uint32_t instance, glm::mat4 meshMatrix) const
+{
+	if (m_mesh)
+		m_mesh->draw(instance, meshMatrix);
 	else
 	{
 		meshMatrix *= m_transform->calcTransformMatrix();
 		for (const auto& dag : m_connections)
-			dag.draw(meshMatrix);
+			dag.draw(instance, meshMatrix);
 	}
 }
 

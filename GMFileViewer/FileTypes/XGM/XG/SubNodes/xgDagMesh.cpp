@@ -41,18 +41,23 @@ void xgDagMesh::createVertexBuffer()
 	m_inputGeometry->createVertexBuffer();
 }
 
-void xgDagMesh::update()
+void xgDagMesh::addInstance()
 {
-	m_inputGeometry->update();
+	m_inputGeometry->addInstance();
 }
 
-void xgDagMesh::draw(const glm::mat4& meshMatrix) const
+void xgDagMesh::update(uint32_t instance)
+{
+	m_inputGeometry->update(instance);
+}
+
+void xgDagMesh::draw(uint32_t instance, const glm::mat4& meshMatrix) const
 {
 	Graphics* gfx = Graphics::getGraphics();
 	gfx->bindConstantBuffer(Graphics::ModelMatrix);
 	gfx->updateConstantBuffer(0, &meshMatrix, sizeof(glm::mat4));
 
-	m_inputGeometry->bindVertexBuffer();
+	m_inputGeometry->bindVertexBuffer(instance);
 
 	gfx->setCullFunc(m_cullFunc);
 	gfx->activateShader(Graphics::Model);

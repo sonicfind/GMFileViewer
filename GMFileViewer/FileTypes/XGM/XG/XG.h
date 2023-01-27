@@ -55,8 +55,9 @@ class XG
 		DagElement(XG_SubNode* node);
 
 		void createVertexBuffers();
-		void update() const;
-		void draw(glm::mat4 meshMatrix) const;
+		void addInstance();
+		void update(uint32_t instance) const;
+		void draw(uint32_t instance, glm::mat4 meshMatrix) const;
 	};
 
 	std::vector<std::unique_ptr<XG_SubNode>> m_nodes;
@@ -67,8 +68,9 @@ public:
 	void load(FileReader file);
 	void save(FileWriter& file) const;
 	void createVertexBuffers();
-	void update(float frame) const;
-	void draw(const glm::mat4& modelMatrix) const;
+	void addInstance();
+	void update(uint32_t instance, float frame) const;
+	void draw(uint32_t instance, const glm::mat4& modelMatrix) const;
 
 private:
 	void fillDag(DagElement& dag, FileReader& file);

@@ -57,12 +57,18 @@ VertexList VertexList::mix(const VertexList& other, float coef) const
 
 void VertexList::createVertexBuffer(bool isDynamic)
 {
-	m_bufferIndex = Graphics::getGraphics()->createVertexBuffer(Graphics::ShaderType::Model, m_vertices.begin(), m_vertices.getSize() * sizeof(Vertex), isDynamic);
+	m_bufferIndices.clear();
+	addInstance(isDynamic);
 }
 
-void VertexList::bindBuffer() const
+void VertexList::addInstance(bool isDynamic)
 {
-	Graphics::getGraphics()->bindVertexBuffer(m_bufferIndex);
+	m_bufferIndices.push_back(Graphics::getGraphics()->createVertexBuffer(Graphics::ShaderType::Model, m_vertices.begin(), m_vertices.getSize() * sizeof(Vertex), isDynamic));
+}
+
+void VertexList::bindBuffer(uint32_t instance) const
+{
+	Graphics::getGraphics()->bindVertexBuffer(m_bufferIndices[instance]);
 }
 
 void VertexList::updateBuffer() const

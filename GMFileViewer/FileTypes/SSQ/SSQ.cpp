@@ -97,10 +97,11 @@ void SSQ::loadSequence(XGM& pack)
 	m_pack = &pack;
 	for (auto& entry : m_xgEntries)
 	{
-		if (!entry.isClone())
-			entry.setModelIndex(m_pack->getModelIndex(entry.getName()));
-		else
-			entry.setModelIndex(m_xgEntries[entry.getCloneID()].getModelIndex());
+		uint32_t index = !entry.isClone() ? m_pack->getModelIndex(entry.getName()) : m_xgEntries[entry.getCloneID()].getModelIndex();
+		entry.setModelIndex(index);
+
+		if (entry.isClone())
+			m_pack->addInstanceToModel(index);
 	}
 
 
@@ -108,7 +109,7 @@ void SSQ::loadSequence(XGM& pack)
 
 void SSQ::update(float frame)
 {
-	for (size_t i = 0; i < m_matrices.getSize(); ++i)
+	for (uint32_t i = 0; i < m_matrices.getSize(); ++i)
 		m_matrices[i] = m_models[i]->getModelMatrix(frame);
 
 	m_camera.update(frame);
@@ -116,6 +117,13 @@ void SSQ::update(float frame)
 
 void SSQ::draw()
 {
-	for (size_t i = 0; i < m_matrices.getSize(); ++i)
-		m_pack->drawModel(m_xgEntries[i].getModelIndex(), m_matrices[i]);
+	for (uint32_t i = 0, instance = 0; i < m_matrices.getSize(); ++i)
+	{
+		if (!m_xgEntries[i].isClone())
+			instance = 0;
+		else
+			++instance;
+
+		m_pack->drawModel(m_xgEntries[i].getModelIndex(), instance, m_matrices[i]);
+	}
 }

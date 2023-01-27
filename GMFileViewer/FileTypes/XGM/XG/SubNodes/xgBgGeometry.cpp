@@ -40,12 +40,17 @@ void xgBgGeometry::createVertexBuffer()
 	m_vertices.createVertexBuffer(!m_inputGeometries.empty());
 }
 
-void xgBgGeometry::bindVertexBuffer() const
+void xgBgGeometry::addInstance()
 {
-	m_vertices.bindBuffer();
+	m_vertices.addInstance(!m_inputGeometries.empty());
 }
 
-void xgBgGeometry::update()
+void xgBgGeometry::bindVertexBuffer(uint32_t instance) const
+{
+	m_vertices.bindBuffer(instance);
+}
+
+void xgBgGeometry::update(uint32_t instance)
 {
 	if (m_inputGeometries.empty())
 		return;
@@ -53,7 +58,7 @@ void xgBgGeometry::update()
 	for (const XG_UpdatableNode* node : m_inputGeometries)
 		node->updateVertices(m_vertices);
 
-	m_vertices.bindBuffer();
+	m_vertices.bindBuffer(instance);
 	m_vertices.updateBuffer();
 }
 

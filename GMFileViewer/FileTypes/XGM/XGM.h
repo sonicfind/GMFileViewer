@@ -35,8 +35,9 @@ class XGM
 		void save(FileWriter& file, const uint32_t index) const;
 
 		void createVertexBuffers();
-		void update(uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection) const;
-		void draw(const glm::mat4& modelMatrix) const;
+		void addInstance();
+		void update(uint32_t instance, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection) const;
+		void draw(uint32_t instance, const glm::mat4& modelMatrix) const;
 	};
 
 	GMArray<XGMNode_IMX> m_textures;
@@ -51,7 +52,8 @@ public:
 
 	void testGraphics(size_t index);
 	void createGraphicsBuffers();
-	void drawModel(uint32_t index, const glm::mat4& modelMatrix) const;
+	void addInstanceToModel(uint32_t index);
+	void drawModel(uint32_t index, uint32_t instance, const glm::mat4& modelMatrix) const;
 
 private:
 	void createGraphicsBuffers(size_t index);

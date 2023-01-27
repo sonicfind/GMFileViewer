@@ -59,6 +59,11 @@ void XGM::createGraphicsBuffers()
 		model.createVertexBuffers();
 }
 
+void XGM::addInstanceToModel(uint32_t index)
+{
+	m_models[index].addInstance();
+}
+
 void XGM::testGraphics(size_t index)
 {
 	Graphics::initGraphics(Graphics::Backend::OpenGL);
@@ -66,8 +71,8 @@ void XGM::testGraphics(size_t index)
 
 	const Graphics* gfx = Graphics::getGraphics();
 	gfx->setClearColor(0.2f, 0.5f, 0.2f, 1.0f);
-	glm::vec3 pos = { 0.0f, 100.0f, 400.0f };
-	glm::vec3 front = { 0.0f, 100.0f, 401.0f };
+	glm::vec3 pos = { 0.0f, 00.0f, 400.0f };
+	glm::vec3 front = { 0.0f, 00.0f, 401.0f };
 	glm::vec3 up = { 0.0f, 1.0f, 0.0f };
 
 	auto view = glm::lookAtLH(pos, front, up);
@@ -99,8 +104,8 @@ void XGM::testGraphics(size_t index)
 		++count;
 
 		gfx->resetFrame();
-		m_models[index].update(0, time, LoopControl::LOOP_ALL, PlaybackDirection::FORWARDS);
-		m_models[index].draw(glm::identity<glm::mat4>());
+		m_models[index].update(0, 0, time, LoopControl::LOOP_ALL, PlaybackDirection::FORWARDS);
+		m_models[index].draw(0, glm::identity<glm::mat4>());
 		gfx->displayFrame();
 	}
 	Graphics::closeGraphics();
@@ -121,9 +126,9 @@ uint32_t XGM::getModelIndex(std::string_view modelName) const
 	throw std::runtime_error("Name does not match any model");
 }
 
-void XGM::drawModel(uint32_t index, const glm::mat4& modelMatrix) const
+void XGM::drawModel(uint32_t index, uint32_t instance, const glm::mat4& modelMatrix) const
 {
-	m_models[index].draw(modelMatrix);
+	m_models[index].draw(instance, modelMatrix);
 }
 
 uint32_t XGM::XGMNode::load(FileReader& file, const uint32_t index)
@@ -221,7 +226,12 @@ void XGM::XGMNode_XG::createVertexBuffers()
 	m_model.createVertexBuffers();
 }
 
-void XGM::XGMNode_XG::update(uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection) const
+void XGM::XGMNode_XG::addInstance()
+{
+	m_model.addInstance();
+}
+
+void XGM::XGMNode_XG::update(uint32_t instance, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection) const
 {
 	if (index >= m_animations.getSize())
 		index = m_animations.getSize() - 1;
@@ -245,10 +255,10 @@ void XGM::XGMNode_XG::update(uint32_t index, float frame, LoopControl control, P
 	}
 
 	float key = m_animations[index].getTimelinePosition(frame, 120, playbackDirection);
-	m_model.update(key);
+	m_model.update(instance, key);
 }
 
-void XGM::XGMNode_XG::draw(const glm::mat4& modelMatrix) const
+void XGM::XGMNode_XG::draw(uint32_t instance, const glm::mat4& modelMatrix) const
 {
-	m_model.draw(modelMatrix);
+	m_model.draw(instance, modelMatrix);
 }

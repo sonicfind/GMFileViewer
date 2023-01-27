@@ -17,8 +17,9 @@ public:
 	void save(FileWriter& file) const override;
 
 	void createVertexBuffer();
-	void bindVertexBuffer() const;
-	void update();
+	void addInstance();
+	void bindVertexBuffer(uint32_t instance) const;
+	void update(uint32_t instance);
 
 	const Vertex& getVertex(size_t index) const;
 };

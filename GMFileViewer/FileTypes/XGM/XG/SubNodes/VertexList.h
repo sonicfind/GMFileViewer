@@ -84,7 +84,7 @@ class VertexList
 	uint32_t m_vertexFlags = 0;
 	GMArray<Vertex> m_vertices;
 
-	size_t m_bufferIndex = -1;
+	std::vector<size_t> m_bufferIndices;
 
 public:
 	VertexList() = default;
@@ -97,7 +97,8 @@ public:
 	VertexList mix(const VertexList& other, float coef) const;
 
 	void createVertexBuffer(bool isDynamic);
-	void bindBuffer() const;
+	void addInstance(bool isDynamic);
+	void bindBuffer(uint32_t instance) const;
 	void updateBuffer() const;
 
 	const Vertex& operator[](size_t index) const { return m_vertices[index]; }
