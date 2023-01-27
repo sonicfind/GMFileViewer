@@ -6,6 +6,11 @@ struct LightColors
 {
 	glm::vec3 ambient;
 	glm::vec3 diffuse;
+
+	static LightColors Mix(const LightColors& lhs, const LightColors& rhs, float frame)
+	{
+		return { glm::mix(lhs.ambient, rhs.ambient, frame), glm::mix(lhs.diffuse, rhs.diffuse, frame) };
+	}
 };
 
 template<>
