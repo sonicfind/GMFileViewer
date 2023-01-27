@@ -57,13 +57,15 @@ vec4 applyShading(const vec4 baseColor);
 
 void main()
 {	
-	vec4 result = vec4(1,1,1,1);
+	vec4 result = vec4(0);
 	if (useTexture == 1)
 	{
 		vec4 texColor = texture(tex, vs_in.texCoord);
 		result = getBlendColor(texColor.rgb);
 		result.a *= texColor.a;
 	}
+	else if (shadingType >= 3)
+		result = vec4(1);
 
 	if (flags > 2)
 		result.a *= 2;
