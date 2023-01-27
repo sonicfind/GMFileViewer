@@ -124,7 +124,6 @@ int main()
 void runSequnce(SSQ& sequence, XGM& pack)
 {
 	Graphics::initGraphics(Graphics::Backend::OpenGL);
-	pack.createGraphicsBuffers();
 	sequence.loadSequence(pack);
 
 	Graphics* gfx = Graphics::getGraphics();

@@ -48,13 +48,16 @@ public:
 	void saveToFile(const std::filesystem::path& filePath) const;
 	void displayModelList() const;
 	uint32_t getNumModels() const { return m_models.getSize(); }
-	uint32_t getModelIndex(std::string_view modelName) const;
 
 	void testGraphics(size_t index);
-	void createGraphicsBuffers();
-	void addInstanceToModel(uint32_t index);
-	void drawModel(uint32_t index, uint32_t instance, const glm::mat4& modelMatrix) const;
+
+	void initTextureBuffers();
+	void initModelBuffer(std::string_view modelName);
+	void addInstanceToModel(std::string_view modelName);
+	void updateModel(std::string_view modelName);
+	void drawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix) const;
 
 private:
-	void createGraphicsBuffers(size_t index);
+	XGMNode_XG& getModel(std::string_view modelName);
+	const XGMNode_XG& getModel(std::string_view modelName) const;
 };

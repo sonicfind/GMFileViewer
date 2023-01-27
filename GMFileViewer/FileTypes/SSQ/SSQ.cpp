@@ -95,13 +95,13 @@ void SSQ::saveToFile(const std::filesystem::path& filePath) const
 void SSQ::loadSequence(XGM& pack)
 {
 	m_pack = &pack;
+	m_pack->initTextureBuffers();
 	for (auto& entry : m_xgEntries)
 	{
-		uint32_t index = !entry.isClone() ? m_pack->getModelIndex(entry.getName()) : m_xgEntries[entry.getCloneID()].getModelIndex();
-		entry.setModelIndex(index);
-
-		if (entry.isClone())
-			m_pack->addInstanceToModel(index);
+		if (!entry.isClone())
+			m_pack->initModelBuffer(entry.getName());
+		else
+			m_pack->addInstanceToModel(entry.getName());
 	}
 
 
@@ -124,6 +124,6 @@ void SSQ::draw()
 		else
 			++instance;
 
-		m_pack->drawModel(m_xgEntries[i].getModelIndex(), instance, m_matrices[i]);
+		m_pack->drawModel(m_xgEntries[i].getName(), instance, m_matrices[i]);
 	}
 }

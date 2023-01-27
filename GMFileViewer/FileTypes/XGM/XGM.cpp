@@ -41,33 +41,29 @@ void XGM::saveToFile(const std::filesystem::path& filePath) const
 		m_models[i].save(file, i);
 }
 
-void XGM::createGraphicsBuffers(size_t index)
+void XGM::initTextureBuffers()
 {
 	for (auto& texture : m_textures)
 		texture.createTextureBuffer();
-
-	m_models[index].createVertexBuffers();
-	Graphics::getGraphics()->updateTitle(m_models[index].m_name);
 }
 
-void XGM::createGraphicsBuffers()
+void XGM::initModelBuffer(std::string_view modelName)
 {
-	for (auto& texture : m_textures)
-		texture.createTextureBuffer();
-
-	for (auto& model : m_models)
-		model.createVertexBuffers();
+	getModel(modelName).createVertexBuffers();
 }
 
-void XGM::addInstanceToModel(uint32_t index)
+void XGM::addInstanceToModel(std::string_view modelName)
 {
-	m_models[index].addInstance();
+	getModel(modelName).addInstance();
 }
 
 void XGM::testGraphics(size_t index)
 {
 	Graphics::initGraphics(Graphics::Backend::OpenGL);
-	createGraphicsBuffers(index);
+	initTextureBuffers();
+
+	m_models[index].createVertexBuffers();
+	Graphics::getGraphics()->updateTitle(m_models[index].m_name);
 
 	const Graphics* gfx = Graphics::getGraphics();
 	gfx->setClearColor(0.2f, 0.5f, 0.2f, 1.0f);
@@ -117,18 +113,27 @@ void XGM::displayModelList() const
 		std::cout << i + 1 << " - " << m_models[i].m_name << "\n";
 }
 
-uint32_t XGM::getModelIndex(std::string_view modelName) const
+XGM::XGMNode_XG& XGM::getModel(std::string_view modelName)
 {
 	for (uint32_t i = 0; i < m_models.getSize(); ++i)
 		if (modelName == m_models[i].m_name)
-			return i;
+			return m_models[i];
 
 	throw std::runtime_error("Name does not match any model");
 }
 
-void XGM::drawModel(uint32_t index, uint32_t instance, const glm::mat4& modelMatrix) const
+const XGM::XGMNode_XG& XGM::getModel(std::string_view modelName) const
 {
-	m_models[index].draw(instance, modelMatrix);
+	for (uint32_t i = 0; i < m_models.getSize(); ++i)
+		if (modelName == m_models[i].m_name)
+			return m_models[i];
+
+	throw std::runtime_error("Name does not match any model");
+}
+
+void XGM::drawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix) const
+{
+	getModel(modelName).draw(instance, modelMatrix);
 }
 
 uint32_t XGM::XGMNode::load(FileReader& file, const uint32_t index)
