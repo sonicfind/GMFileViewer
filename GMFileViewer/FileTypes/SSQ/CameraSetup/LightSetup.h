@@ -53,7 +53,10 @@ class LightSetup
 		Val ulong_i;
 	};
 
+public:
 	BaseValues m_baseValues;
+
+private:
 	uint32_t m_headerVersion = 0;
 	KeyFrameArray<glm::quat> m_rotations;
 	KeyFrameArray<LightColors> m_colors;

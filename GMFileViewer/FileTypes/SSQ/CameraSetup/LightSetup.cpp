@@ -2,10 +2,6 @@
 
 void LightSetup::read(FileReader& file)
 {
-	file.read(m_baseValues);
-	if (!m_baseValues.isActive)
-		return;
-
 	if (!file.checkTag("GMLT"))
 		throw "Light Setup read error";
 
@@ -23,10 +19,6 @@ void LightSetup::read(FileReader& file)
 
 void LightSetup::save(FileWriter& file) const
 {
-	file.write(m_baseValues);
-	if (!m_baseValues.isActive)
-		return;
-
 	file.writeTag("GMLT");
 	file.write(m_headerVersion);
 

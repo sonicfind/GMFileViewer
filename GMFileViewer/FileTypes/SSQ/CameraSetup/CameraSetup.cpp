@@ -25,7 +25,12 @@ void CameraSetup::read(FileReader& file)
 
 	m_lights.reserve(file);
 	for (auto& light : m_lights)
-		light.read(file);
+	{
+		file.read(light.m_baseValues);
+
+		if (light.m_baseValues.isActive)
+			light.read(file);
+	}
 
 	if (headerVersion >= 0x1200)
 	{
@@ -61,7 +66,12 @@ void CameraSetup::save(FileWriter& file) const
 
 	m_lights.write_size(file);
 	for (const auto& light : m_lights)
-		light.save(file);
+	{
+		file.write(light.m_baseValues);
+
+		if (light.m_baseValues.isActive)
+			light.save(file);
+	}
 
 	if (m_64bytes_v.getSize() >= 2)
 		m_64bytes_v.write_full(file);
