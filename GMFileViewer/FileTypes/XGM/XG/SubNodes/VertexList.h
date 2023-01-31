@@ -108,6 +108,12 @@ private:
 	template <uint32_t flags>
 	static void FillVertices(GMArray<Vertex>& vertices, FileReader& file)
 	{
+		if constexpr (flags == 15)
+		{
+			vertices.reserve_and_fill(file);
+			return;
+		}
+
 		vertices.reserve(file);
 		for (auto& vertex : vertices)
 			vertex.fill<flags>(file);
@@ -116,6 +122,12 @@ private:
 	template <uint32_t flags>
 	static void WriteVertices(const GMArray<Vertex>& vertices, FileWriter& file)
 	{
+		if constexpr (flags == 15)
+		{
+			vertices.write_full(file);
+			return;
+		}
+
 		vertices.write_size(file);
 		for (auto& vertex : vertices)
 			vertex.write<flags>(file);
