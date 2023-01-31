@@ -4,32 +4,14 @@
 
 struct LightColors
 {
-	glm::vec3 ambient;
 	glm::vec3 diffuse;
+	glm::vec3 specular;
 
 	static LightColors Mix(const LightColors& lhs, const LightColors& rhs, float frame)
 	{
-		return { glm::mix(lhs.ambient, rhs.ambient, frame), glm::mix(lhs.diffuse, rhs.diffuse, frame) };
+		return { glm::mix(lhs.diffuse, rhs.diffuse, frame), glm::mix(lhs.specular, rhs.specular, frame) };
 	}
 };
-
-template<>
-struct Keyframe<LightColors>
-{
-	float time;
-	float coefficient;
-	LightColors object;
-	InterpolationToggle interpolation;
-	int32_t min;
-	float coef;
-	int32_t max;
-
-	friend bool operator<(float currFrame, const Keyframe& keyframe)
-	{
-		return currFrame < keyframe.time;
-	}
-};
-	
 
 class LightSetup
 {
@@ -44,13 +26,10 @@ class LightSetup
 	struct BaseValues
 	{
 		unsigned long isActive;
-		glm::vec3 ambient;
-		glm::vec3 diffuse;
+		LightColors colors;
 		glm::quat rotation;
-		Val ulong_b;
-		Val l_a;
-		Val ulong_c;
-		Val ulong_d; // Usually 0
+		glm::vec3 buffer;
+		float val;
 		Val ulong_e;
 		Val ulong_f;
 		Val ulong_g;

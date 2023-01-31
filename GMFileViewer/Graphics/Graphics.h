@@ -78,6 +78,7 @@ public:
 		ComboViewAndProjection,
 		ModelMatrix,
 		Material,
+		GlobalShading,
 		Lights
 	};
 

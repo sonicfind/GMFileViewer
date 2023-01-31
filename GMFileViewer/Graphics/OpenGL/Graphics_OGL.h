@@ -172,6 +172,7 @@ private:
 
 	UniformBuffer m_modelMatrix;
 	UniformBuffer m_material;
+	UniformBuffer m_globalShading;
 	UniformBuffer m_lights;
 
 	std::vector<VertexBuffer> m_vertexBuffers;

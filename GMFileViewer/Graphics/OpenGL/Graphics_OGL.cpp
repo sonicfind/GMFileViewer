@@ -91,9 +91,13 @@ Graphics_OGL::Graphics_OGL()
     m_modelShader.bindUniformBlock(3, "Material");
     glBindBufferBase(GL_UNIFORM_BUFFER, 3, m_material.id);
 
-    m_lights.create(4, 304);
+    m_lights.create(4, 192);
     m_modelShader.bindUniformBlock(4, "Lights");
     glBindBufferBase(GL_UNIFORM_BUFFER, 4, m_lights.id);
+
+    m_globalShading.create(5, 48);
+    m_modelShader.bindUniformBlock(5, "GlobalShading");
+    glBindBufferBase(GL_UNIFORM_BUFFER, 5, m_globalShading.id);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
@@ -233,6 +237,9 @@ void Graphics_OGL::bindConstantBuffer(ConstBufferSelection selection) const
     case Graphics::Material:
         m_material.bind();
         break;
+    case Graphics::GlobalShading:
+        m_globalShading.bind();
+        break;
     case Graphics::Lights:
         m_lights.bind();
         break;
@@ -354,15 +361,19 @@ void Graphics_OGL::setBlendFunc(Blending blend) const
     switch (blend)
     {
     case Blending::Additive:
+        glBlendEquation(GL_FUNC_ADD);
         glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE, GL_ZERO, GL_ONE);
         break;
     case Blending::Multipy:
+        glBlendEquation(GL_FUNC_ADD);
         glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
         break;
     case Blending::Subtract:
-        glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
+        glBlendFunc(GL_ONE, GL_ONE);
         break;
     default:
+        glBlendEquation(GL_FUNC_ADD);
         glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ONE);
         break;
     }
