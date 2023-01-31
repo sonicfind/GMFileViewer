@@ -82,6 +82,6 @@ void xgDagMesh::draw(uint32_t instance, const glm::mat4& meshMatrix) const
 			m_triList.draw<4>();
 		}
 
-		gfx->setDepthFunc(DepthTest::EQUAL);
+		gfx->setDepthFunc(DepthTest::L_EQUAL);
 	}
 }
