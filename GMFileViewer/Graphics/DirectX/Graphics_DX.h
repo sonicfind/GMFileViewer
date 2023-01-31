@@ -3,6 +3,8 @@
 
 class Graphics_DX : public Graphics
 {
+	friend Graphics;
+	Graphics_DX() = default;
 public:
 
 	// Inherited via Graphics

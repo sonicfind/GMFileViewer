@@ -38,7 +38,7 @@ void xgMaterial::save(FileWriter& file) const
 
 void xgMaterial::bind(size_t slot) const
 {
-	const Graphics* gfx = Graphics::getGraphics();
+	const GraphicsInstance gfx = Graphics::getGraphics();
 	if (m_inputTexture)
 	{
 		m_inputTexture->bind();

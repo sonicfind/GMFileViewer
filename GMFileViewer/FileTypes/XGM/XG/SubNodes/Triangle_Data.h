@@ -52,7 +52,7 @@ public:
 		if (m_data.isEmpty())
 			return;
 
-		const Graphics* gfx = Graphics::getGraphics();
+		const GraphicsInstance gfx = Graphics::getGraphics();
 		auto* curr = m_data.begin();
 		auto* const end = m_data.end();
 		if constexpr (PRIMTYPE == 4)

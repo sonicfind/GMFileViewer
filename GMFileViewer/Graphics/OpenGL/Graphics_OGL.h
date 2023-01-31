@@ -80,9 +80,8 @@ class Graphics_OGL : public Graphics
 		~UniformBuffer();
 	};
 
-public:
 	Graphics_OGL();
-
+public:
 	// Inherited via Graphics
 	virtual void activateShader(ShaderType type) const override;
 	virtual void setShaderInt(const char* name, int value) const override;

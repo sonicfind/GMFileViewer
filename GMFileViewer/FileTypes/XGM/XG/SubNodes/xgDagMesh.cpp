@@ -53,7 +53,7 @@ void xgDagMesh::update(uint32_t instance)
 
 void xgDagMesh::draw(uint32_t instance, const glm::mat4& meshMatrix) const
 {
-	Graphics* gfx = Graphics::getGraphics();
+	GraphicsInstance gfx = Graphics::getGraphics();
 	gfx->bindConstantBuffer(Graphics::ModelMatrix);
 	gfx->updateConstantBuffer(0, &meshMatrix, sizeof(glm::mat4));
 

@@ -126,7 +126,7 @@ void runSequnce(SSQ& sequence, XGM& pack)
 	Graphics::initGraphics(Graphics::Backend::OpenGL);
 	sequence.loadSequence(pack);
 
-	Graphics* gfx = Graphics::getGraphics();
+	GraphicsInstance gfx = Graphics::getGraphics();
 	gfx->enable(Graphics::Depth_Test);
 
 	auto t1 = std::chrono::high_resolution_clock::now();

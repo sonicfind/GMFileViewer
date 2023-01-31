@@ -10,12 +10,13 @@ void Graphics::initGraphics(Backend backend)
 	switch (backend)
 	{
 	case Graphics::Backend::DirectX:
-		s_gfx = std::make_unique<Graphics_DX>();
+		s_gfx = std::unique_ptr<Graphics>(new Graphics_DX);
 		break;
 	case Graphics::Backend::OpenGL:
-		s_gfx = std::make_unique<Graphics_OGL>();
+		s_gfx = std::unique_ptr<Graphics>(new Graphics_OGL);
 		break;
 	case Graphics::Backend::Vulkan:
+		s_gfx.reset();
 		break;
 	default:
 		break;
@@ -27,10 +28,10 @@ void Graphics::closeGraphics()
 	s_gfx.reset();
 }
 
-Graphics* Graphics::getGraphics()
+GraphicsInstance Graphics::getGraphics()
 {
 	if (!s_gfx)
 		throw std::runtime_error("Graphics backend was not initialized");
 
-	return s_gfx.get();
+	return GraphicsInstance(s_gfx.get());
 }

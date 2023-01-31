@@ -40,6 +40,16 @@ enum class Blending : uint32_t
 	MaterialAlpha
 };
 
+class Graphics;
+class GraphicsInstance
+{
+	Graphics* instance;
+
+public:
+	GraphicsInstance(Graphics* gfx) : instance(gfx) {}
+	Graphics* operator->() const { return instance; }
+};
+
 class Graphics
 {
 public:
@@ -135,7 +145,7 @@ public:
 	static void initGraphics(Backend backend);
 	static void closeGraphics();
 
-	static Graphics* getGraphics();
+	static GraphicsInstance getGraphics();
 	virtual ~Graphics() = default;
 
 	static uint32_t getWidth() { return s_settings.width; }

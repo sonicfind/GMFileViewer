@@ -79,7 +79,7 @@ void CameraSetup::save(FileWriter& file) const
 
 void CameraSetup::setupGlobalShading() const
 {
-	Graphics* gfx = Graphics::getGraphics();
+	GraphicsInstance gfx = Graphics::getGraphics();
 	gfx->bindConstantBuffer(Graphics::GlobalShading);
 
 	uint32_t numLights = m_lights.getSize();
@@ -91,7 +91,7 @@ void CameraSetup::setupGlobalShading() const
 
 void CameraSetup::update(float frame) const
 {
-	Graphics* gfx = Graphics::getGraphics();
+	GraphicsInstance gfx = Graphics::getGraphics();
 	auto view = calcViewMatrix(frame);
 	gfx->bindConstantBuffer(Graphics::View);
 	gfx->updateConstantBuffer(0, &view, sizeof(glm::mat4));

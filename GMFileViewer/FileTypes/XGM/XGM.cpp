@@ -65,7 +65,7 @@ void XGM::testGraphics(size_t index)
 	m_models[index].createVertexBuffers();
 	Graphics::getGraphics()->updateTitle(m_models[index].m_name);
 
-	const Graphics* gfx = Graphics::getGraphics();
+	const GraphicsInstance gfx = Graphics::getGraphics();
 	gfx->setClearColor(0.2f, 0.5f, 0.2f, 1.0f);
 	glm::vec3 pos = { 0.0f, 00.0f, 400.0f };
 	glm::vec3 front = { 0.0f, 00.0f, 401.0f };
