@@ -82,22 +82,22 @@ int main()
 	{
 		SSQ sequence(g_filename);
 
-		std::cout << "Drag and drop an XGM file:";
-		std::getline(std::cin, g_filename);
-
-		if (g_filename[0] == '\"')
-			g_filename = g_filename.substr(1, g_filename.length() - 2);
-
 		try
 		{
-			XGM pack(g_filename);
+			std::string packName;
+			std::cout << "Drag and drop an XGM file:";
+			std::getline(std::cin, packName);
+
+			if (packName[0] == '\"')
+				packName = packName.substr(1, packName.length() - 2);
+
+			XGM pack(packName);
 			runSequnce(sequence, pack);
 		}
 		catch (...)
 		{
 		}
 
-		std::getline(std::cin, g_filename);
 		testWrite(sequence);
 
 		std::cout << "Press Enter to Exit" << std::endl;
