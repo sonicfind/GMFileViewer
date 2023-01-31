@@ -104,7 +104,7 @@ void SSQ::loadSequence(XGM& pack)
 			m_pack->addInstanceToModel(entry.getName());
 	}
 
-
+	m_camera.setupGlobalShading();
 }
 
 void SSQ::update(float frame)

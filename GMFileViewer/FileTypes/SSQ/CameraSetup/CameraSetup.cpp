@@ -77,6 +77,18 @@ void CameraSetup::save(FileWriter& file) const
 		m_64bytes_v.write_full(file);
 }
 
+void CameraSetup::setupGlobalShading() const
+{
+	Graphics* gfx = Graphics::getGraphics();
+	gfx->bindConstantBuffer(Graphics::GlobalShading);
+
+	uint32_t numLights = m_lights.getSize();
+	gfx->updateConstantBuffer(0, &numLights, sizeof(uint32_t));
+	gfx->updateConstantBuffer(sizeof(uint32_t), &m_baseGlobalValues.unknown_1f, sizeof(float));
+	gfx->updateConstantBuffer(sizeof(uint32_t) + sizeof(float), &m_baseGlobalValues.useDiffuse, sizeof(uint32_t));
+	gfx->updateConstantBuffer(sizeof(glm::vec4), &m_baseGlobalValues.vertColorDiffuse, sizeof(glm::vec3));
+}
+
 void CameraSetup::update(float frame) const
 {
 	Graphics* gfx = Graphics::getGraphics();

@@ -73,6 +73,7 @@ public:
 	void read(FileReader& file);
 	void save(FileWriter& file) const;
 
+	void setupGlobalShading() const;
 	void update(float frame) const;
 
 private:
