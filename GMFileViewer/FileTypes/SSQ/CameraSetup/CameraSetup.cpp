@@ -103,6 +103,14 @@ void CameraSetup::update(float frame) const
 	gfx->bindConstantBuffer(Graphics::GlobalShading);
 	const glm::vec3 ambience = getAmbience(frame);
 	gfx->updateConstantBuffer(2 * sizeof(glm::vec4), &ambience, sizeof(glm::vec3));
+
+	gfx->bindConstantBuffer(Graphics::Lights);
+	uint32_t offset = 0;
+	for (const auto& light : m_lights)
+	{
+		light.update(frame, offset);
+		offset += 64;
+	}
 }
 
 glm::mat4 CameraSetup::calcProjectionMatrix(float frame) const

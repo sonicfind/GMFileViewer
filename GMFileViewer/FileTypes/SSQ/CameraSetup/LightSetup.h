@@ -48,4 +48,9 @@ private:
 public:
 	void read(FileReader& file);
 	void save(FileWriter& file) const;
+	void update(float frame, uint32_t offset) const;
+
+private:
+	glm::quat getRotation(float frame) const;
+	LightColors getColors(float frame) const;
 };
