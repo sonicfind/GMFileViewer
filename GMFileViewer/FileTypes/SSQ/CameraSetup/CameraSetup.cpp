@@ -99,6 +99,10 @@ void CameraSetup::update(float frame) const
 	auto combo = calcProjectionMatrix(frame) * view;
 	gfx->bindConstantBuffer(Graphics::ComboViewAndProjection);
 	gfx->updateConstantBuffer(0, &combo, sizeof(glm::mat4));
+
+	gfx->bindConstantBuffer(Graphics::GlobalShading);
+	const glm::vec3 ambience = getAmbience(frame);
+	gfx->updateConstantBuffer(2 * sizeof(glm::vec4), &ambience, sizeof(glm::vec3));
 }
 
 glm::mat4 CameraSetup::calcProjectionMatrix(float frame) const
@@ -119,4 +123,12 @@ glm::mat4 CameraSetup::calcViewMatrix(float frame) const
 	glm::mat4 view = glm::toMat4(rotation) * glm::lookAt(position, position + glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
 	view[2] *= -1.f;
 	return view;
+}
+
+glm::vec3 CameraSetup::getAmbience(float frame) const
+{
+	if (m_ambientColors.isEmpty())
+		return { m_baseGlobalValues.baseAmbience.r / 255.f, m_baseGlobalValues.baseAmbience.g / 255.f,m_baseGlobalValues.baseAmbience.b / 255.f };
+
+	return Interpolate(m_ambientColors, frame);
 }

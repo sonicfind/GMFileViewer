@@ -79,4 +79,5 @@ public:
 private:
 	glm::mat4 calcProjectionMatrix(float frame) const;
 	glm::mat4 calcViewMatrix(float frame) const;
+	glm::vec3 getAmbience(float frame) const;
 };
