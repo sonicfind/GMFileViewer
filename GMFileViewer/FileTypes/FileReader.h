@@ -60,6 +60,13 @@ public:
 	}
 
 	template <typename T>
+	friend FileReader& operator>>(FileReader& file, T& value)
+	{
+		file.read(value);
+		return file;
+	}
+
+	template <typename T>
 	[[nodiscard]] T read()
 	{
 		T value;
