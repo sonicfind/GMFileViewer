@@ -109,7 +109,7 @@ void CameraSetup::update(float frame) const
 	for (const auto& light : m_lights)
 	{
 		light.update(frame, offset);
-		offset += 64;
+		offset += 48;
 	}
 }
 
