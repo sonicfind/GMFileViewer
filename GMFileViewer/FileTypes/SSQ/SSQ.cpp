@@ -3,6 +3,7 @@
 #include "ModelSetups/PlayerModel_Setup.h"
 #include "ModelSetups/AttDefModel_Setup.h"
 #include "ModelSetups/SnakeModel_Setup.h"
+#include "Graphics.h"
 #include <iostream>
 
 SSQ::SSQ(const std::filesystem::path& filePath)
@@ -145,4 +146,33 @@ void SSQ::draw()
 			m_pack->drawModel(entry.getName(), instance, m_matrices[i]);
 		}
 	}
+}
+
+void SSQ::mixedUpdateAndDraw(float frame)
+{
+	auto gfx = Graphics::getGraphics();
+	for (uint32_t i = 0, instance = 0; i < m_matrices.getSize(); ++i)
+	{
+		m_matrices[i] = m_models[i]->getModelMatrix(frame);
+
+		XGEntry& entry = m_xgEntries[i];
+		if (!entry.isClone())
+			instance = 0;
+		else
+			++instance;
+
+		auto properties = m_models[i]->getAnimProperties(frame);
+		entry.setStatus(properties.drawStatus);
+		if (properties.drawStatus != ModelDrawStatus::NoDraw)
+		{
+			if (properties.depthTest)
+				gfx->enable(Graphics::Depth_Test);
+			else
+				gfx->disable(Graphics::Depth_Test);
+
+			m_pack->mixedUpdateAndDrawModel(entry.getName(), 0, m_matrices[i], properties.animIndex, properties.frame, properties.control, properties.direction);
+		}
+	}
+
+	m_camera.update(frame);
 }
