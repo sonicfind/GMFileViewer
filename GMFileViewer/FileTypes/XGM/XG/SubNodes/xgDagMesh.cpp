@@ -56,6 +56,8 @@ void xgDagMesh::draw(uint32_t instance, const glm::mat4& meshMatrix) const
 	GraphicsInstance gfx = Graphics::getGraphics();
 	gfx->bindConstantBuffer(Graphics::ModelMatrix);
 	gfx->updateConstantBuffer(0, &meshMatrix, sizeof(glm::mat4));
+	const glm::mat4 normalMatrix = glm::transpose(glm::inverse(meshMatrix));
+	gfx->updateConstantBuffer(sizeof(glm::mat4), &normalMatrix, sizeof(glm::mat4));
 
 	m_inputGeometry->bindVertexBuffer(instance);
 

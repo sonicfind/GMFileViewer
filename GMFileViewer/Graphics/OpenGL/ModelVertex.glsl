@@ -25,6 +25,7 @@ layout (std140) uniform Combo
 layout (std140) uniform Model
 {
 	mat4 model;
+	mat4 normal;
 };
 
 layout (std140) uniform Material
@@ -45,7 +46,7 @@ void main()
 
 	gl_Position = combo * model * finalPos;
 	vs_out.fragPos = vec3(model * finalPos);
-	vs_out.normal = normalize(vec3(model * vec4(aNorm, 0)));
+	vs_out.normal = normalize(mat3(normal) * aNorm);
 	vs_out.color = aColor;
 
 	if (textEnv == 0)

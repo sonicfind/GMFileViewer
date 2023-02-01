@@ -83,7 +83,7 @@ Graphics_OGL::Graphics_OGL()
     m_shadowShader.bindUniformBlock(1, "Combo");
     glBindBufferBase(GL_UNIFORM_BUFFER, 1, m_viewAndProjection.id);
 
-    m_modelMatrix.create(2, 64);
+    m_modelMatrix.create(2, 128);
     m_modelShader.bindUniformBlock(2, "Model");
     glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_modelMatrix.id);
 
