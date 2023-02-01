@@ -54,26 +54,29 @@ layout (std140) uniform View
 };
 
 float getAlpha(vec4 color);
-vec3 getShadeFactor();
+vec3 getShading();
 
 void main()
 {	
 	vec4 base = vec4(1);
 	if (useTexture == 1)
 		base = texture(tex, vs_in.texCoord);
-	else if (shadingType != 3)
+	else if (shadingType < 3)
 	{
 		FragColor = vec4(0,0,0,1);
 		return;
 	}
+
+	if (shadingType == 3)
+		base *= vs_in.color;
 
 	float alpha;
 	if ((flags & 1) == 0)
 		alpha = getAlpha(base);
 	else
 		alpha = 2 * diffuse.a * base.a;
-		
-	FragColor = vec4(getShadeFactor() * base.rgb, alpha);
+	
+	FragColor = vec4(getShading() * base.rgb, alpha);
 }
 
 float getAlpha(vec4 color)
@@ -83,6 +86,8 @@ float getAlpha(vec4 color)
 	case 1:
 	case 5:
 		return 2 * diffuse.a * color.a;
+	case 3:
+		return diffuse.a * (1 - color.r) * (1 - color.g) * (1 - color.b);
 	case 4:
 		return color.r;
 	default:
@@ -90,16 +95,16 @@ float getAlpha(vec4 color)
 	}
 }
 
-vec3 getShadeFactor()
+vec3 getShading()
 {
 	switch (shadingType)
 	{
 	case 0:
 		return diffuse.rgb;
 	case 3:
-		return vs_in.color.rgb;
+		return vec3(1);
 	case 4:
-		return numLights * (vs_in.color.rgb + sceneAmbience);
+		return 2 * sceneAmbience;
 	default:
 	{
 		vec3 viewDir = normalize(vec3(view[0][3], view[1][3], view[2][3]) - vs_in.fragPos);
@@ -110,23 +115,16 @@ vec3 getShadeFactor()
 			float dp = dot(vs_in.normal, lights[i].direction);
 			if (dp > 0)
 			{
-				if (shadingType < 3)
-					lighting += (lights[i].diffuse * diffuse.rgb) * dp;
+				lighting += (lights[i].diffuse * diffuse.rgb) * dp;
 
 				vec3 reflectDir = reflect(-lights[i].direction, vs_in.normal);
 				float specdot = 0;
-				if (shadingType == 1 || shadingType == 4)
-				{
-					//float specdot = dot(viewDir, reflectDir);
-					//if (specdot > 0)
-						//lighting += specular.rgb * pow(specdot, specular.a);
-				}
 			}
 		
 			result += lighting;
 		}
 
-		return result;
+		return 2 * result / numLights;
 	}
 	}
 };

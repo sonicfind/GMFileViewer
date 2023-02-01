@@ -369,8 +369,8 @@ void Graphics_OGL::setBlendFunc(Blending blend) const
         glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
         break;
     case Blending::Subtract:
-        glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
-        glBlendFunc(GL_ONE, GL_ONE);
+        glBlendEquation(GL_FUNC_ADD);
+        glBlendFunc(GL_ZERO, GL_SRC_ALPHA);
         break;
     default:
         glBlendEquation(GL_FUNC_ADD);
