@@ -16,7 +16,9 @@ float Animation::getTimelinePosition(float frame, float tempo, LoopControl contr
 
 	if (frame >= m_length)
 	{
-		if (control == LoopControl::HALT)
+		if (control == LoopControl::LOOP_ANIM)
+			frame = fmod(frame, m_length);
+		else if (control == LoopControl::HALT)
 			frame = m_length - 1;
 		else
 			frame = m_length;

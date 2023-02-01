@@ -274,8 +274,6 @@ void XGM::XGMNode_XG::update(uint32_t instance, uint32_t index, float frame, Loo
 				index = 0;
 		} while (true);
 	}
-	else if (control == LoopControl::LOOP_ANIM)
-		frame = fmod(frame, m_animations[index].calcLength(114));
 
 	float key = m_animations[index].getTimelinePosition(frame, 114, control, playbackDirection);
 	m_model.update(instance, key);
