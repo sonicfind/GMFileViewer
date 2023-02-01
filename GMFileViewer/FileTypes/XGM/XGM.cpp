@@ -98,6 +98,12 @@ void XGM::testGraphics(size_t index)
 	gfx->bindConstantBuffer(Graphics::ComboViewAndProjection);
 	gfx->updateConstantBuffer(0, &combo, sizeof(glm::mat4));
 
+	gfx->bindConstantBuffer(Graphics::GlobalShading);
+	const uint32_t numLights = 1;
+	const glm::vec3 ambience = { 1, 1, 1 };
+	gfx->updateConstantBuffer(0, &numLights, sizeof(glm::vec3));
+	gfx->updateConstantBuffer(2 * sizeof(glm::vec4), &ambience, sizeof(glm::vec3));
+
 	gfx->enable(Graphics::Depth_Test);
 
 	auto t1 = std::chrono::high_resolution_clock::now();
