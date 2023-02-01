@@ -26,9 +26,15 @@ template <typename T>
 using KeyFrameArray = GMArray<Keyframe<T>>;
 
 template <typename T>
+const Keyframe<T>* Iterate(const KeyFrameArray<T>& keyframes, float currFrame)
+{
+	return std::upper_bound(keyframes.begin(), keyframes.end(), currFrame) - 1;
+}
+
+template <typename T>
 T Interpolate(const KeyFrameArray<T>& keyframes, float currFrame)
 {
-	const Keyframe<T>* iter = std::upper_bound(keyframes.begin(), keyframes.end(), currFrame) - 1;
+	const Keyframe<T>* iter = Iterate(keyframes, currFrame);
 	if (iter + 1 == keyframes.end() || iter->interpolation != InterpolationToggle::On)
 		return iter->object;
 	
@@ -47,7 +53,7 @@ T Mix(T first, T second, float coef)
 template <typename T>
 T InterpolateStruct(const KeyFrameArray<T>& keyframes, float currFrame)
 {
-	const Keyframe<T>* iter = std::upper_bound(keyframes.begin(), keyframes.end(), currFrame) - 1;
+	const Keyframe<T>* iter = Iterate(keyframes, currFrame);
 	if (iter + 1 == keyframes.end() || iter->interpolation != InterpolationToggle::On)
 		return iter->object;
 

@@ -3,7 +3,7 @@
 template <>
 glm::quat Interpolate<glm::quat>(const KeyFrameArray<glm::quat>& keyframes, float currFrame)
 {
-	const Keyframe<glm::quat>* iter = std::upper_bound(keyframes.begin(), keyframes.end(), currFrame) - 1;
+	const Keyframe<glm::quat>* iter = Iterate(keyframes, currFrame);
 	if (iter + 1 == keyframes.end() || iter->interpolation != InterpolationToggle::On)
 		return iter->object;
 	
