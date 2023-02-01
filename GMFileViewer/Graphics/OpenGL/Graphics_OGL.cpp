@@ -361,19 +361,15 @@ void Graphics_OGL::setBlendFunc(Blending blend) const
     switch (blend)
     {
     case Blending::Additive:
-        glBlendEquation(GL_FUNC_ADD);
         glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE, GL_ZERO, GL_ONE);
         break;
     case Blending::Multipy:
-        glBlendEquation(GL_FUNC_ADD);
         glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
         break;
     case Blending::Subtract:
-        glBlendEquation(GL_FUNC_ADD);
         glBlendFunc(GL_ZERO, GL_SRC_ALPHA);
         break;
     default:
-        glBlendEquation(GL_FUNC_ADD);
         glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ONE);
         break;
     }
