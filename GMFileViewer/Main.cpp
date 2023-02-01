@@ -129,25 +129,31 @@ void runSequnce(SSQ& sequence, XGM& pack)
 	GraphicsInstance gfx = Graphics::getGraphics();
 	gfx->enable(Graphics::Depth_Test);
 
-	auto t1 = std::chrono::high_resolution_clock::now();
+	constexpr float factor = 30.f;
+	constexpr float start = 240;
+
 	size_t count = 0;
-	float prev = 240;
+	float prev = start;
+	auto t1 = std::chrono::high_resolution_clock::now();
 	for (size_t i = 0; !gfx->shouldClose(); ++i)
 	{
 		auto t2 = std::chrono::high_resolution_clock::now();
-		float time = 30 * std::chrono::duration<float>(t2 - t1).count() + 240;
-		if (time >= prev + 30)
+		float time = factor * std::chrono::duration<float>(t2 - t1).count() + start;
+		if (time >= prev + factor)
 		{
 			std::cout << 1000.0 / double(count) << " ms/frame\n";
 			std::cout << count << " frames" << std::endl;
 			count = 0;
-			prev = int(time / 30) * 30.f;
+			prev = int(time / factor) * factor;
 		}
 		++count;
 
+		Graphics::getGraphics()->updateTitle(std::to_string(time));
+
 		gfx->resetFrame();
-		sequence.update(time);
-		sequence.draw();
+		sequence.mixedUpdateAndDraw(time);
+		/*sequence.update(time);
+		sequence.draw();*/
 		gfx->displayFrame();
 	}
 
