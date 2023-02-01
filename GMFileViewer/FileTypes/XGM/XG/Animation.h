@@ -1,20 +1,6 @@
 #pragma once
 #include <stdint.h>
-
-enum class PlaybackDirection
-{
-	BACKWARDS,
-	FORWARDS
-};
-
-enum class LoopControl
-{
-	NORMAL,
-	LOOP_ANIM,
-	HALT,
-	LOOP_ALL,
-};
-
+#include "AnimControl.h"
 class Animation
 {
 	alignas(32) float m_length = 0;

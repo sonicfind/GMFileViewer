@@ -288,6 +288,7 @@
     <ClInclude Include="FileTypes\XGM\IMX\Pixel.h" />
     <ClInclude Include="FileTypes\XGM\XGM.h" />
     <ClInclude Include="FileTypes\XGM\XG\Animation.h" />
+    <ClInclude Include="FileTypes\XGM\XG\AnimControl.h" />
     <ClInclude Include="FileTypes\XGM\XG\PString.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\Triangle_Data.h" />
     <ClInclude Include="FileTypes\XGM\XG\SubNodes\VertexList.h" />

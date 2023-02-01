@@ -250,9 +250,6 @@
     <ClCompile Include="FileTypes\WEB\WEB.cpp">
       <Filter>FileTypes\WEB</Filter>
     </ClCompile>
-    <ClCompile Include="FileTypes\XGM\XG\SubNodes\XG_InterpolatorNodes.cpp">
-      <Filter>FileTypes\XGM\XG\SubNodes</Filter>
-    </ClCompile>
     <ClCompile Include="FileTypes\XGM\XG\SubNodes\xgShapeInterpolator.cpp">
       <Filter>FileTypes\XGM\XG\SubNodes\xgBgGeometry\Updatables\xgShapeInterpolator</Filter>
     </ClCompile>
@@ -476,6 +473,9 @@
     </ClInclude>
     <ClInclude Include="FileTypes\FileWriter.h">
       <Filter>FileTypes\FileWriter</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\XGM\XG\AnimControl.h">
+      <Filter>FileTypes\XGM\XG\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
