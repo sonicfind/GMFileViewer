@@ -28,10 +28,7 @@ private:
 		unsigned long envMap_maybe;
 		static ModelScalar Mix(const ModelScalar& current, const ModelScalar& next, float coef)
 		{
-			ModelScalar result;
-			result.scalar = glm::mix(current.scalar, next.scalar, coef);
-			result.envMap_maybe = current.envMap_maybe;
-			return result;
+			return { glm::mix(current.scalar, next.scalar, coef), current.envMap_maybe };
 		}
 	};
 
