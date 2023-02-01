@@ -13,3 +13,10 @@ enum class SSQModelType : uint32_t
 	DuetComboAttack,
 	Snake
 };
+
+enum ModelDrawStatus : uint32_t
+{
+	NoDraw,
+	Draw,
+	Draw_withShadow
+};

@@ -36,7 +36,7 @@ class XGM
 
 		void createVertexBuffers();
 		void addInstance();
-		void update(uint32_t instance, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection) const;
+		void update(uint32_t instance, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection);
 		void draw(uint32_t instance, const glm::mat4& modelMatrix) const;
 	};
 
@@ -54,8 +54,9 @@ public:
 	void initTextureBuffers();
 	void initModelBuffer(std::string_view modelName);
 	void addInstanceToModel(std::string_view modelName);
-	void updateModel(std::string_view modelName);
+	void updateModel(std::string_view modelName, uint32_t instance, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection);
 	void drawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix) const;
+	void mixedUpdateAndDrawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection);
 
 private:
 	XGMNode_XG& getModel(std::string_view modelName);

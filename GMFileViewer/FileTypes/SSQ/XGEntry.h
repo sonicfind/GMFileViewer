@@ -6,7 +6,7 @@ class XGEntry
 	alignas(16) char m_name[16];
 	uint32_t m_isClone;
 	uint32_t m_cloneID;
-	uint32_t m_unknown;
+	ModelDrawStatus m_drawStatus;
 
 	SSQModelType m_type;
 	float m_length;
@@ -18,4 +18,6 @@ public:
 	bool isClone() const { return m_isClone; }
 	uint32_t getCloneID() const { return m_cloneID; }
 	SSQModelType getModelType() const { return m_type; }
+	void setStatus(ModelDrawStatus status) { m_drawStatus = status; }
+	ModelDrawStatus getStatus() const { return m_drawStatus; }
 };

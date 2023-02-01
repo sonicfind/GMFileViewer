@@ -2,6 +2,7 @@
 #include "FileReader.h"
 #include "../Keyframe.h"
 #include "../SSQModelType.h"
+#include "XGM/XG/AnimControl.h"
 
 class Model_Setup
 {
@@ -19,10 +20,6 @@ private:
 		unsigned long ulong_f;
 		unsigned long holdLastFrame;
 		unsigned long dropShadow;
-		static ModelAnim Mix(const ModelAnim& current, const ModelAnim& next, float coef)
-		{
-			return current;
-		}
 	};
 
 	struct ModelScalar
@@ -42,15 +39,15 @@ private:
 	{
 		glm::vec3 basePosition;
 		glm::quat baseRotation;
-		unsigned long baseAnimIndex_maybe;
-		unsigned long ulong_b;
-		unsigned long depthTest;
-		unsigned long ulong_d;
-		unsigned long ulong_e;
-		unsigned long ulong_f;
-		float float_h;
-		float float_i;
-		unsigned long ulong_g;
+		unsigned long baseAnimIndex_maybe = 0;
+		unsigned long ulong_b = 0;
+		unsigned long depthTest = 1;
+		unsigned long ulong_d = 0;
+		unsigned long ulong_e = 0;
+		unsigned long ulong_f = 0;
+		float float_h = 0;
+		float float_i = 0;
+		unsigned long ulong_g = 0;
 	};
 
 	
@@ -67,7 +64,20 @@ public:
 	
 	glm::mat4 getModelMatrix(float frame) const;
 
+	struct AnimProperties
+	{
+		ModelDrawStatus drawStatus;
+		uint32_t animIndex;
+		float frame;
+		LoopControl control;
+		PlaybackDirection direction;
+		bool depthTest;
+	};
+	AnimProperties getAnimProperties(float frame) const;
+
 private:
+	virtual AnimProperties getAnimFromGamestate(float frame) const;
+
 	glm::vec3 getScalar(float frame) const;
 	glm::quat getRotation(float frame) const;
 	glm::vec3 getTranslation(float frame) const;

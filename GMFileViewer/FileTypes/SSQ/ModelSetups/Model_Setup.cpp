@@ -67,6 +67,61 @@ glm::mat4 Model_Setup::getModelMatrix(float frame) const
 	return matrix;
 }
 
+Model_Setup::AnimProperties Model_Setup::getAnimProperties(float frame) const
+{
+	if (m_animations.isEmpty())
+		return {
+			ModelDrawStatus::Draw,
+			m_baseValues.baseAnimIndex_maybe,
+			frame, 
+			LoopControl::LOOP_ANIM,
+			PlaybackDirection::FORWARDS,
+			m_baseValues.depthTest == 1
+		};
+
+	auto iter = Iterate(m_animations, frame);
+	if (iter->object.noDrawing)
+		return { ModelDrawStatus::NoDraw };
+	else if (iter->object.pollGameState)
+		return getAnimFromGamestate(frame);
+
+	float start = iter->time;
+	for (const Keyframe<ModelAnim>* key = iter - 1; key >= m_animations.begin() && !(key + 1)->object.startOverride && key->object.animIndex == iter->object.animIndex;)
+	{
+		start = key->time;
+		--key;
+	}
+
+	LoopControl control;
+	if (iter->object.holdLastFrame)
+		control = LoopControl::HALT;
+	else if (iter->object.loop)
+		control = LoopControl::LOOP_ANIM;
+	else
+		control = LoopControl::NORMAL;
+
+	return {
+			iter->object.dropShadow ? ModelDrawStatus::Draw_withShadow : ModelDrawStatus::Draw,
+			iter->object.animIndex,
+			frame - start,
+			control,
+			PlaybackDirection::FORWARDS,
+			m_baseValues.depthTest == 1
+	};
+}
+
+Model_Setup::AnimProperties Model_Setup::getAnimFromGamestate(float frame) const
+{
+	return {
+		ModelDrawStatus::Draw,
+		m_baseValues.baseAnimIndex_maybe,
+		frame,
+		LoopControl::LOOP_ANIM,
+		PlaybackDirection::FORWARDS,
+		m_baseValues.depthTest == 1
+	};
+}
+
 glm::vec3 Model_Setup::getScalar(float frame) const
 {
 	if (m_scalars.isEmpty())

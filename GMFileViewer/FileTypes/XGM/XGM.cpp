@@ -57,6 +57,23 @@ void XGM::addInstanceToModel(std::string_view modelName)
 	getModel(modelName).addInstance();
 }
 
+void XGM::updateModel(std::string_view modelName, uint32_t instance, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection)
+{
+	getModel(modelName).update(instance, animIndex, frame, control, playbackDirection);
+}
+
+void XGM::drawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix) const
+{
+	getModel(modelName).draw(instance, modelMatrix);
+}
+
+void XGM::mixedUpdateAndDrawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection)
+{
+	auto& model = getModel(modelName);
+	model.update(instance, animIndex, frame, control, playbackDirection);
+	model.draw(instance, modelMatrix);
+}
+
 void XGM::testGraphics(size_t index)
 {
 	Graphics::initGraphics(Graphics::Backend::OpenGL);
@@ -129,11 +146,6 @@ const XGM::XGMNode_XG& XGM::getModel(std::string_view modelName) const
 			return m_models[i];
 
 	throw std::runtime_error("Name does not match any model");
-}
-
-void XGM::drawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix) const
-{
-	getModel(modelName).draw(instance, modelMatrix);
 }
 
 uint32_t XGM::XGMNode::load(FileReader& file, const uint32_t index)
@@ -236,16 +248,14 @@ void XGM::XGMNode_XG::addInstance()
 	m_model.addInstance();
 }
 
-void XGM::XGMNode_XG::update(uint32_t instance, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection) const
+void XGM::XGMNode_XG::update(uint32_t instance, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection)
 {
 	if (index >= m_animations.getSize())
 		index = m_animations.getSize() - 1;
 
-	if (control == LoopControl::LOOP_ANIM)
-		frame = fmod(frame, m_animations[index].calcLength(120));
-	else if (control != LoopControl::HALT)
+	if (control == LoopControl::LOOP_ALL)
 	{
-		while (index < m_animations.getSize() - 1 || control == LoopControl::LOOP_ALL)
+		do
 		{
 			const float length = m_animations[index].calcLength(120);
 			if (frame < length || length == 0)
@@ -256,10 +266,12 @@ void XGM::XGMNode_XG::update(uint32_t instance, uint32_t index, float frame, Loo
 				++index;
 			else
 				index = 0;
-		}
+		} while (true);
 	}
+	else if (control == LoopControl::LOOP_ANIM)
+		frame = fmod(frame, m_animations[index].calcLength(114));
 
-	float key = m_animations[index].getTimelinePosition(frame, 120, playbackDirection);
+	float key = m_animations[index].getTimelinePosition(frame, 114, control, playbackDirection);
 	m_model.update(instance, key);
 }
 

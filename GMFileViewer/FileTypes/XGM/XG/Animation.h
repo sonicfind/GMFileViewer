@@ -11,5 +11,5 @@ class Animation
 
 public:
 	float calcLength(float tempo) const;
-	float getTimelinePosition(float frame, float tempo, PlaybackDirection playbackDirection) const;
+	float getTimelinePosition(float frame, float tempo, LoopControl control, PlaybackDirection playbackDirection) const;
 };

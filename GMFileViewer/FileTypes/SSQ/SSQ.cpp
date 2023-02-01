@@ -109,8 +109,23 @@ void SSQ::loadSequence(XGM& pack)
 
 void SSQ::update(float frame)
 {
-	for (uint32_t i = 0; i < m_matrices.getSize(); ++i)
+	for (uint32_t i = 0, instance = 0; i < m_matrices.getSize(); ++i)
+	{
 		m_matrices[i] = m_models[i]->getModelMatrix(frame);
+
+		XGEntry& entry = m_xgEntries[i];
+		if (!entry.isClone())
+			instance = 0;
+		else
+			++instance;
+
+		auto properties = m_models[i]->getAnimProperties(frame);
+		entry.setStatus(properties.drawStatus);
+		if (properties.drawStatus != ModelDrawStatus::NoDraw)
+		{
+			m_pack->updateModel(entry.getName(), instance, properties.animIndex, properties.frame, properties.control, properties.direction);
+		}
+	}
 
 	m_camera.update(frame);
 }
@@ -119,11 +134,15 @@ void SSQ::draw()
 {
 	for (uint32_t i = 0, instance = 0; i < m_matrices.getSize(); ++i)
 	{
-		if (!m_xgEntries[i].isClone())
+		const XGEntry& entry = m_xgEntries[i];
+		if (!entry.isClone())
 			instance = 0;
 		else
 			++instance;
 
-		m_pack->drawModel(m_xgEntries[i].getName(), instance, m_matrices[i]);
+		if (entry.getStatus() != ModelDrawStatus::NoDraw)
+		{
+			m_pack->drawModel(entry.getName(), instance, m_matrices[i]);
+		}
 	}
 }
