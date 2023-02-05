@@ -16,6 +16,16 @@ struct Keyframe
 	T object;
 	InterpolationToggle interpolation;
 
+	T* operator->()
+	{
+		return &object;
+	}
+
+	const T* operator->() const
+	{
+		return &object;
+	}
+
 	friend bool operator<(float currFrame, const Keyframe& keyframe)
 	{
 		return currFrame < keyframe.time;
