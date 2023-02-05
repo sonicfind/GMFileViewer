@@ -21,6 +21,7 @@ public:
 
 	void writeType(FileWriter& file) const override;
 	void save(FileWriter& file) const override;
+	bool hasTransparency() const;
 
 	void createVertexBuffer();
 	void addInstance();

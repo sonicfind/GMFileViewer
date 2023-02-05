@@ -124,14 +124,14 @@ void SSQ::update(float frame)
 		entry.setStatus(properties.drawStatus);
 		if (properties.drawStatus != ModelDrawStatus::NoDraw)
 		{
-			m_pack->updateModel(entry.getName(), instance, properties.animIndex, properties.frame, properties.control, properties.direction);
+			m_pack->updateModel(entry.getName(), instance, m_matrices[i], properties.animIndex, properties.frame, properties.control, properties.direction);
 		}
 	}
 
 	m_camera.update(frame);
 }
 
-void SSQ::draw()
+void SSQ::draw(bool drawTransparents)
 {
 	for (uint32_t i = 0, instance = 0; i < m_matrices.getSize(); ++i)
 	{
@@ -143,7 +143,7 @@ void SSQ::draw()
 
 		if (entry.getStatus() != ModelDrawStatus::NoDraw)
 		{
-			m_pack->drawModel(entry.getName(), instance, m_matrices[i]);
+			m_pack->drawModel(entry.getName(), instance, drawTransparents);
 		}
 	}
 }

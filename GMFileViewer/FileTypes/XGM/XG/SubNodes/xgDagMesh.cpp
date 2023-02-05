@@ -36,6 +36,11 @@ void xgDagMesh::save(FileWriter& file) const
 		WriteNode("inputMaterial", "outputMaterial", m_inputMaterial, file);
 }
 
+bool xgDagMesh::hasTransparency() const
+{
+	return m_inputMaterial != nullptr && m_inputMaterial->hasTransparency();
+}
+
 void xgDagMesh::createVertexBuffer()
 {
 	m_inputGeometry->createVertexBuffer();

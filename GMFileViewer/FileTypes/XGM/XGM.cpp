@@ -57,21 +57,22 @@ void XGM::addInstanceToModel(std::string_view modelName)
 	getModel(modelName).addInstance();
 }
 
-void XGM::updateModel(std::string_view modelName, uint32_t instance, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection)
+void XGM::updateModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection)
 {
-	getModel(modelName).update(instance, animIndex, frame, control, playbackDirection);
+	getModel(modelName).update(instance, modelMatrix, animIndex, frame, control, playbackDirection);
 }
 
-void XGM::drawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix) const
+void XGM::drawModel(std::string_view modelName, uint32_t instance, bool doTransparentMeshes) const
 {
-	getModel(modelName).draw(instance, modelMatrix);
+	getModel(modelName).draw(instance, doTransparentMeshes);
 }
 
 void XGM::mixedUpdateAndDrawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection)
 {
 	auto& model = getModel(modelName);
-	model.update(instance, animIndex, frame, control, playbackDirection);
-	model.draw(instance, modelMatrix);
+	model.update(instance, modelMatrix, animIndex, frame, control, playbackDirection);
+	model.draw(instance, false);
+	model.draw(instance, true);
 }
 
 void XGM::testGraphics(size_t index)
@@ -123,8 +124,9 @@ void XGM::testGraphics(size_t index)
 		++count;
 
 		gfx->resetFrame();
-		m_models[index].update(0, 0, time, LoopControl::LOOP_ALL, PlaybackDirection::FORWARDS);
-		m_models[index].draw(0, glm::identity<glm::mat4>());
+		m_models[index].update(0, glm::identity<glm::mat4>(), 0, time, LoopControl::LOOP_ALL, PlaybackDirection::FORWARDS);
+		m_models[index].draw(0, false);
+		m_models[index].draw(0, true);
 		gfx->displayFrame();
 	}
 	Graphics::closeGraphics();
@@ -254,7 +256,7 @@ void XGM::XGMNode_XG::addInstance()
 	m_model.addInstance();
 }
 
-void XGM::XGMNode_XG::update(uint32_t instance, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection)
+void XGM::XGMNode_XG::update(uint32_t instance, const glm::mat4& modelMatrix, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection)
 {
 	if (index >= m_animations.getSize())
 		index = m_animations.getSize() - 1;
@@ -263,7 +265,7 @@ void XGM::XGMNode_XG::update(uint32_t instance, uint32_t index, float frame, Loo
 	{
 		do
 		{
-			const float length = m_animations[index].calcLength(120);
+			const float length = m_animations[index].calcLength(65);
 			if (frame < length || length == 0)
 				break;
 
@@ -275,11 +277,11 @@ void XGM::XGMNode_XG::update(uint32_t instance, uint32_t index, float frame, Loo
 		} while (true);
 	}
 
-	float key = m_animations[index].getTimelinePosition(frame, 114, control, playbackDirection);
-	m_model.update(instance, key);
+	float key = m_animations[index].getTimelinePosition(frame, 115, control, playbackDirection);
+	m_model.update(instance, key, modelMatrix);
 }
 
-void XGM::XGMNode_XG::draw(uint32_t instance, const glm::mat4& modelMatrix) const
+void XGM::XGMNode_XG::draw(uint32_t instance, bool doTransparentMeshes) const
 {
-	m_model.draw(instance, modelMatrix);
+	m_model.draw(instance, doTransparentMeshes);
 }

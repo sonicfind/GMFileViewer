@@ -26,3 +26,8 @@ size_t xgMultiPassMaterial::getNumMaterials() const
 {
 	return m_inputMaterials.size();
 }
+
+bool xgMultiPassMaterial::hasTransparency() const
+{
+	return m_inputMaterials[0]->hasTransparency();
+}

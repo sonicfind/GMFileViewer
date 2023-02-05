@@ -51,13 +51,14 @@ class XG
 		xgDagMesh* m_mesh = nullptr;
 		xgDagTransform* m_transform = nullptr;
 		std::vector<DagElement> m_connections;
+		mutable std::vector<glm::mat4> m_meshMatrices;
 
 		DagElement(XG_SubNode* node);
 
 		void createVertexBuffers();
 		void addInstance();
-		void update(uint32_t instance) const;
-		void draw(uint32_t instance, glm::mat4 meshMatrix) const;
+		void update(uint32_t instance, glm::mat4 meshMatrix) const;
+		void draw(uint32_t instance, bool doTransparentMeshes) const;
 	};
 
 	std::vector<std::unique_ptr<XG_SubNode>> m_nodes;
@@ -69,8 +70,8 @@ public:
 	void save(FileWriter& file) const;
 	void createVertexBuffers();
 	void addInstance();
-	void update(uint32_t instance, float frame) const;
-	void draw(uint32_t instance, const glm::mat4& modelMatrix) const;
+	void update(uint32_t instance, float frame, const glm::mat4& modelMatrix) const;
+	void draw(uint32_t instance, bool doTransparentMeshes) const;
 
 private:
 	void fillDag(DagElement& dag, FileReader& file);

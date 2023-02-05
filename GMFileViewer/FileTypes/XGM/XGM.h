@@ -36,8 +36,8 @@ class XGM
 
 		void createVertexBuffers();
 		void addInstance();
-		void update(uint32_t instance, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection);
-		void draw(uint32_t instance, const glm::mat4& modelMatrix) const;
+		void update(uint32_t instance, const glm::mat4& modelMatrix, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection);
+		void draw(uint32_t instance, bool doTransparentMeshes) const;
 	};
 
 	GMArray<XGMNode_IMX> m_textures;
@@ -54,8 +54,8 @@ public:
 	void initTextureBuffers();
 	void initModelBuffer(std::string_view modelName);
 	void addInstanceToModel(std::string_view modelName);
-	void updateModel(std::string_view modelName, uint32_t instance, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection);
-	void drawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix) const;
+	void updateModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection);
+	void drawModel(std::string_view modelName, uint32_t instance, bool doTransparentMeshes) const;
 	void mixedUpdateAndDrawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection);
 
 private:

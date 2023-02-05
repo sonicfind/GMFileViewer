@@ -27,7 +27,7 @@ public:
 	
 	void loadSequence(XGM& pack);
 	void update(float frame);
-	void draw();
+	void draw(bool drawTransparents);
 
 	void mixedUpdateAndDraw(float frame);
 };

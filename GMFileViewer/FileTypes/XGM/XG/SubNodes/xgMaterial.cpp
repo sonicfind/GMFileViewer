@@ -51,7 +51,7 @@ void xgMaterial::bind(size_t slot) const
 	gfx->bindConstantBuffer(Graphics::Material);
 	gfx->updateConstantBuffer(0, &m_blendType, 64);
 
-	if (m_blendType == Blending::Opaque && !(m_flags & 1))
+	if (!hasTransparency())
 	{
 		gfx->enable(Graphics::Depth_Mask);
 		gfx->disable(Graphics::AlphaBlending);
@@ -67,4 +67,9 @@ void xgMaterial::bind(size_t slot) const
 size_t xgMaterial::getNumMaterials() const
 {
 	return 1;
+}
+
+bool xgMaterial::hasTransparency() const
+{
+	return m_blendType != Blending::Opaque || (m_flags & 1);
 }

@@ -50,5 +50,6 @@ public:
 
 	void bind(size_t slot) const override;
 	size_t getNumMaterials() const override;
+	bool hasTransparency() const override;
 };
 

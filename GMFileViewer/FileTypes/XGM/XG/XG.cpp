@@ -107,19 +107,19 @@ void XG::addInstance()
 		dag.addInstance();
 }
 
-void XG::update(uint32_t instance, float frame) const
+void XG::update(uint32_t instance, float frame, const glm::mat4& modelMatrix) const
 {
 	if (m_time)
 		m_time->setTime(frame);
 
 	for (const auto& dag : m_dag)
-		dag.update(instance);
+		dag.update(instance, modelMatrix);
 }
 
-void XG::draw(uint32_t instance, const glm::mat4& modelMatrix) const
+void XG::draw(uint32_t instance, bool doTransparentMeshes) const
 {
 	for (const auto& dag : m_dag)
-		dag.draw(instance, modelMatrix);
+		dag.draw(instance, doTransparentMeshes);
 }
 
 XG::DagElement::DagElement(XG_SubNode* node)
@@ -133,6 +133,9 @@ void XG::DagElement::createVertexBuffers()
 	if (m_mesh)
 		m_mesh->createVertexBuffer();
 
+	m_meshMatrices.clear();
+	m_meshMatrices.emplace_back();
+
 	for (auto& dag : m_connections)
 		dag.createVertexBuffers();
 }
@@ -142,29 +145,32 @@ void XG::DagElement::addInstance()
 	if (m_mesh)
 		m_mesh->addInstance();
 
+	m_meshMatrices.emplace_back();
+
 	for (auto& dag : m_connections)
 		dag.addInstance();
 }
 
-void XG::DagElement::update(uint32_t instance) const
+void XG::DagElement::update(uint32_t instance, glm::mat4 meshMatrix) const
 {
+	m_meshMatrices[instance] = meshMatrix;
+
 	if (m_mesh)
 		m_mesh->update(instance);
+	else if (m_transform)
+		m_meshMatrices[instance] *= m_transform->calcTransformMatrix();
 
 	for (const auto& dag : m_connections)
-		dag.update(instance);
+		dag.update(instance, m_meshMatrices[instance]);
 }
 
-void XG::DagElement::draw(uint32_t instance, glm::mat4 meshMatrix) const
+void XG::DagElement::draw(uint32_t instance, bool doTransparentMeshes) const
 {
-	if (m_mesh)
-		m_mesh->draw(instance, meshMatrix);
-	else
-	{
-		meshMatrix *= m_transform->calcTransformMatrix();
-		for (const auto& dag : m_connections)
-			dag.draw(instance, meshMatrix);
-	}
+	if (m_mesh && m_mesh->hasTransparency() == doTransparentMeshes)
+		m_mesh->draw(instance, m_meshMatrices[instance]);
+
+	for (const auto& dag : m_connections)
+		dag.draw(instance, doTransparentMeshes);
 }
 
 std::unique_ptr<XG_SubNode> XG::constructNode(std::string_view type, std::string_view name)
