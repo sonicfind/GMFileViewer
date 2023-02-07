@@ -156,5 +156,6 @@ void runSequnce(SSQ& sequence, XGM& pack)
 		gfx->displayFrame();
 	}
 
+	sequence.unloadSequence();
 	Graphics::closeGraphics();
 }

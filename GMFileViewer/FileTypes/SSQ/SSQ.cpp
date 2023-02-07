@@ -16,6 +16,7 @@ SSQ::SSQ(const std::filesystem::path& filePath)
 	file += 28;
 
 	m_matrices.reserve(file);
+	m_depthBuffers.reserve(m_matrices.getSize());
 	m_imxEntries.reserve_and_fill(file);
 	m_xgEntries.reserve_and_fill(file);
 	m_models.reserve(m_xgEntries.getSize());
@@ -97,15 +98,27 @@ void SSQ::loadSequence(XGM& pack)
 {
 	m_pack = &pack;
 	m_pack->initTextureBuffers();
-	for (auto& entry : m_xgEntries)
+	
+	const size_t frameSize = (size_t)Graphics::getWidth() * Graphics::getHeight();
+	for (uint32_t i = 0, instance = 0; i < m_xgEntries.getSize(); ++i)
 	{
+		XGEntry& entry = m_xgEntries[i];
 		if (!entry.isClone())
 			m_pack->initModelBuffer(entry.getName());
 		else
 			m_pack->addInstanceToModel(entry.getName());
+
+		if (!m_models[i]->usesPriorDepthForTransparency())
+			m_depthBuffers[i] = std::make_unique<float[]>(frameSize);
 	}
 
 	m_camera.setupGlobalShading();
+}
+
+void SSQ::unloadSequence()
+{
+	for (auto& buf : m_depthBuffers)
+		buf.reset();
 }
 
 void SSQ::update(float frame)
@@ -165,7 +178,7 @@ void SSQ::mixedUpdateAndDraw(float frame)
 		entry.setStatus(properties.drawStatus);
 		if (properties.drawStatus != ModelDrawStatus::NoDraw)
 		{
-			if (properties.depthTest)
+			if (m_models[i]->usesPriorDepthForTransparency())
 				gfx->enable(Graphics::Depth_Test);
 			else
 				gfx->disable(Graphics::Depth_Test);
