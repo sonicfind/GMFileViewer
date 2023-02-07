@@ -118,6 +118,10 @@ public:
 
 	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode mode) const = 0;
 	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode mode) const = 0;
+	virtual void getDepthData(float* buffer) const = 0;
+	virtual void copyDefaultDepthData() const = 0;
+	virtual void compareAndSetDepthData(float* buffer) const = 0;
+	virtual void setDefaultDepthData() const = 0;
 
 	virtual void resetFrame() const = 0;
 	virtual void displayFrame() const = 0;

@@ -89,6 +89,22 @@ void Graphics_DX::drawElements(uint32_t count, const uint32_t* indices, Primitiv
 {
 }
 
+void Graphics_DX::getDepthData(float* buffer) const
+{
+}
+
+void Graphics_DX::copyDefaultDepthData() const
+{
+}
+
+void Graphics_DX::compareAndSetDepthData(float* buffer) const
+{
+}
+
+void Graphics_DX::setDefaultDepthData() const
+{
+}
+
 void Graphics_DX::resetFrame() const
 {
 }

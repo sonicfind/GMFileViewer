@@ -104,8 +104,6 @@ void XGM::testGraphics(size_t index)
 	gfx->updateConstantBuffer(0, &numLights, sizeof(glm::vec3));
 	gfx->updateConstantBuffer(2 * sizeof(glm::vec4), &ambience, sizeof(glm::vec3));
 
-	gfx->enable(Graphics::Depth_Test);
-
 	auto t1 = std::chrono::high_resolution_clock::now();
 	size_t count = 0;
 	float prev = 0;

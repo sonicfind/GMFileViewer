@@ -127,7 +127,6 @@ void runSequnce(SSQ& sequence, XGM& pack)
 	sequence.loadSequence(pack);
 
 	GraphicsInstance gfx = Graphics::getGraphics();
-	gfx->enable(Graphics::Depth_Test);
 
 	constexpr float factor = 30.f;
 	constexpr float start = 240;
