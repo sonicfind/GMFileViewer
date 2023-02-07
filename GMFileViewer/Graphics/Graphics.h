@@ -59,7 +59,7 @@ public:
 		Model,
 		Shadow,
 		Sprite,
-		Sky
+		Box
 	};
 
 	virtual void activateShader(ShaderType type) const = 0;

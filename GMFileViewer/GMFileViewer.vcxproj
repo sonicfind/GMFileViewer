@@ -337,8 +337,8 @@
     <None Include="Graphics\OpenGL\ShadowFragment.glsl" />
     <None Include="Graphics\OpenGL\ShadowGeometry.glsl" />
     <None Include="Graphics\OpenGL\ShadowVertex.glsl" />
-    <None Include="Graphics\OpenGL\SkyFragment.glsl" />
-    <None Include="Graphics\OpenGL\SkyVertex.glsl" />
+    <None Include="Graphics\OpenGL\BoxFragment.glsl" />
+    <None Include="Graphics\OpenGL\BoxVertex.glsl" />
     <None Include="Graphics\OpenGL\SpriteFragment.glsl" />
     <None Include="Graphics\OpenGL\SpriteGeometry.glsl" />
     <None Include="Graphics\OpenGL\SpriteVertex.glsl" />

@@ -63,7 +63,7 @@ Graphics_OGL::Graphics_OGL()
     , m_modelShader(s_model_vert, s_model_frag)
     , m_shadowShader(s_shadow_vert, s_shadow_geo, s_shadow_frag)
     , m_spriteShader(s_sprite_vert, s_sprite_geo, s_sprite_frag)
-    , m_skyShader(s_sky_vert, s_sky_frag)
+    , m_boxShader(s_box_vert, s_box_frag)
 {
     auto const bindAll = [&](uint32_t index, const char* const blockName)
     {
@@ -150,8 +150,8 @@ void Graphics_OGL::activateShader(ShaderType type) const
     case Graphics::Sprite:
         m_spriteShader.use();
         break;
-    case Graphics::Sky:
-        m_skyShader.use();
+    case Graphics::Box:
+        m_boxShader.use();
         break;
     default:
         break;
@@ -491,7 +491,7 @@ Graphics_OGL::VertexBuffer::VertexBuffer(ShaderType type, const void* data, uint
 
     }
     break;
-    case Graphics::Sky:
+    case Graphics::Box:
     {
         glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));

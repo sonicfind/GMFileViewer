@@ -124,8 +124,8 @@ private:
 	static const char* s_shadow_vert;
 	static const char* s_shadow_geo;
 	static const char* s_shadow_frag;
-	static const char* s_sky_vert;
-	static const char* s_sky_frag;
+	static const char* s_box_vert;
+	static const char* s_box_frag;
 #else
 	static constexpr const char* s_model_vert =
 #include "ModelVertex.glsl"
@@ -151,11 +151,11 @@ private:
 	static constexpr const char* s_shadow_frag =
 #include "ShadowFragment.glsl"
 		;
-	static constexpr const char* s_sky_vert =
-#include "SkyVertex.glsl"
+	static constexpr const char* s_box_vert =
+#include "BoxVertex.glsl"
 		;
-	static constexpr const char* s_sky_frag =
-#include "SkyFragment.glsl"
+	static constexpr const char* s_box_frag =
+#include "BoxFragment.glsl"
 		;
 #endif
 
@@ -164,7 +164,7 @@ private:
 	Shader_OGL m_modelShader;
 	Shader_OGL m_spriteShader;
 	Shader_OGL m_shadowShader;
-	Shader_OGL m_skyShader;
+	Shader_OGL m_boxShader;
 
 	UniformBuffer m_viewMatrix;
 	UniformBuffer m_viewAndProjection;
