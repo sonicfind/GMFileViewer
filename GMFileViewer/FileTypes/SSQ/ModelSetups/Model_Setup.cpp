@@ -55,6 +55,11 @@ void Model_Setup::save(FileWriter& file) const
 	}
 }
 
+bool Model_Setup::usesPriorDepthForTransparency() const
+{
+	return m_baseValues.depthTest;
+}
+
 glm::mat4 Model_Setup::getModelMatrix(float frame) const
 {
 	glm::mat4 matrix = glm::toMat4(getRotation(frame));
@@ -76,7 +81,6 @@ Model_Setup::AnimProperties Model_Setup::getAnimProperties(float frame) const
 			frame, 
 			LoopControl::LOOP_ANIM,
 			PlaybackDirection::FORWARDS,
-			m_baseValues.depthTest == 1
 		};
 
 	auto iter = Iterate(m_animations, frame);
@@ -106,7 +110,6 @@ Model_Setup::AnimProperties Model_Setup::getAnimProperties(float frame) const
 			frame - start,
 			control,
 			PlaybackDirection::FORWARDS,
-			m_baseValues.depthTest == 1
 	};
 }
 
@@ -118,7 +121,6 @@ Model_Setup::AnimProperties Model_Setup::getAnimFromGamestate(float frame) const
 		frame,
 		LoopControl::LOOP_ANIM,
 		PlaybackDirection::FORWARDS,
-		m_baseValues.depthTest == 1
 	};
 }
 

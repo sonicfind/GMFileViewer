@@ -12,6 +12,7 @@
 class SSQ
 {
 	GMArray<glm::mat4> m_matrices;
+	GMArray<std::unique_ptr<float[]>> m_depthBuffers;
 	GMArray<IMXEntry> m_imxEntries;
 	GMArray<XGEntry> m_xgEntries;
 	GMArray<std::unique_ptr<Model_Setup>> m_models;
@@ -26,6 +27,7 @@ public:
 	void saveToFile(const std::filesystem::path& filePath) const;
 	
 	void loadSequence(XGM& pack);
+	void unloadSequence();
 	void update(float frame);
 	void draw(bool drawTransparents);
 

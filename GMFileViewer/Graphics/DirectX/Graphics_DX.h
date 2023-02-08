@@ -30,6 +30,10 @@ public:
 	virtual void setClearColor(float r, float g, float b, float a) const override;
 	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode mode) const override;
 	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode mode) const override;
+	virtual void getDepthData(float* buffer) const override;
+	virtual void copyDefaultDepthData() const override;
+	virtual void compareAndSetDepthData(float* buffer) const override;
+	virtual void setDefaultDepthData() const override;
 	virtual void resetFrame() const override;
 	virtual void displayFrame() const override;
 	virtual void updateTitle(const std::string& str) const override;

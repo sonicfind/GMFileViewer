@@ -59,11 +59,13 @@ MessageCallback(GLenum source,
 #endif
 
 Graphics_OGL::Graphics_OGL()
-    : m_window(Graphics::getName(), Graphics::getWidth(), Graphics::getHeight())
+    : m_window(getName(), getWidth(), getHeight())
+    , m_frame()
     , m_modelShader(s_model_vert, s_model_frag)
     , m_shadowShader(s_shadow_vert, s_shadow_geo, s_shadow_frag)
     , m_spriteShader(s_sprite_vert, s_sprite_geo, s_sprite_frag)
-    , m_skyShader(s_sky_vert, s_sky_frag)
+    , m_boxShader(s_box_vert, s_box_frag)
+    , m_boxVertexBuffer(Box, boxVertices, sizeof(boxVertices), false)
 {
     auto const bindAll = [&](uint32_t index, const char* const blockName)
     {
@@ -150,8 +152,8 @@ void Graphics_OGL::activateShader(ShaderType type) const
     case Graphics::Sprite:
         m_spriteShader.use();
         break;
-    case Graphics::Sky:
-        m_skyShader.use();
+    case Graphics::Box:
+        m_boxShader.use();
         break;
     default:
         break;
@@ -390,15 +392,53 @@ void Graphics_OGL::drawElements(uint32_t count, const uint32_t* indices, Primiti
     glDrawElements(GL_TRIANGLES + static_cast<uint32_t>(mode), count, GL_UNSIGNED_INT, indices);
 }
 
+void Graphics_OGL::getDepthData(float* buffer) const
+{
+    m_frame.getDepthData(buffer);
+}
+
+void Graphics_OGL::copyDefaultDepthData() const
+{
+    m_frame.copyDefaultDepthData();
+}
+
+void Graphics_OGL::compareAndSetDepthData(float* buffer) const
+{
+    m_frame.compareAndSetDepthData(buffer);
+}
+
+void Graphics_OGL::setDefaultDepthData() const
+{
+    m_frame.setDefaultDepthData();
+}
+
 void Graphics_OGL::resetFrame() const
 {
+    m_frame.bindFrame();
+    glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
-    if (!m_skyTexture)
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    if (m_skyTexture)
+    {
+        m_boxShader.use();
+        m_skyTexture->bind();
+        m_boxVertexBuffer.bind();
+        drawArrays(0, 6, PrimitiveMode::TRIANGLE_LIST);
+    }
 }
 
 void Graphics_OGL::displayFrame() const
 {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glDisable(GL_DEPTH_TEST);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    m_boxShader.use();
+    m_frame.bindColor();
+    m_boxVertexBuffer.bind();
+    drawArrays(0, 6, PrimitiveMode::TRIANGLE_LIST);
+
     m_window.endFrame();
 }
 
@@ -491,7 +531,7 @@ Graphics_OGL::VertexBuffer::VertexBuffer(ShaderType type, const void* data, uint
 
     }
     break;
-    case Graphics::Sky:
+    case Graphics::Box:
     {
         glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
@@ -544,4 +584,69 @@ void Graphics_OGL::UniformBuffer::bind() const
 Graphics_OGL::UniformBuffer::~UniformBuffer()
 {
     glDeleteBuffers(1, &id);
+}
+
+Graphics_OGL::FrameBuffer::FrameBuffer()
+{
+    const uint32_t width = getWidth();
+    const uint32_t height = getHeight();
+    glGenFramebuffers(1, &frameID);
+    glBindFramebuffer(GL_FRAMEBUFFER, frameID);
+
+    glGenTextures(2, &colorID);
+    glBindTexture(GL_TEXTURE_2D, colorID);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glBindTexture(GL_TEXTURE_2D, depthID);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    depthData = std::make_unique<float[]>(size_t(width * height));
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorID, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthID, 0);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+Graphics_OGL::FrameBuffer::~FrameBuffer()
+{
+    glDeleteTextures(2, &colorID);
+    glDeleteFramebuffers(1, &frameID);
+}
+
+void Graphics_OGL::FrameBuffer::bindFrame() const
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, frameID);
+}
+
+void Graphics_OGL::FrameBuffer::bindColor() const
+{
+    glBindTexture(GL_TEXTURE_2D, colorID);
+}
+
+void Graphics_OGL::FrameBuffer::getDepthData(float* buffer) const
+{
+    glBindTexture(GL_TEXTURE_2D, depthID);
+    glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_FLOAT, buffer);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Graphics_OGL::FrameBuffer::copyDefaultDepthData() const
+{
+    getDepthData(depthData.get());
+}
+
+void Graphics_OGL::FrameBuffer::compareAndSetDepthData(float* buffer) const
+{
+    const size_t size = size_t(getWidth() * getHeight());
+    for (uint32_t i = 0; i < size; ++i)
+        buffer[i] = (depthData[i] < buffer[i]) * depthData[i];
+
+    glTextureSubImage2D(depthID, 0, 0, 0, getWidth(), getHeight(), GL_DEPTH_COMPONENT, GL_FLOAT, buffer);
+}
+
+void Graphics_OGL::FrameBuffer::setDefaultDepthData() const
+{
+    glTextureSubImage2D(depthID, 0, 0, 0, getWidth(), getHeight(), GL_DEPTH_COMPONENT, GL_FLOAT, depthData.get());
 }

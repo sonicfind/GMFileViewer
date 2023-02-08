@@ -58,6 +58,7 @@ public:
 	Model_Setup(FileReader& file);
 	virtual void save(FileWriter& file) const;
 	virtual ~Model_Setup() = default;
+	bool usesPriorDepthForTransparency() const;
 	
 	glm::mat4 getModelMatrix(float frame) const;
 
@@ -68,7 +69,6 @@ public:
 		float frame;
 		LoopControl control;
 		PlaybackDirection direction;
-		bool depthTest;
 	};
 	AnimProperties getAnimProperties(float frame) const;
 

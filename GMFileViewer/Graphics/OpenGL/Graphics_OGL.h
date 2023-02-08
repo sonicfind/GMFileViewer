@@ -80,6 +80,24 @@ class Graphics_OGL : public Graphics
 		~UniformBuffer();
 	};
 
+	struct FrameBuffer
+	{
+		uint32_t frameID = 0;
+		uint32_t colorID = 0;
+		uint32_t depthID = 0;
+
+		std::unique_ptr<float[]> depthData;
+
+		FrameBuffer();
+		~FrameBuffer();
+		void bindFrame() const;
+		void bindColor() const;
+		void getDepthData(float* buffer) const;
+		void copyDefaultDepthData() const;
+		void compareAndSetDepthData(float* buffer) const;
+		void setDefaultDepthData() const;
+	};
+
 	Graphics_OGL();
 public:
 	// Inherited via Graphics
@@ -105,6 +123,10 @@ public:
 	virtual void setClearColor(float r, float g, float b, float a) const override;
 	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode mode) const override;
 	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode mode) const override;
+	virtual void getDepthData(float* buffer) const override;
+	virtual void copyDefaultDepthData() const override;
+	virtual void compareAndSetDepthData(float* buffer) const override;
+	virtual void setDefaultDepthData() const override;
 	virtual void resetFrame() const override;
 	virtual void displayFrame() const override;
 	virtual void updateTitle(const std::string& str) const override;
@@ -124,8 +146,8 @@ private:
 	static const char* s_shadow_vert;
 	static const char* s_shadow_geo;
 	static const char* s_shadow_frag;
-	static const char* s_sky_vert;
-	static const char* s_sky_frag;
+	static const char* s_box_vert;
+	static const char* s_box_frag;
 #else
 	static constexpr const char* s_model_vert =
 #include "ModelVertex.glsl"
@@ -151,20 +173,21 @@ private:
 	static constexpr const char* s_shadow_frag =
 #include "ShadowFragment.glsl"
 		;
-	static constexpr const char* s_sky_vert =
-#include "SkyVertex.glsl"
+	static constexpr const char* s_box_vert =
+#include "BoxVertex.glsl"
 		;
-	static constexpr const char* s_sky_frag =
-#include "SkyFragment.glsl"
+	static constexpr const char* s_box_frag =
+#include "BoxFragment.glsl"
 		;
 #endif
 
 	Window_OGL m_window;
+	FrameBuffer m_frame;
 
 	Shader_OGL m_modelShader;
 	Shader_OGL m_spriteShader;
 	Shader_OGL m_shadowShader;
-	Shader_OGL m_skyShader;
+	Shader_OGL m_boxShader;
 
 	UniformBuffer m_viewMatrix;
 	UniformBuffer m_viewAndProjection;
@@ -174,6 +197,16 @@ private:
 	UniformBuffer m_globalShading;
 	UniformBuffer m_lights;
 
+	static constexpr float boxVertices[] = {
+		// positions // texCoords
+		-1.0f,  1.0f, 0.0f, 1.0f,
+		-1.0f, -1.0f, 0.0f, 0.0f,
+		 1.0f, -1.0f, 1.0f, 0.0f,
+		-1.0f,  1.0f, 0.0f, 1.0f,
+		 1.0f, -1.0f, 1.0f, 0.0f,
+		 1.0f,  1.0f, 1.0f, 1.0f
+	};
+	VertexBuffer m_boxVertexBuffer;
 	std::vector<VertexBuffer> m_vertexBuffers;
 	std::vector<TextureID> m_textures;
 	const TextureID* m_skyTexture = nullptr;
