@@ -505,12 +505,6 @@
     <None Include="Graphics\OpenGL\ShadowVertex.glsl">
       <Filter>Graphics\OpenGL\Shaders</Filter>
     </None>
-    <None Include="Graphics\OpenGL\SkyFragment.glsl">
-      <Filter>Graphics\OpenGL\Shaders</Filter>
-    </None>
-    <None Include="Graphics\OpenGL\SkyVertex.glsl">
-      <Filter>Graphics\OpenGL\Shaders</Filter>
-    </None>
     <None Include="Graphics\OpenGL\SpriteFragment.glsl">
       <Filter>Graphics\OpenGL\Shaders</Filter>
     </None>
@@ -518,6 +512,12 @@
       <Filter>Graphics\OpenGL\Shaders</Filter>
     </None>
     <None Include="Graphics\OpenGL\SpriteVertex.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="Graphics\OpenGL\BoxVertex.glsl">
+      <Filter>Graphics\OpenGL\Shaders</Filter>
+    </None>
+    <None Include="Graphics\OpenGL\BoxFragment.glsl">
       <Filter>Graphics\OpenGL\Shaders</Filter>
     </None>
   </ItemGroup>
