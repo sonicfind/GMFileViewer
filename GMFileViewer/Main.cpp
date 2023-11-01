@@ -3,7 +3,7 @@
 #include "FileTypes/CHC/CHC.h"
 #include "FileTypes/SSQ/SSQ.h"
 #include "FileTypes/WEB/WEB.h"
-#include "Graphics.h"
+#include "OpenGL/Graphics_OGL.h"
 
 std::string g_filename;
 
@@ -27,7 +27,7 @@ void testWrite(const T& file)
 	std::getline(std::cin, g_filename);
 }
 
-void runSequnce(SSQ& sequence, XGM& pack);
+void runSequence(Graphics& gfx, SSQ& sequence, XGM& pack);
 
 int main()
 {
@@ -81,21 +81,23 @@ int main()
 	else if (g_filename.ends_with(".SSQ"))
 	{
 		SSQ sequence(g_filename);
+		std::string packName;
+		std::cout << "Drag and drop an XGM file:";
+		std::getline(std::cin, packName);
+
+		if (packName[0] == '\"')
+			packName = packName.substr(1, packName.length() - 2);
+
+		XGM pack(packName);
 
 		try
 		{
-			std::string packName;
-			std::cout << "Drag and drop an XGM file:";
-			std::getline(std::cin, packName);
-
-			if (packName[0] == '\"')
-				packName = packName.substr(1, packName.length() - 2);
-
-			XGM pack(packName);
-			runSequnce(sequence, pack);
+			Graphics_OGL gfx(g_filename, 1280, 960);
+			runSequence(gfx, sequence, pack);
 		}
-		catch (...)
+		catch (std::exception e)
 		{
+			std::cout << e.what() << std::endl;
 		}
 
 		testWrite(sequence);
@@ -121,20 +123,17 @@ int main()
 	return 0;
 }
 
-void runSequnce(SSQ& sequence, XGM& pack)
+void runSequence(Graphics& gfx, SSQ& sequence, XGM& pack)
 {
-	Graphics::initGraphics(Graphics::Backend::OpenGL);
-	sequence.loadSequence(pack);
+	sequence.loadSequence(gfx, pack);
 
-	GraphicsInstance gfx = Graphics::getGraphics();
-
-	constexpr float factor = 30.f;
-	constexpr float start = 240;
+	constexpr float factor = 30;
+	constexpr float start = 300;
 
 	size_t count = 0;
 	float prev = start;
 	auto t1 = std::chrono::high_resolution_clock::now();
-	for (size_t i = 0; !gfx->shouldClose(); ++i)
+	for (size_t i = 0; !gfx.shouldClose(); ++i)
 	{
 		auto t2 = std::chrono::high_resolution_clock::now();
 		float time = factor * std::chrono::duration<float>(t2 - t1).count() + start;
@@ -147,15 +146,13 @@ void runSequnce(SSQ& sequence, XGM& pack)
 		}
 		++count;
 
-		Graphics::getGraphics()->updateTitle(std::to_string(time));
+		gfx.updateTitle(std::to_string(time));
 
-		gfx->resetFrame();
-		sequence.mixedUpdateAndDraw(time);
-		/*sequence.update(time);
-		sequence.draw();*/
-		gfx->displayFrame();
+		gfx.resetFrame();
+		//sequence.mixedUpdateAndDraw(time);
+		sequence.update(gfx, pack, time);
+		sequence.draw(gfx, pack, false);
+		sequence.draw(gfx, pack, true);
+		gfx.displayFrame();
 	}
-
-	sequence.unloadSequence();
-	Graphics::closeGraphics();
 }

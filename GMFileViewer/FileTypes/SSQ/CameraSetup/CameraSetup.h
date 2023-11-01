@@ -73,8 +73,8 @@ public:
 	void read(FileReader& file);
 	void save(FileWriter& file) const;
 
-	void setupGlobalShading() const;
-	void update(float frame) const;
+	void setupGlobalShading(Graphics& gfx) const;
+	void update(Graphics& gfx, float frame) const;
 
 private:
 	glm::mat4 calcProjectionMatrix(float frame) const;

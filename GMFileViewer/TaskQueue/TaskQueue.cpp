@@ -59,10 +59,14 @@ void TaskQueue::startThreads(size_t threadCount)
 
 void TaskQueue::stopThreads()
 {
-	std::scoped_lock lock(m_mutex);
+	m_mutex.lock();
 	for (size_t i = 0; i < m_threadCount; ++i)
 		m_threads[i].request_stop();
 	m_threadCondition.notify_all();
+	m_mutex.unlock();
+
+	for (size_t i = 0; i < m_threadCount; ++i)
+		m_threads[i].join();
 }
 
 void TaskQueue::waitForCompletedTasks()

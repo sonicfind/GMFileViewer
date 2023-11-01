@@ -7,34 +7,69 @@ template <typename T>
 class GMArray
 {
 	uint32_t m_size = 0;
-	std::unique_ptr<T[]> m_elements;
+	T* m_elements = nullptr;
 
 	bool reserve()
 	{
+		if (m_elements != nullptr)
+			delete m_elements;
+
 		if (m_size == 0)
 			return false;
 
-		m_elements = std::make_unique<T[]>(m_size);
+		m_elements = new T[m_size];
+		return true;
+	}
+
+	bool construct()
+	{
+		if (m_elements != nullptr)
+			delete m_elements;
+
+		if (m_size == 0)
+			return false;
+
+		m_elements = new T[m_size]();
 		return true;
 	}
 
 public:
 	GMArray() = default;
-	GMArray(GMArray&&) = default;
-	GMArray& operator=(GMArray&&) = default;
-	GMArray(uint32_t size) : m_size(size), m_elements(std::make_unique<T[]>(m_size)) {}
-
-	GMArray(const GMArray& other) : m_size(other.m_size), m_elements(std::make_unique<T[]>(m_size))
+	GMArray(GMArray&& other) : m_size(other.m_size), m_elements(other.m_elements)
 	{
-		memcpy(m_elements.get(), other.m_elements.get(), sizeof(T) * m_size);
+		other.m_elements = nullptr;
+	}
+	GMArray& operator=(GMArray&& other)
+	{
+		m_size = other.m_size;
+		m_elements = other.m_elements;
+		other.m_elements = nullptr;
+		return *this;
+	}
+
+	GMArray(uint32_t size) : m_size(size)
+	{
+		reserve();
+	}
+
+	GMArray(const GMArray& other) : m_size(other.m_size)
+	{
+		if (reserve())
+			memcpy(m_elements, other.m_elements, m_size * sizeof(T));
 	}
 
 	GMArray& operator=(const GMArray& other)
 	{
 		m_size = other.m_size;
-		m_elements = std::make_unique<T[]>(m_size);
-		memcpy(m_elements.get(), other.m_elements.get(), sizeof(T) * m_size);
+		if (reserve())
+			memcpy(m_elements, other.m_elements, m_size * sizeof(T));
 		return *this;
+	}
+
+	~GMArray()
+	{
+		if (m_elements != nullptr)
+			delete[] m_elements;
 	}
 
 	bool reserve(FileReader& file)
@@ -49,9 +84,21 @@ public:
 		return reserve();
 	}
 
+	bool construct(FileReader& file)
+	{
+		uint32_t size = file.read<uint32_t>();
+		return construct(size);
+	}
+
+	bool construct(uint32_t size)
+	{
+		m_size = size;
+		return construct();
+	}
+
 	void fill(FileReader& file)
 	{
-		file.read(m_elements.get(), m_size * sizeof(T));
+		file.read(m_elements, m_size * sizeof(T));
 	}
 
 	void reserve_and_fill(FileReader& file)
@@ -73,7 +120,7 @@ public:
 
 	void write_data(FileWriter& file) const
 	{
-		file.write(m_elements.get(), sizeof(T)* m_size);
+		file.write(m_elements, sizeof(T)* m_size);
 	}
 
 	void write_full(FileWriter& file) const
@@ -94,10 +141,10 @@ public:
 		return m_elements[index];
 	}
 
-	T* begin() { return m_elements.get(); }
-	T* end() { return m_elements.get() + m_size; }
-	const T* begin() const { return m_elements.get(); }
-	const T* end() const { return m_elements.get() + m_size; }
+	T* begin() { return m_elements; }
+	T* end() { return m_elements + m_size; }
+	const T* begin() const { return m_elements; }
+	const T* end() const { return m_elements + m_size; }
 
 	T& front() { return *m_elements; }
 	T& back() { return m_elements[m_size - 1]; }

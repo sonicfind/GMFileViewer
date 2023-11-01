@@ -12,7 +12,7 @@ public:
 	void writeType(FileWriter& file) const override;
 	void save(FileWriter& file) const override;
 
-	void bind(size_t slot) const override;
+	void bind(Graphics& gfx, size_t slot) const override;
 	size_t getNumMaterials() const override;
 	bool hasTransparency() const override;
 };

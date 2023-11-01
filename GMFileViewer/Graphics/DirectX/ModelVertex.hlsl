@@ -27,11 +27,11 @@ cbuffer Material
 
 struct VSOut
 {
-	float4 screenPos : SV_POSITION;
 	float3 fragPos   : VERT_POS;
 	float3 normal    : VERT_NORM;
 	float2 texCoord  : VERT_TEXCOORD;
 	float4 color     : VERT_COLOR;
+	float4 screenPos : SV_POSITION;
 };
 
 VSOut main(float4 pos : POSITION, float3 norm : NORMAL, float4 color : COLOR, float2 texCoord : TEXCOORD)

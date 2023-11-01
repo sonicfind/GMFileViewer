@@ -47,13 +47,6 @@ Graphics_OGL::Shader_OGL::Shader_OGL(const char* vertex, const char* geometry, c
 	glDeleteShader(fragmentShader);
 }
 
-Graphics_OGL::Shader_OGL::~Shader_OGL()
-{
-	if (ID)
-		glDeleteProgram(ID);
-	s_activeID = 0;
-}
-
 void Graphics_OGL::Shader_OGL::use() const
 {
 	if (s_activeID != ID)
@@ -61,6 +54,13 @@ void Graphics_OGL::Shader_OGL::use() const
 		glUseProgram(ID);
 		s_activeID = ID;
 	}
+}
+
+void Graphics_OGL::Shader_OGL::Delete() const
+{
+	if (ID)
+		glDeleteProgram(ID);
+	s_activeID = 0;
 }
 
 void Graphics_OGL::Shader_OGL::bindUniformBlock(uint32_t bufferIndex, const char* const blockName)

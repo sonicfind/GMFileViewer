@@ -7,7 +7,7 @@ PlayerModel_Setup::PlayerModel_Setup(FileReader& file) : Model_Setup(file)
 
 	const uint32_t numControllables = file.read<uint32_t>();
 	m_controllables.reserve_and_fill(file, numControllables);
-	m_connections.reserve(numControllables);
+	m_connections.construct(numControllables);
 	for (auto& connection : m_connections)
 		connection.reserve_and_fill(file);
 	m_defaults.reserve_and_fill(file, numControllables);

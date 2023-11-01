@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include "Palette.h"
 #include "FileWriter.h"
+#include "Graphics.h"
 
 class IMX
 {
@@ -10,10 +11,10 @@ class IMX
 	std::unique_ptr<Pixel[]> m_data;
 
 public:
-	void load(FileReader file);
+	void load(FileReader& file);
 	void save(FileWriter& file) const;
 
-	void createTextureBuffer(std::string_view name) const;
+	void createTextureBuffer(Graphics& gfx, std::string_view name) const;
 
 private:
 	template <typename T>

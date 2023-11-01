@@ -9,7 +9,7 @@ public:
 private:
 	void loadKeys(FileReader& file) override
 	{
-		if (this->m_keys.reserve(file))
+		if (this->m_keys.construct(file))
 			for (auto& element : this->m_keys)
 				element.reserve_and_fill(file);
 	}

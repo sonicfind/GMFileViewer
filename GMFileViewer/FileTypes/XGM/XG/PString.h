@@ -6,7 +6,6 @@
 
 namespace PString
 {
-	void GetString(std::string_view& str, FileReader& file);
 	std::string_view GetString(FileReader& file);
 
 	void WriteString(std::string_view str, FileWriter& file);

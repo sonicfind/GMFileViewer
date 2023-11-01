@@ -36,31 +36,30 @@ void xgMaterial::save(FileWriter& file) const
 		WriteNode("inputTexture", "outputTexture", m_inputTexture, file);
 }
 
-void xgMaterial::bind(size_t slot) const
+void xgMaterial::bind(Graphics& gfx, size_t slot) const
 {
-	const GraphicsInstance gfx = Graphics::getGraphics();
 	if (m_inputTexture)
 	{
-		m_inputTexture->bind();
-		gfx->setShaderInt("useTexture", 1);
+		m_inputTexture->bind(gfx);
+		gfx.setShaderInt("useTexture", 1);
 	}
 	else
-		gfx->setShaderInt("useTexture", 0);
+		gfx.setShaderInt("useTexture", 0);
 
 	
-	gfx->bindConstantBuffer(Graphics::Material);
-	gfx->updateConstantBuffer(0, &m_blendType, 64);
+	gfx.bindConstantBuffer(Graphics::Material);
+	gfx.updateConstantBuffer(0, &m_blendType, 64);
 
 	if (!hasTransparency())
 	{
-		gfx->enable(Graphics::Depth_Mask);
-		gfx->disable(Graphics::AlphaBlending);
+		gfx.enable(Graphics::Depth_Mask);
+		gfx.disable(Graphics::AlphaBlending);
 	}
 	else
 	{
-		gfx->disable(Graphics::Depth_Mask);
-		gfx->enable(Graphics::AlphaBlending);
-		gfx->setBlendFunc(m_blendType);
+		gfx.disable(Graphics::Depth_Mask);
+		gfx.enable(Graphics::AlphaBlending);
+		gfx.setBlendFunc(m_blendType);
 	}
 }
 

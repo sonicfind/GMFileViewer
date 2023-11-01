@@ -21,8 +21,5 @@ void xgBone::save(FileWriter& file) const
 
 glm::mat4 xgBone::calcTransformMatrix() const
 {
-	if (!m_inputMatrix)
-		return m_restMatrix;
-
-	return m_inputMatrix->transform() * m_restMatrix;
+	return m_inputMatrix ? m_inputMatrix->transform() * m_restMatrix : m_restMatrix;
 }

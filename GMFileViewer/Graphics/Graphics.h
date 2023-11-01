@@ -18,6 +18,12 @@ enum class Culling : uint32_t
 	FRONT
 };
 
+enum class FrontFace : uint32_t
+{
+	Countrclockwise,
+	Clockwise,
+};
+
 enum class DepthTest : uint32_t
 {
 	ALWAYS,
@@ -40,23 +46,44 @@ enum class Blending : uint32_t
 	MaterialAlpha
 };
 
-class Graphics;
-class GraphicsInstance
+enum class Backend
 {
-	Graphics* instance;
-
-public:
-	GraphicsInstance(Graphics* gfx) : instance(gfx) {}
-	Graphics* operator->() const { return instance; }
+	DirectX,
+	OpenGL,
+	Vulkan
 };
 
 class Graphics
 {
+	struct GraphicsSettings
+	{
+		std::string name = "Window";
+		uint32_t width = 1280;
+		uint32_t height = 960;
+		uint32_t maxFPS = 300;
+	};
+
+protected:
+	GraphicsSettings m_settings;
+	Graphics(std::string window, uint32_t width, uint32_t height, uint32_t maxFPS);
+
+public:
+	uint32_t getWidth() const { return m_settings.width; }
+	uint32_t getHeight() const { return m_settings.height; }
+	uint32_t getMaxFPS() const { return m_settings.maxFPS; }
+	std::string_view getName() const { return m_settings.name; }
+
+	void setWidth(uint32_t width) { m_settings.width = width; }
+	void setHeight(uint32_t height) { m_settings.height = height; }
+	void setMaxFPS(uint32_t fps) { m_settings.maxFPS = fps; }
+	void setName(std::string name) { m_settings.name = name; }
+
 public:
 	enum ShaderType
 	{
 		Envelope,
 		Model,
+		Model_NoDepth,
 		Shadow,
 		Sprite,
 		Box
@@ -66,8 +93,12 @@ public:
 	virtual void setShaderInt(const char* name, int value) const = 0;
 
 	virtual size_t createVertexBuffer(ShaderType type, const void* data, uint32_t dataSize, bool isDynamic) = 0;
+	virtual void setActiveVertexBuffer(size_t index) = 0;
 	virtual void bindVertexBuffer(size_t index) const = 0;
 	virtual void updateVertexBuffer(uint32_t offset, const void* data, uint32_t dataSize) const = 0;
+
+	virtual size_t createIndexBuffer(const void* data, uint32_t dataSize) = 0;
+	virtual void bindIndexBuffer(size_t index) const = 0;
 
 	enum Filtering
 	{
@@ -95,12 +126,8 @@ public:
 	virtual void bindConstantBuffer(ConstBufferSelection selection) const = 0;
 	virtual void updateConstantBuffer(uint32_t offset, const void* data, uint32_t dataSize) const = 0;
 
-	enum FrontFace
-	{
-		Clockwise,
-		Countrclockwise,
-	};
-	virtual void setFrontFace(FrontFace front) const = 0;
+	
+	virtual void setFrontFace(FrontFace front) = 0;
 	virtual void setCullFunc(Culling cull) = 0;
 	virtual void setDepthFunc(DepthTest testParam) const = 0;
 
@@ -116,49 +143,20 @@ public:
 	virtual void enable(Enablable property) const = 0;
 	virtual void disable(Enablable property) const = 0;
 
-	virtual void drawArrays(uint32_t index, uint32_t count, PrimitiveMode mode) const = 0;
-	virtual void drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode mode) const = 0;
-	virtual void getDepthData(float* buffer) const = 0;
+	virtual void setTopology(PrimitiveMode mode) const = 0;
+	virtual void drawArrays(uint32_t index, uint32_t count) const = 0;
+	virtual void drawElements(uint32_t count, size_t offset) const = 0;
+	/*virtual void getDepthData(float* buffer) const = 0;
 	virtual void copyDefaultDepthData() const = 0;
 	virtual void compareAndSetDepthData(float* buffer) const = 0;
-	virtual void setDefaultDepthData() const = 0;
+	virtual void setDefaultDepthData() const = 0;*/
 
 	virtual void resetFrame() const = 0;
 	virtual void displayFrame() const = 0;
 	virtual void updateTitle(const std::string& str) const = 0;
 	virtual bool shouldClose() const = 0;
 
-private:
-	static std::unique_ptr<Graphics> s_gfx;
-
-	static struct GraphicsSettings
-	{
-		uint32_t width = 1280;
-		uint32_t height = 960;
-		uint32_t maxFPS = 300;
-		std::string name = "Window";
-	} s_settings;
-
-public:
-	enum Backend
-	{
-		DirectX,
-		OpenGL,
-		Vulkan
-	};
-	static void initGraphics(Backend backend);
-	static void closeGraphics();
-
-	static GraphicsInstance getGraphics();
-	virtual ~Graphics() = default;
-
-	static uint32_t getWidth() { return s_settings.width; }
-	static uint32_t getHeight() { return s_settings.height; }
-	static uint32_t getMaxFPS() { return s_settings.maxFPS; }
-	static std::string_view getName() { return s_settings.name; }
-
-	static void getWidth(uint32_t width)   { s_settings.width = width; }
-	static void getHeight(uint32_t height) { s_settings.height = height; }
-	static void getMaxFPS(uint32_t fps)    { s_settings.maxFPS = fps; }
-	static void getName(std::string name)  { s_settings.name = name; }
+	virtual uint32_t addIgnorableDepthTexture() = 0;
+	virtual void copyDepthToIgnorable(uint32_t id)  const = 0;
+	virtual void setDepthlessDepthTextures(uint32_t id)  const = 0;
 };

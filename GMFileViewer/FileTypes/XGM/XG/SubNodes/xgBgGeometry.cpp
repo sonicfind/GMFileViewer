@@ -35,22 +35,22 @@ void xgBgGeometry::save(FileWriter& file) const
 
 }
 
-void xgBgGeometry::createVertexBuffer()
+void xgBgGeometry::createVertexBuffer(Graphics& gfx)
 {
-	m_vertices.createVertexBuffer(!m_inputGeometries.empty());
+	m_vertices.createVertexBuffer(gfx, !m_inputGeometries.empty());
 }
 
-void xgBgGeometry::addInstance()
+void xgBgGeometry::addInstance(Graphics& gfx)
 {
-	m_vertices.addInstance(!m_inputGeometries.empty());
+	m_vertices.addInstance(gfx, !m_inputGeometries.empty());
 }
 
-void xgBgGeometry::bindVertexBuffer(uint32_t instance) const
+void xgBgGeometry::bindVertexBuffer(Graphics& gfx, uint32_t instance) const
 {
-	m_vertices.bindBuffer(instance);
+	m_vertices.bindBuffer(gfx, instance);
 }
 
-void xgBgGeometry::update(uint32_t instance)
+void xgBgGeometry::update(Graphics& gfx, uint32_t instance)
 {
 	if (m_inputGeometries.empty())
 		return;
@@ -58,8 +58,8 @@ void xgBgGeometry::update(uint32_t instance)
 	for (const XG_UpdatableNode* node : m_inputGeometries)
 		node->updateVertices(m_vertices);
 
-	m_vertices.bindBuffer(instance);
-	m_vertices.updateBuffer();
+	m_vertices.bindBuffer(gfx, instance);
+	m_vertices.updateBuffer(gfx);
 }
 
 const Vertex& xgBgGeometry::getVertex(size_t index) const

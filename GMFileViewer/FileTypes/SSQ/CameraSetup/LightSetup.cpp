@@ -36,17 +36,15 @@ void LightSetup::save(FileWriter& file) const
 		m_colors.write_data(file);
 }
 
-void LightSetup::update(float frame, uint32_t offset) const
+void LightSetup::update(Graphics& gfx, float frame, uint32_t offset) const
 {
-	GraphicsInstance gfx = Graphics::getGraphics();
-
 	auto colorValues = getColors(frame);
-	gfx->updateConstantBuffer(offset, &colorValues.diffuse, sizeof(glm::vec3));
-	gfx->updateConstantBuffer(offset + sizeof(glm::vec4), &colorValues.specular, sizeof(glm::vec3));
+	gfx.updateConstantBuffer(offset, &colorValues.diffuse, sizeof(glm::vec3));
+	gfx.updateConstantBuffer(offset + sizeof(glm::vec4), &colorValues.specular, sizeof(glm::vec3));
 
 	auto rotation = getRotation(frame);
 	auto direction = glm::rotate(rotation, { 0, 1, 0 });
-	gfx->updateConstantBuffer(offset + 2 * sizeof(glm::vec4), &direction, sizeof(glm::vec3));
+	gfx.updateConstantBuffer(offset + 2 * sizeof(glm::vec4), &direction, sizeof(glm::vec3));
 }
 
 glm::quat LightSetup::getRotation(float frame) const

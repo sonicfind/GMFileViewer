@@ -12,7 +12,7 @@ CHC::CHC(const std::filesystem::path& filePath)
 	file.read(m_audio);
 	file.read(m_speed);
 	m_cues.reserve_and_fill(file);
-	m_sections.reserve(file);
+	m_sections.construct(file);
 	for (auto& section : m_sections)
 		section.load(file);
 

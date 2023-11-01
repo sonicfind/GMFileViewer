@@ -265,9 +265,6 @@
     <ClCompile Include="TaskQueue\TaskQueue.cpp">
       <Filter>TaskQueue</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics\Graphics.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics\DirectX\Graphics_DX.cpp">
       <Filter>Graphics\DirectX</Filter>
     </ClCompile>
@@ -291,6 +288,21 @@
     </ClCompile>
     <ClCompile Include="..\3rdparty\GLAD\glad.c">
       <Filter>Graphics\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\Graphics.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTypes\FileContainer.cpp">
+      <Filter>FileTypes\FileReader</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX\DxgiInfoManager.cpp">
+      <Filter>Graphics\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX\GMException.cpp">
+      <Filter>Graphics\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\DirectX\dxerr.cpp">
+      <Filter>Graphics\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -450,9 +462,6 @@
     <ClInclude Include="TaskQueue\TaskQueue.h">
       <Filter>TaskQueue</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics\Graphics.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics\DirectX\Graphics_DX.h">
       <Filter>Graphics\DirectX</Filter>
     </ClInclude>
@@ -476,6 +485,27 @@
     </ClInclude>
     <ClInclude Include="FileTypes\XGM\XG\AnimControl.h">
       <Filter>FileTypes\XGM\XG\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Graphics.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTypes\FileContainer.h">
+      <Filter>FileTypes\FileReader</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DirectX\Winder.h">
+      <Filter>Graphics\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DirectX\GraphicsThrowMacros.h">
+      <Filter>Graphics\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DirectX\DxgiInfoManager.h">
+      <Filter>Graphics\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DirectX\GMException.h">
+      <Filter>Graphics\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\DirectX\dxerr.h">
+      <Filter>Graphics\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -520,9 +550,21 @@
     <None Include="Graphics\OpenGL\BoxFragment.glsl">
       <Filter>Graphics\OpenGL\Shaders</Filter>
     </None>
+    <None Include="Graphics\DirectX\DXGetErrorDescription.inl">
+      <Filter>Graphics\DirectX</Filter>
+    </None>
+    <None Include="Graphics\DirectX\DXGetErrorString.inl">
+      <Filter>Graphics\DirectX</Filter>
+    </None>
+    <None Include="Graphics\DirectX\DXTrace.inl">
+      <Filter>Graphics\DirectX</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Graphics\DirectX\ModelVertex.hlsl">
+      <Filter>Graphics\DirectX\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Graphics\DirectX\ModelPixel.hlsl">
       <Filter>Graphics\DirectX\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

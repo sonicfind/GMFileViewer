@@ -1,17 +1,11 @@
 #include "PString.h"
 
-void PString::GetString(std::string_view& str, FileReader& file)
-{
-	unsigned char length = *file++;
-	str = std::string_view(file.get(), length);
-	file += length;
-}
-
 std::string_view PString::GetString(FileReader& file)
 {
-	std::string_view str;
-	GetString(str, file);
-	return str;
+	unsigned char length = *file++;
+	const char* start = file.get();
+	file += length;
+	return std::string_view(start, length);
 }
 
 void PString::WriteString(std::string_view str, FileWriter& file)

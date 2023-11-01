@@ -1,7 +1,7 @@
 #include "XGM.h"
 #include "XG/SubNodes/xgBgGeometry.h"
 #include "TaskQueue.h"
-#include "Graphics.h"
+#include "OpenGL/Graphics_OGL.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -9,8 +9,8 @@ XGM::XGM(const std::filesystem::path& filePath)
 {
 	FileReader file(filePath);
 
-	m_textures.reserve(file);
-	m_models.reserve(file);
+	m_textures.construct(file);
+	m_models.construct(file);
 
 	for (uint32_t i = 0; i < m_textures.getSize(); ++i)
 		m_textures[i].load(file, i);
@@ -41,74 +41,73 @@ void XGM::saveToFile(const std::filesystem::path& filePath) const
 		m_models[i].save(file, i);
 }
 
-void XGM::initTextureBuffers()
+void XGM::initTextureBuffers(Graphics& gfx)
 {
 	for (auto& texture : m_textures)
-		texture.createTextureBuffer();
+		texture.createTextureBuffer(gfx);
 }
 
-void XGM::initModelBuffer(std::string_view modelName)
+void XGM::initModelBuffer(Graphics& gfx, std::string_view modelName)
 {
-	getModel(modelName).createVertexBuffers();
+	getModel(modelName).createVertexBuffers(gfx);
 }
 
-void XGM::addInstanceToModel(std::string_view modelName)
+void XGM::addInstanceToModel(Graphics& gfx, std::string_view modelName)
 {
-	getModel(modelName).addInstance();
+	getModel(modelName).addInstance(gfx);
 }
 
-void XGM::updateModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection)
+void XGM::updateModel(Graphics& gfx, std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection)
 {
-	getModel(modelName).update(instance, modelMatrix, animIndex, frame, control, playbackDirection);
+	getModel(modelName).update(gfx, instance, modelMatrix, animIndex, frame, control, playbackDirection);
 }
 
-void XGM::drawModel(std::string_view modelName, uint32_t instance, bool doTransparentMeshes) const
+void XGM::drawModel(Graphics& gfx, std::string_view modelName, uint32_t instance, bool doTransparentMeshes) const
 {
-	getModel(modelName).draw(instance, doTransparentMeshes);
+	getModel(modelName).draw(gfx, instance, doTransparentMeshes);
 }
 
-void XGM::mixedUpdateAndDrawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection)
+void XGM::mixedUpdateAndDrawModel(Graphics& gfx, std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection)
 {
 	auto& model = getModel(modelName);
-	model.update(instance, modelMatrix, animIndex, frame, control, playbackDirection);
-	model.draw(instance, false);
-	model.draw(instance, true);
+	model.update(gfx, instance, modelMatrix, animIndex, frame, control, playbackDirection);
+	model.draw(gfx, instance, false);
+	model.draw(gfx, instance, true);
 }
 
 void XGM::testGraphics(size_t index)
 {
-	Graphics::initGraphics(Graphics::Backend::OpenGL);
-	initTextureBuffers();
+	Graphics_OGL gfx("Test Window", 1280, 960);
+	initTextureBuffers(gfx);
 
-	m_models[index].createVertexBuffers();
-	Graphics::getGraphics()->updateTitle(m_models[index].m_name);
+	m_models[index].createVertexBuffers(gfx);
+	gfx.updateTitle(m_models[index].m_name);
 
-	const GraphicsInstance gfx = Graphics::getGraphics();
-	gfx->setClearColor(0.2f, 0.5f, 0.2f, 1.0f);
-	glm::vec3 pos = { 0.0f, 00.0f, 400.0f };
-	glm::vec3 front = { 0.0f, 00.0f, 401.0f };
+	gfx.setClearColor(0.2f, 0.5f, 0.2f, 1.0f);
+	glm::vec3 pos = { 0.0f, 00.0f, 1000.0f };
+	glm::vec3 front = { 0.0f, 00.0f, 1001.0f };
 	glm::vec3 up = { 0.0f, 1.0f, 0.0f };
 
 	auto view = glm::lookAtLH(pos, front, up);
 	view[2] *= -1.f;
 	auto combo = glm::perspective(glm::radians(45.f), 4.f / 3, 1.0f, 1800000.0f) * view;
 
-	gfx->bindConstantBuffer(Graphics::View);
-	gfx->updateConstantBuffer(0, &view, sizeof(glm::mat4));
+	gfx.bindConstantBuffer(Graphics::View);
+	gfx.updateConstantBuffer(0, &view, sizeof(glm::mat4));
 
-	gfx->bindConstantBuffer(Graphics::ComboViewAndProjection);
-	gfx->updateConstantBuffer(0, &combo, sizeof(glm::mat4));
+	gfx.bindConstantBuffer(Graphics::ComboViewAndProjection);
+	gfx.updateConstantBuffer(0, &combo, sizeof(glm::mat4));
 
-	gfx->bindConstantBuffer(Graphics::GlobalShading);
+	gfx.bindConstantBuffer(Graphics::GlobalShading);
 	const uint32_t numLights = 1;
 	const glm::vec3 ambience = { 1, 1, 1 };
-	gfx->updateConstantBuffer(0, &numLights, sizeof(glm::vec3));
-	gfx->updateConstantBuffer(2 * sizeof(glm::vec4), &ambience, sizeof(glm::vec3));
+	gfx.updateConstantBuffer(0, &numLights, sizeof(glm::vec3));
+	gfx.updateConstantBuffer(2 * sizeof(glm::vec4), &ambience, sizeof(glm::vec3));
 
 	auto t1 = std::chrono::high_resolution_clock::now();
 	size_t count = 0;
 	float prev = 0;
-	for (size_t i = 0; !gfx->shouldClose(); ++i)
+	for (size_t i = 0; !gfx.shouldClose(); ++i)
 	{
 		auto t2 = std::chrono::high_resolution_clock::now();
 		float time = 30 * std::chrono::duration<float>(t2 - t1).count();
@@ -121,13 +120,12 @@ void XGM::testGraphics(size_t index)
 		}
 		++count;
 
-		gfx->resetFrame();
-		m_models[index].update(0, glm::identity<glm::mat4>(), 0, time, LoopControl::LOOP_ALL, PlaybackDirection::FORWARDS);
-		m_models[index].draw(0, false);
-		m_models[index].draw(0, true);
-		gfx->displayFrame();
+		gfx.resetFrame();
+		m_models[index].update(gfx, 0, glm::identity<glm::mat4>(), 0, 0, LoopControl::LOOP_ALL, PlaybackDirection::FORWARDS);
+		m_models[index].draw(gfx, 0, false);
+		m_models[index].draw(gfx, 0, true);
+		gfx.displayFrame();
 	}
-	Graphics::closeGraphics();
 }
 
 void XGM::displayModelList() const
@@ -182,8 +180,7 @@ void XGM::XGMNode_IMX::load(FileReader& file, const uint32_t index)
 	file.read(m_unk);
 	file += 12;
 
-	TaskQueue::getInstance().addTask([this, file] { m_texture.load(file); });
-	file += fileSize;
+	m_texture.load(file);
 }
 
 uint32_t XGM::XGMNode_IMX::save(FileWriter& file, const uint32_t index, uint32_t totalSizes) const
@@ -207,9 +204,9 @@ uint32_t XGM::XGMNode_IMX::save(FileWriter& file, const uint32_t index, uint32_t
 	return totalSizes + fileSize;
 }
 
-void XGM::XGMNode_IMX::createTextureBuffer()
+void XGM::XGMNode_IMX::createTextureBuffer(Graphics& gfx)
 {
-	m_texture.createTextureBuffer(m_name);
+	m_texture.createTextureBuffer(gfx, m_name);
 }
 
 void XGM::XGMNode_XG::load(FileReader& file, const uint32_t index)
@@ -220,8 +217,7 @@ void XGM::XGMNode_XG::load(FileReader& file, const uint32_t index)
 	file += 4;
 	m_animations.fill(file);
 	
-	TaskQueue::getInstance().addTask([this, file] { m_model.load(file); });
-	file += fileSize;
+	m_model.load(file);
 }
 
 void XGM::XGMNode_XG::save(FileWriter& file, const uint32_t index) const
@@ -244,17 +240,17 @@ void XGM::XGMNode_XG::save(FileWriter& file, const uint32_t index) const
 	file.seek(fileEnd);
 }
 
-void XGM::XGMNode_XG::createVertexBuffers()
+void XGM::XGMNode_XG::createVertexBuffers(Graphics& gfx)
 {
-	m_model.createVertexBuffers();
+	m_model.createVertexBuffers(gfx);
 }
 
-void XGM::XGMNode_XG::addInstance()
+void XGM::XGMNode_XG::addInstance(Graphics& gfx)
 {
-	m_model.addInstance();
+	m_model.addInstance(gfx);
 }
 
-void XGM::XGMNode_XG::update(uint32_t instance, const glm::mat4& modelMatrix, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection)
+void XGM::XGMNode_XG::update(Graphics& gfx, uint32_t instance, const glm::mat4& modelMatrix, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection)
 {
 	if (index >= m_animations.getSize())
 		index = m_animations.getSize() - 1;
@@ -263,7 +259,7 @@ void XGM::XGMNode_XG::update(uint32_t instance, const glm::mat4& modelMatrix, ui
 	{
 		do
 		{
-			const float length = m_animations[index].calcLength(65);
+			const float length = m_animations[index].calcLength(153);
 			if (frame < length || length == 0)
 				break;
 
@@ -275,11 +271,11 @@ void XGM::XGMNode_XG::update(uint32_t instance, const glm::mat4& modelMatrix, ui
 		} while (true);
 	}
 
-	float key = m_animations[index].getTimelinePosition(frame, 115, control, playbackDirection);
-	m_model.update(instance, key, modelMatrix);
+	float key = m_animations[index].getTimelinePosition(frame, 153, control, playbackDirection);
+	m_model.update(gfx, instance, key, modelMatrix);
 }
 
-void XGM::XGMNode_XG::draw(uint32_t instance, bool doTransparentMeshes) const
+void XGM::XGMNode_XG::draw(Graphics& gfx, uint32_t instance, bool doTransparentMeshes) const
 {
-	m_model.draw(instance, doTransparentMeshes);
+	m_model.draw(gfx, instance, doTransparentMeshes);
 }

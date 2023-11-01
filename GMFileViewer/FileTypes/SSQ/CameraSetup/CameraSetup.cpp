@@ -23,7 +23,7 @@ void CameraSetup::read(FileReader& file)
 	if (numColors >= 2)
 		m_ambientColors.reserve_and_fill(file, numColors);
 
-	m_lights.reserve(file);
+	m_lights.construct(file);
 	for (auto& light : m_lights)
 	{
 		file.read(light.m_baseValues);
@@ -77,38 +77,36 @@ void CameraSetup::save(FileWriter& file) const
 		m_64bytes_v.write_full(file);
 }
 
-void CameraSetup::setupGlobalShading() const
+void CameraSetup::setupGlobalShading(Graphics& gfx) const
 {
-	GraphicsInstance gfx = Graphics::getGraphics();
-	gfx->bindConstantBuffer(Graphics::GlobalShading);
+	gfx.bindConstantBuffer(Graphics::GlobalShading);
 
 	uint32_t numLights = m_lights.getSize();
-	gfx->updateConstantBuffer(0, &numLights, sizeof(uint32_t));
-	gfx->updateConstantBuffer(sizeof(uint32_t), &m_baseGlobalValues.unknown_1f, sizeof(float));
-	gfx->updateConstantBuffer(sizeof(uint32_t) + sizeof(float), &m_baseGlobalValues.useDiffuse, sizeof(uint32_t));
-	gfx->updateConstantBuffer(sizeof(glm::vec4), &m_baseGlobalValues.vertColorDiffuse, sizeof(glm::vec3));
+	gfx.updateConstantBuffer(0, &numLights, sizeof(uint32_t));
+	gfx.updateConstantBuffer(sizeof(uint32_t), &m_baseGlobalValues.unknown_1f, sizeof(float));
+	gfx.updateConstantBuffer(sizeof(uint32_t) + sizeof(float), &m_baseGlobalValues.useDiffuse, sizeof(uint32_t));
+	gfx.updateConstantBuffer(sizeof(glm::vec4), &m_baseGlobalValues.vertColorDiffuse, sizeof(glm::vec3));
 }
 
-void CameraSetup::update(float frame) const
+void CameraSetup::update(Graphics& gfx, float frame) const
 {
-	GraphicsInstance gfx = Graphics::getGraphics();
 	auto view = calcViewMatrix(frame);
-	gfx->bindConstantBuffer(Graphics::View);
-	gfx->updateConstantBuffer(0, &view, sizeof(glm::mat4));
+	gfx.bindConstantBuffer(Graphics::View);
+	gfx.updateConstantBuffer(0, &view, sizeof(glm::mat4));
 
 	auto combo = calcProjectionMatrix(frame) * view;
-	gfx->bindConstantBuffer(Graphics::ComboViewAndProjection);
-	gfx->updateConstantBuffer(0, &combo, sizeof(glm::mat4));
+	gfx.bindConstantBuffer(Graphics::ComboViewAndProjection);
+	gfx.updateConstantBuffer(0, &combo, sizeof(glm::mat4));
 
-	gfx->bindConstantBuffer(Graphics::GlobalShading);
+	gfx.bindConstantBuffer(Graphics::GlobalShading);
 	const glm::vec3 ambience = getAmbience(frame);
-	gfx->updateConstantBuffer(2 * sizeof(glm::vec4), &ambience, sizeof(glm::vec3));
+	gfx.updateConstantBuffer(2 * sizeof(glm::vec4), &ambience, sizeof(glm::vec3));
 
-	gfx->bindConstantBuffer(Graphics::Lights);
+	gfx.bindConstantBuffer(Graphics::Lights);
 	uint32_t offset = 0;
 	for (const auto& light : m_lights)
 	{
-		light.update(frame, offset);
+		light.update(gfx, frame, offset);
 		offset += 48;
 	}
 }

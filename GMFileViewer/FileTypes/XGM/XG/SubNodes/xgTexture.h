@@ -1,5 +1,6 @@
 #pragma once
 #include "../XG.h"
+#include "Graphics.h"
 #include <string>
 class xgTexture : public XG_SubNode
 {
@@ -13,6 +14,6 @@ public:
 	void writeType(FileWriter& file) const override;
 	void save(FileWriter& file) const override;
 
-	void bind() const;
+	void bind(Graphics& gfx) const;
 };
 

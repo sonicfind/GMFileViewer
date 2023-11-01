@@ -1,6 +1,5 @@
 #pragma once
-#include <memory>
-#include <filesystem>
+#include "FileContainer.h"
 
 template <typename T>
 [[nodiscard]] T Parse(const char*& input)
@@ -13,15 +12,12 @@ template <typename T>
 
 class FileReader
 {
-	size_t m_fileSize = 0;
-	std::shared_ptr<char[]> m_fileData;
-
+	const FileContainer file;
 	const char* m_currentPosition = nullptr;
 	const char* m_fileEnd = nullptr;
 
 public:
 	FileReader(const std::filesystem::path& path);
-	FileReader(const FileReader& file);
 
 	template<size_t SIZE>
 	[[nodiscard]] bool checkTag(const char(&tag)[SIZE])

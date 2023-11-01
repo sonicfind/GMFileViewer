@@ -5,14 +5,15 @@
 #ifdef _DEBUG
 const char* Graphics_OGL::s_model_vert = "Graphics/OpenGL/ModelVertex.glsl";
 const char* Graphics_OGL::s_model_frag = "Graphics/OpenGL/ModelFragment.glsl";
+const char* Graphics_OGL::s_model_frag_depthless = "Graphics/OpenGL/ModelFragment_NoDepthTest.glsl";
 const char* Graphics_OGL::s_sprite_vert = "Graphics/OpenGL/SpriteVertex.glsl";
 const char* Graphics_OGL::s_sprite_geo = "Graphics/OpenGL/SpriteGeometry.glsl";
 const char* Graphics_OGL::s_sprite_frag = "Graphics/OpenGL/SpriteFragment.glsl";
 const char* Graphics_OGL::s_shadow_vert = "Graphics/OpenGL/ShadowVertex.glsl";
 const char* Graphics_OGL::s_shadow_geo = "Graphics/OpenGL/ShadowGeometry.glsl";
 const char* Graphics_OGL::s_shadow_frag = "Graphics/OpenGL/ShadowFragment.glsl";
-const char* Graphics_OGL::s_sky_vert = "Graphics/OpenGL/SkyVertex.glsl";
-const char* Graphics_OGL::s_sky_frag = "Graphics/OpenGL/SkyFragment.glsl";
+const char* Graphics_OGL::s_box_vert = "Graphics/OpenGL/BoxVertex.glsl";
+const char* Graphics_OGL::s_box_frag = "Graphics/OpenGL/BoxFragment.glsl";
 
 void GLAPIENTRY
 MessageCallback(GLenum source,
@@ -58,15 +59,18 @@ MessageCallback(GLenum source,
 }
 #endif
 
-Graphics_OGL::Graphics_OGL()
-    : m_window(getName(), getWidth(), getHeight())
-    , m_frame()
+Graphics_OGL::Graphics_OGL(std::string name, uint32_t width, uint32_t height)
+    : Graphics(name, width, height, 300)
+    , m_window(getName(), getWidth(), getHeight())
+    , m_frame(*this)
     , m_modelShader(s_model_vert, s_model_frag)
+    , m_modelShader_depthless(s_model_vert, s_model_frag_depthless)
     , m_shadowShader(s_shadow_vert, s_shadow_geo, s_shadow_frag)
     , m_spriteShader(s_sprite_vert, s_sprite_geo, s_sprite_frag)
     , m_boxShader(s_box_vert, s_box_frag)
-    , m_boxVertexBuffer(Box, boxVertices, sizeof(boxVertices), false)
 {
+    createVertexBuffer(Box, boxVertices, sizeof(boxVertices), false);
+
     auto const bindAll = [&](uint32_t index, const char* const blockName)
     {
         m_modelShader.bindUniformBlock(index, blockName);
@@ -103,6 +107,31 @@ Graphics_OGL::Graphics_OGL()
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
+Graphics_OGL::~Graphics_OGL()
+{
+    m_frame.Delete();
+    m_modelShader.Delete();
+    m_modelShader_depthless.Delete();
+    m_shadowShader.Delete();
+    m_spriteShader.Delete();
+    m_boxShader.Delete();
+    m_viewMatrix.Delete();
+    m_viewAndProjection.Delete();
+    m_material.Delete();
+    m_lights.Delete();
+    m_globalShading.Delete();
+    
+    if (m_skyTexture != nullptr)
+        m_skyTexture->Delete();
+
+    for (const auto& texture : m_textures)
+        texture.Delete();
+
+    for (const auto& buffer : m_vertexBuffers)
+        buffer.Delete();
+    m_window.Close();
+}
+
 Graphics_OGL::Window_OGL::Window_OGL(std::string_view windowName, uint32_t width, uint32_t height)
 {
     glfwInit();
@@ -131,7 +160,7 @@ Graphics_OGL::Window_OGL::Window_OGL(std::string_view windowName, uint32_t width
 #endif
 }
 
-Graphics_OGL::Window_OGL::~Window_OGL()
+void Graphics_OGL::Window_OGL::Close() const
 {
     glfwTerminate();
 }
@@ -140,11 +169,13 @@ void Graphics_OGL::activateShader(ShaderType type) const
 {
     switch (type)
     {
-    case Graphics::Envelope:
-        throw "Unused shader";
-        break;
     case Graphics::Model:
         m_modelShader.use();
+        break;
+    case Graphics::Model_NoDepth:
+        m_modelShader_depthless.use();
+        Shader_OGL::setInt("depthBuffer", 1);
+        Shader_OGL::setInt("ignoreBuffer", 2);
         break;
     case Graphics::Shadow:
         m_shadowShader.use();
@@ -167,18 +198,89 @@ void Graphics_OGL::setShaderInt(const char* name, int value) const
 
 size_t Graphics_OGL::createVertexBuffer(ShaderType type, const void* data, uint32_t dataSize, bool isDynamic)
 {
-    m_vertexBuffers.emplace_back(type, data, dataSize, isDynamic);
+    VertexBuffer buffer;
+    glGenBuffers(1, &buffer.vbo);
+    glGenVertexArrays(1, &buffer.vao);
+    glBindVertexArray(buffer.vao);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer.vbo);
+    switch (type)
+    {
+    case Graphics::Model:
+    {
+        static constexpr size_t VERTSIZE_MODEL = 52;
+        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, VERTSIZE_MODEL, (void*)0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTSIZE_MODEL, (void*)(4 * sizeof(float)));
+        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, VERTSIZE_MODEL, (void*)(7 * sizeof(float)));
+        glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, VERTSIZE_MODEL, (void*)(11 * sizeof(float)));
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
+        glEnableVertexAttribArray(3);
+    }
+    break;
+    case Graphics::Shadow:
+    {
+        static constexpr size_t VERTSIZE_SHADOW = 64;
+        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, VERTSIZE_SHADOW, (void*)0);
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, VERTSIZE_SHADOW, (void*)(4 * sizeof(float)));
+        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, VERTSIZE_SHADOW, (void*)(8 * sizeof(float)));
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, VERTSIZE_SHADOW, (void*)(12 * sizeof(float)));
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
+        glEnableVertexAttribArray(3);
+    }
+    break;
+    case Graphics::Sprite:
+    {
+
+    }
+    break;
+    case Graphics::Box:
+    {
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+    }
+    break;
+    default:
+        break;
+    }
+
+    glBufferData(GL_ARRAY_BUFFER, dataSize, data, isDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
+    m_vertexBuffers.push_back(buffer);
     return m_vertexBuffers.size() - 1;
+}
+
+void Graphics_OGL::setActiveVertexBuffer(size_t index)
+{
+    m_vertexBuffers[index].bindForUpdate();
 }
 
 void Graphics_OGL::bindVertexBuffer(size_t index) const
 {
-    m_vertexBuffers[index].bind();
+    m_vertexBuffers[index].bindForDraw();
 }
 
 void Graphics_OGL::updateVertexBuffer(uint32_t offset, const void* data, uint32_t dataSize) const
 {
     glBufferSubData(GL_ARRAY_BUFFER, offset, dataSize, data);
+}
+
+size_t Graphics_OGL::createIndexBuffer(const void* data, uint32_t dataSize)
+{
+    uint32_t ebo;
+    glGenBuffers(1, &ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, dataSize, data, GL_STATIC_DRAW);
+    m_indexBuffers.push_back(ebo);
+    return m_vertexBuffers.size() - 1;
+}
+
+void Graphics_OGL::bindIndexBuffer(size_t index) const
+{
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffers[index]);
 }
 
 void Graphics_OGL::createTexture(std::string_view name, const void* imagePtr, uint32_t width, uint32_t height)
@@ -192,6 +294,7 @@ void Graphics_OGL::bindTexture(std::string_view name) const
     for (const auto& texture : m_textures)
         if (texture.name == name)
         {
+            glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, texture.id);
             break;
         }
@@ -204,6 +307,7 @@ void Graphics_OGL::updateTexture(uint32_t locationX, uint32_t locationY, const v
 
 void Graphics_OGL::unbindTexture() const
 {
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
@@ -255,9 +359,9 @@ void Graphics_OGL::updateConstantBuffer(uint32_t offset, const void* data, uint3
     glBufferSubData(GL_UNIFORM_BUFFER, offset, dataSize, data);
 }
 
-void Graphics_OGL::setFrontFace(FrontFace front) const
+void Graphics_OGL::setFrontFace(FrontFace front)
 {
-    if (front == Clockwise)
+    if (front == FrontFace::Clockwise)
         glFrontFace(GL_CW);
     else
         glFrontFace(GL_CCW);
@@ -382,34 +486,45 @@ void Graphics_OGL::setClearColor(float r, float g, float b, float a) const
     glClearColor(r, g, b, a);
 }
 
-void Graphics_OGL::drawArrays(uint32_t index, uint32_t count, PrimitiveMode mode) const
+void Graphics_OGL::setTopology(PrimitiveMode mode) const
 {
-    glDrawArrays(GL_TRIANGLES + static_cast<uint32_t>(mode), index, count);
+    m_topology = GL_TRIANGLES + static_cast<uint32_t>(mode);
 }
 
-void Graphics_OGL::drawElements(uint32_t count, const uint32_t* indices, PrimitiveMode mode) const
+void Graphics_OGL::drawArrays(uint32_t index, uint32_t count) const
 {
-    glDrawElements(GL_TRIANGLES + static_cast<uint32_t>(mode), count, GL_UNSIGNED_INT, indices);
+    glDrawArrays(m_topology, index, count);
 }
 
-void Graphics_OGL::getDepthData(float* buffer) const
+void Graphics_OGL::drawElements(uint32_t count, size_t offset) const
 {
-    m_frame.getDepthData(buffer);
+    glDrawElements(m_topology, count, GL_UNSIGNED_INT, reinterpret_cast<void*>(offset));
 }
 
-void Graphics_OGL::copyDefaultDepthData() const
+uint32_t Graphics_OGL::addIgnorableDepthTexture()
 {
-    m_frame.copyDefaultDepthData();
+    uint32_t textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexStorage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, getWidth(), getHeight());
+
+    ignoreIDs.push_back(textureID);
+    return textureID;
 }
 
-void Graphics_OGL::compareAndSetDepthData(float* buffer) const
+void Graphics_OGL::copyDepthToIgnorable(uint32_t id) const
 {
-    m_frame.compareAndSetDepthData(buffer);
+    glCopyImageSubData(m_frame.depthID, GL_TEXTURE_2D, 0, 0, 0, 0,
+                                    id, GL_TEXTURE_2D, 0, 0, 0, 0,
+                                    getWidth(), getHeight(), 1);
 }
 
-void Graphics_OGL::setDefaultDepthData() const
+void Graphics_OGL::setDepthlessDepthTextures(uint32_t id) const
 {
-    m_frame.setDefaultDepthData();
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, m_frame.depthID);
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, id);
 }
 
 void Graphics_OGL::resetFrame() const
@@ -423,8 +538,9 @@ void Graphics_OGL::resetFrame() const
     {
         m_boxShader.use();
         m_skyTexture->bind();
-        m_boxVertexBuffer.bind();
-        drawArrays(0, 6, PrimitiveMode::TRIANGLE_LIST);
+        m_vertexBuffers[0].bindForDraw();
+        setTopology(PrimitiveMode::TRIANGLE_LIST);
+        drawArrays(0, 6);
     }
 }
 
@@ -436,8 +552,8 @@ void Graphics_OGL::displayFrame() const
 
     m_boxShader.use();
     m_frame.bindColor();
-    m_boxVertexBuffer.bind();
-    drawArrays(0, 6, PrimitiveMode::TRIANGLE_LIST);
+    m_vertexBuffers[0].bindForDraw();
+    setTopology(PrimitiveMode::TRIANGLE_LIST);
 
     m_window.endFrame();
 }
@@ -487,78 +603,23 @@ void Graphics_OGL::TextureID::bind() const
     glBindTexture(GL_TEXTURE_2D, id);
 }
 
-Graphics_OGL::TextureID::~TextureID()
+void Graphics_OGL::TextureID::Delete() const
 {
     glDeleteTextures(1, &id);
 }
 
-Graphics_OGL::VertexBuffer::VertexBuffer(ShaderType type, const void* data, uint32_t dataSize, bool isDynamic)
+void Graphics_OGL::VertexBuffer::bindForUpdate() const
 {
-    glGenBuffers(1, &vbo);
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    switch (type)
-    {
-    case Graphics::Model:
-    {
-        static constexpr size_t VERTSIZE_MODEL = 52;
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, VERTSIZE_MODEL, (void*)0);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, VERTSIZE_MODEL, (void*)(4 * sizeof(float)));
-        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, VERTSIZE_MODEL, (void*)(7 * sizeof(float)));
-        glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, VERTSIZE_MODEL, (void*)(11 * sizeof(float)));
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        glEnableVertexAttribArray(2);
-        glEnableVertexAttribArray(3);
-    }
-    break;
-    case Graphics::Shadow:
-    {
-        static constexpr size_t VERTSIZE_SHADOW = 64;
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, VERTSIZE_SHADOW, (void*)0);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, VERTSIZE_SHADOW, (void*)(4 * sizeof(float)));
-        glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, VERTSIZE_SHADOW, (void*)(8 * sizeof(float)));
-        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, VERTSIZE_SHADOW, (void*)(12 * sizeof(float)));
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-        glEnableVertexAttribArray(2);
-        glEnableVertexAttribArray(3);
-    }
-    break;
-    case Graphics::Sprite:
-    {
-
-    }
-    break;
-    case Graphics::Box:
-    {
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-        glEnableVertexAttribArray(0);
-        glEnableVertexAttribArray(1);
-    }
-    break;
-    default:
-        break;
-    }
-
-    glBufferData(GL_ARRAY_BUFFER, dataSize, data, isDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW);
 }
 
-Graphics_OGL::VertexBuffer::VertexBuffer(VertexBuffer&& other) noexcept : vao(other.vao), vbo(other.vbo)
-{
-    other.vao = 0;
-    other.vbo = 0;
-}
-
-void Graphics_OGL::VertexBuffer::bind() const
+void Graphics_OGL::VertexBuffer::bindForDraw() const
 {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBindVertexArray(vao);
 }
 
-Graphics_OGL::VertexBuffer::~VertexBuffer()
+void Graphics_OGL::VertexBuffer::Delete() const
 {
     glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);
@@ -581,15 +642,15 @@ void Graphics_OGL::UniformBuffer::bind() const
     glBindBuffer(GL_UNIFORM_BUFFER, id);
 }
 
-Graphics_OGL::UniformBuffer::~UniformBuffer()
+void Graphics_OGL::UniformBuffer::Delete() const
 {
     glDeleteBuffers(1, &id);
 }
 
-Graphics_OGL::FrameBuffer::FrameBuffer()
+Graphics_OGL::FrameBuffer::FrameBuffer(Graphics_OGL& gfx)
 {
-    const uint32_t width = getWidth();
-    const uint32_t height = getHeight();
+    const uint32_t width = gfx.getWidth();
+    const uint32_t height = gfx.getHeight();
     glGenFramebuffers(1, &frameID);
     glBindFramebuffer(GL_FRAMEBUFFER, frameID);
 
@@ -598,18 +659,17 @@ Graphics_OGL::FrameBuffer::FrameBuffer()
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorID, 0);
 
     glBindTexture(GL_TEXTURE_2D, depthID);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-    depthData = std::make_unique<float[]>(size_t(width * height));
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorID, 0);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthID, 0);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-Graphics_OGL::FrameBuffer::~FrameBuffer()
+void Graphics_OGL::FrameBuffer::Delete() const
 {
     glDeleteTextures(2, &colorID);
     glDeleteFramebuffers(1, &frameID);
@@ -623,30 +683,4 @@ void Graphics_OGL::FrameBuffer::bindFrame() const
 void Graphics_OGL::FrameBuffer::bindColor() const
 {
     glBindTexture(GL_TEXTURE_2D, colorID);
-}
-
-void Graphics_OGL::FrameBuffer::getDepthData(float* buffer) const
-{
-    glBindTexture(GL_TEXTURE_2D, depthID);
-    glGetTexImage(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, GL_FLOAT, buffer);
-    glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-void Graphics_OGL::FrameBuffer::copyDefaultDepthData() const
-{
-    getDepthData(depthData.get());
-}
-
-void Graphics_OGL::FrameBuffer::compareAndSetDepthData(float* buffer) const
-{
-    const size_t size = size_t(getWidth() * getHeight());
-    for (uint32_t i = 0; i < size; ++i)
-        buffer[i] = (depthData[i] < buffer[i]) * depthData[i];
-
-    glTextureSubImage2D(depthID, 0, 0, 0, getWidth(), getHeight(), GL_DEPTH_COMPONENT, GL_FLOAT, buffer);
-}
-
-void Graphics_OGL::FrameBuffer::setDefaultDepthData() const
-{
-    glTextureSubImage2D(depthID, 0, 0, 0, getWidth(), getHeight(), GL_DEPTH_COMPONENT, GL_FLOAT, depthData.get());
 }

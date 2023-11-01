@@ -10,7 +10,7 @@ void FixedSpriteSetup::read(FileReader& file)
 
 	const uint32_t numSprites = file.read<uint32_t>();
 	m_80bytes.reserve_and_fill(file, numSprites);
-	m_fixedSprites.reserve(numSprites);
+	m_fixedSprites.construct(numSprites);
 	for (auto& sprite : m_fixedSprites)
 		sprite.read(file);
 }

@@ -2,6 +2,7 @@
 #include "../XG.h"
 #include "XG_UpdatableNodes.h"
 #include "VertexList.h"
+#include "Graphics.h"
 
 class xgBgGeometry : public XG_SubNode
 {
@@ -16,10 +17,10 @@ public:
 	void writeType(FileWriter& file) const override;
 	void save(FileWriter& file) const override;
 
-	void createVertexBuffer();
-	void addInstance();
-	void bindVertexBuffer(uint32_t instance) const;
-	void update(uint32_t instance);
+	void createVertexBuffer(Graphics& gfx);
+	void addInstance(Graphics& gfx);
+	void bindVertexBuffer(Graphics& gfx, uint32_t instance) const;
+	void update(Graphics& gfx, uint32_t instance);
 
 	const Vertex& getVertex(size_t index) const;
 };

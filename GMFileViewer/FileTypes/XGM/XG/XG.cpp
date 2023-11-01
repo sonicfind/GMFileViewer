@@ -30,7 +30,7 @@ void XG_SubNode::WriteNode(std::string_view inputString, std::string_view output
 	PString::WriteString(outputString, file);
 }
 
-void XG::load(FileReader file)
+void XG::load(FileReader& file)
 {
 	if (!file.checkTag("XGBv1.00"))
 		throw "XG file read error";
@@ -40,8 +40,8 @@ void XG::load(FileReader file)
 	while (PString::CheckForString(";", file))
 	{
 		m_nodes.push_back(constructNode(type, name));
-		PString::GetString(type, file);
-		PString::GetString(name, file);
+		type = PString::GetString(file);
+		name = PString::GetString(file);
 	}
 
 	for (const auto& node : m_nodes)
@@ -53,8 +53,8 @@ void XG::load(FileReader file)
 		if (PString::CheckForString("dag", file))
 			break;
 
-		PString::GetString(type, file);
-		PString::GetString(name, file);
+		type = PString::GetString(file);
+		name = PString::GetString(file);
 	}
 
 	PString::ThrowOnStringMismatch("{", file);
@@ -95,31 +95,31 @@ void XG::save(FileWriter& file) const
 	PString::WriteString("}", file);
 }
 
-void XG::createVertexBuffers()
+void XG::createVertexBuffers(Graphics& gfx)
 {
 	for (auto& dag : m_dag)
-		dag.createVertexBuffers();
+		dag.createVertexBuffers(gfx);
 }
 
-void XG::addInstance()
+void XG::addInstance(Graphics& gfx)
 {
 	for (auto& dag : m_dag)
-		dag.addInstance();
+		dag.addInstance(gfx);
 }
 
-void XG::update(uint32_t instance, float frame, const glm::mat4& modelMatrix) const
+void XG::update(Graphics& gfx, uint32_t instance, float frame, const glm::mat4& modelMatrix)
 {
 	if (m_time)
 		m_time->setTime(frame);
 
-	for (const auto& dag : m_dag)
-		dag.update(instance, modelMatrix);
+	for (auto& dag : m_dag)
+		dag.update(gfx, instance, modelMatrix);
 }
 
-void XG::draw(uint32_t instance, bool doTransparentMeshes) const
+void XG::draw(Graphics& gfx, uint32_t instance, bool doTransparentMeshes) const
 {
 	for (const auto& dag : m_dag)
-		dag.draw(instance, doTransparentMeshes);
+		dag.draw(gfx, instance, doTransparentMeshes);
 }
 
 XG::DagElement::DagElement(XG_SubNode* node)
@@ -128,49 +128,49 @@ XG::DagElement::DagElement(XG_SubNode* node)
 		throw std::runtime_error("Invalid node in dag map");
 }
 
-void XG::DagElement::createVertexBuffers()
+void XG::DagElement::createVertexBuffers(Graphics& gfx)
 {
 	if (m_mesh)
-		m_mesh->createVertexBuffer();
+		m_mesh->createVertexBuffer(gfx);
 
 	m_meshMatrices.clear();
 	m_meshMatrices.emplace_back();
 
 	for (auto& dag : m_connections)
-		dag.createVertexBuffers();
+		dag.createVertexBuffers(gfx);
 }
 
-void XG::DagElement::addInstance()
+void XG::DagElement::addInstance(Graphics& gfx)
 {
 	if (m_mesh)
-		m_mesh->addInstance();
+		m_mesh->addInstance(gfx);
 
 	m_meshMatrices.emplace_back();
 
 	for (auto& dag : m_connections)
-		dag.addInstance();
+		dag.addInstance(gfx);
 }
 
-void XG::DagElement::update(uint32_t instance, glm::mat4 meshMatrix) const
+void XG::DagElement::update(Graphics& gfx, uint32_t instance, glm::mat4 meshMatrix)
 {
 	m_meshMatrices[instance] = meshMatrix;
 
 	if (m_mesh)
-		m_mesh->update(instance);
+		m_mesh->update(gfx, instance);
 	else if (m_transform)
 		m_meshMatrices[instance] *= m_transform->calcTransformMatrix();
 
-	for (const auto& dag : m_connections)
-		dag.update(instance, m_meshMatrices[instance]);
+	for (auto& dag : m_connections)
+		dag.update(gfx, instance, m_meshMatrices[instance]);
 }
 
-void XG::DagElement::draw(uint32_t instance, bool doTransparentMeshes) const
+void XG::DagElement::draw(Graphics& gfx, uint32_t instance, bool doTransparentMeshes) const
 {
 	if (m_mesh && m_mesh->hasTransparency() == doTransparentMeshes)
-		m_mesh->draw(instance, m_meshMatrices[instance]);
+		m_mesh->draw(gfx, instance, m_meshMatrices[instance]);
 
 	for (const auto& dag : m_connections)
-		dag.draw(instance, doTransparentMeshes);
+		dag.draw(gfx, instance, doTransparentMeshes);
 }
 
 std::unique_ptr<XG_SubNode> XG::constructNode(std::string_view type, std::string_view name)

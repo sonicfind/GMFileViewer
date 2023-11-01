@@ -92,7 +92,7 @@ private:
 	{
 		float time = m_inputTime->getTime();
 		float frame = floorf(time);
-		if constexpr (INTERPOLATION < InterpolatorType::TIMED)
+		if constexpr (INTERPOLATION == InterpolatorType::BASE)
 		{
 			if (frame + 1 >= m_keys.getSize())
 				return { frame, frame, 0 };

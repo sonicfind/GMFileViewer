@@ -21,8 +21,12 @@ layout (std140) uniform Material
 	int vTile;
 };
 
-uniform sampler2D tex;
+
 uniform int useTexture;
+
+uniform sampler2D tex;
+uniform sampler2D depthBuffer;
+uniform sampler2D ignoreBuffer;
 
 layout (std140) uniform GlobalShading
 {
@@ -58,38 +62,45 @@ vec3 getShading();
 
 void main()
 {	
-	vec4 result = vec4(1);
-	if (useTexture == 1)
 	{
-		vec4 baseColor = texture(tex, vs_in.texCoord);
-		result = vec4(baseColor.rgb, getAlpha(baseColor));
+		float mainDepth = texture(depthBuffer, gl_FragCoord.xy).x;
+		float ignoreDepth = texture(ignoreBuffer, gl_FragCoord.xy).x;
+		if (gl_FragCoord.z >= mainDepth && mainDepth < ignoreDepth)
+			discard;
 	}
-	else if (shadingType == 3)
-		result.a = getAlpha(vs_in.color);
+
+	vec4 base = vec4(1);
+	if (useTexture == 1)
+		base = texture(tex, vs_in.texCoord);
 	else if (shadingType < 3)
 	{
 		FragColor = vec4(0,0,0,1);
 		return;
 	}
+
+	if (shadingType == 3)
+		base *= vs_in.color;
+
+	float alpha;
+	if ((flags & 1) == 0)
+		alpha = getAlpha(base);
+	else
+		alpha = 2 * diffuse.a * base.a;
 	
-	FragColor = vec4(getShading() * result.rgb, result.a);
+	FragColor = vec4(getShading() * base.rgb, alpha);
 }
 
 float getAlpha(vec4 color)
 {
-	if ((flags & 1) == 1)
-		return 2 * color.a;
-
 	switch (blendType)
 	{
 	case 1:
+	case 5:
 		return 2 * diffuse.a * color.a;
 	case 3:
 		return diffuse.a * (1 - color.r) * (1 - color.g) * (1 - color.b);
 	case 4:
 		return color.r;
-	case 5:
-		return 2 * diffuse.a * color.a;
 	default:
 		return 1.0;
 	}
@@ -102,9 +113,9 @@ vec3 getShading()
 	case 0:
 		return diffuse.rgb;
 	case 3:
-		return vs_in.color.rgb;
+		return vec3(1);
 	case 4:
-		return 2 * sceneAmbience / numLights;
+		return 2 * sceneAmbience;
 	default:
 	{
 		vec3 viewDir = normalize(vec3(view[0][3], view[1][3], view[2][3]) - vs_in.fragPos);

@@ -1,5 +1,4 @@
 #include "IMX.h"
-#include "Graphics.h"
 
 enum IMXFormat : uint32_t
 {
@@ -13,7 +12,7 @@ enum IMXFormat : uint32_t
 	AsInt = 0xFFFFFFFF
 };
 
-void IMX::load(FileReader file)
+void IMX::load(FileReader& file)
 {
 	if (!file.checkTag("IMX"))
 		throw "IMX file read error";
@@ -40,6 +39,10 @@ void IMX::load(FileReader file)
 	}
 	else
 		throw "Unknown Pixel Storage value combination";
+
+	if (file.read<long>() != 3)
+		throw "Unknown IMX error";
+	file += 4;
 }
 
 void IMX::save(FileWriter& file) const
@@ -146,7 +149,7 @@ void IMX::compress_bitmap(FileWriter& file) const
 		file.write(&m_data[index], 3ULL);
 }
 
-void IMX::createTextureBuffer(std::string_view name) const
+void IMX::createTextureBuffer(Graphics& gfx, std::string_view name) const
 {
-	Graphics::getGraphics()->createTexture(name, m_data.get(), m_width, m_height);
+	gfx.createTexture(name, m_data.get(), m_width, m_height);
 }

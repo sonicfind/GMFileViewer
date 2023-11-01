@@ -7,13 +7,8 @@ void xgTexture::load(FileReader& file, const XG* xg)
 {
 	PString::ThrowOnStringMismatch("url", file);
 	std::string_view parsed = PString::GetString(file);
-	strncpy_s(m_url, parsed.data(), parsed.size());
-	for (char& c : m_url)
-	{
-		if (!c)
-			break;
-		c = std::toupper(c);
-	}
+	for (size_t i = 0; i < parsed.size(); ++i)
+		m_url[i] = std::toupper(parsed[i]);
 
 	PString::ReadNamedValue("mipmap_depth", m_mipmap_depth, file);
 }
@@ -35,7 +30,7 @@ void xgTexture::save(FileWriter& file) const
 	PString::WriteNamedValue("mipmap_depth", m_mipmap_depth, file);
 }
 
-void xgTexture::bind() const
+void xgTexture::bind(Graphics& gfx) const
 {
-	Graphics::getGraphics()->bindTexture(m_url);
+	gfx.bindTexture(m_url);
 }

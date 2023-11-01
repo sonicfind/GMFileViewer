@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "GMArray.h"
+#include "Graphics.h"
 
 struct Vertex
 {
@@ -96,10 +97,10 @@ public:
 	void save(FileWriter& file) const;
 	VertexList mix(const VertexList& other, float coef) const;
 
-	void createVertexBuffer(bool isDynamic);
-	void addInstance(bool isDynamic);
-	void bindBuffer(uint32_t instance) const;
-	void updateBuffer() const;
+	void createVertexBuffer(Graphics& gfx, bool isDynamic);
+	void addInstance(Graphics& gfx, bool isDynamic);
+	void bindBuffer(Graphics& gfx, uint32_t instance) const;
+	void updateBuffer(Graphics& gfx) const;
 
 	const Vertex& operator[](size_t index) const { return m_vertices[index]; }
 	Vertex& operator[](size_t index) { return m_vertices[index]; }
@@ -114,7 +115,7 @@ private:
 			return;
 		}
 
-		vertices.reserve(file);
+		vertices.construct(file);
 		for (auto& vertex : vertices)
 			vertex.fill<flags>(file);
 	}

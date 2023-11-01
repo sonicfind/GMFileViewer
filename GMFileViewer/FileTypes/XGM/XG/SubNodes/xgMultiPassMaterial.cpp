@@ -17,9 +17,9 @@ void xgMultiPassMaterial::save(FileWriter& file) const
 		WriteNode("inputMaterial", "outputMaterial", node, file);
 }
 
-void xgMultiPassMaterial::bind(size_t slot) const
+void xgMultiPassMaterial::bind(Graphics& gfx, size_t slot) const
 {
-	m_inputMaterials[slot]->bind(0);
+	m_inputMaterials[slot]->bind(gfx, 0);
 }
 
 size_t xgMultiPassMaterial::getNumMaterials() const

@@ -1,5 +1,4 @@
 #include "VertexList.h"
-#include "Graphics.h"
 
 VertexList& VertexList::operator=(VertexList&& list) noexcept
 {
@@ -55,25 +54,25 @@ VertexList VertexList::mix(const VertexList& other, float coef) const
 	return result;
 }
 
-void VertexList::createVertexBuffer(bool isDynamic)
+void VertexList::createVertexBuffer(Graphics& gfx, bool isDynamic)
 {
 	m_bufferIndices.clear();
-	addInstance(isDynamic);
+	addInstance(gfx, isDynamic);
 }
 
-void VertexList::addInstance(bool isDynamic)
+void VertexList::addInstance(Graphics& gfx, bool isDynamic)
 {
-	m_bufferIndices.push_back(Graphics::getGraphics()->createVertexBuffer(Graphics::ShaderType::Model, m_vertices.begin(), m_vertices.getSize() * sizeof(Vertex), isDynamic));
+	m_bufferIndices.push_back(gfx.createVertexBuffer(Graphics::ShaderType::Model, m_vertices.begin(), m_vertices.getSize() * sizeof(Vertex), isDynamic));
 }
 
-void VertexList::bindBuffer(uint32_t instance) const
+void VertexList::bindBuffer(Graphics& gfx, uint32_t instance) const
 {
-	Graphics::getGraphics()->bindVertexBuffer(m_bufferIndices[instance]);
+	gfx.bindVertexBuffer(m_bufferIndices[instance]);
 }
 
-void VertexList::updateBuffer() const
+void VertexList::updateBuffer(Graphics& gfx) const
 {
-	Graphics::getGraphics()->updateVertexBuffer(0, m_vertices.begin(), m_vertices.getSize() * sizeof(Vertex));
+	gfx.updateVertexBuffer(0, m_vertices.begin(), m_vertices.getSize() * sizeof(Vertex));
 }
 
 glm::vec4 operator*(const glm::mat4& matrix, const Vertex& vertex)

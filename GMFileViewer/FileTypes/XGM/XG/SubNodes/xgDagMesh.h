@@ -6,10 +6,10 @@
 class xgDagMesh : public XG_SubNode
 {
 	uint32_t m_primType = 0;
-	Triangle_Data<PrimitiveMode::PRIMITIVE> m_prim;
-	Triangle_Data<PrimitiveMode::TRIANGLE_FAN> m_triFan;
-	Triangle_Data<PrimitiveMode::TRIANGLE_STRIP> m_triStrip;
-	Triangle_Data<PrimitiveMode::TRIANGLE_LIST> m_triList;
+	Triangle_Data<PrimitiveMode::PRIMITIVE>* m_prim;
+	Triangle_Data<PrimitiveMode::TRIANGLE_FAN>* m_triFan;
+	Triangle_Data<PrimitiveMode::TRIANGLE_STRIP>* m_triStrip;
+	Triangle_Data<PrimitiveMode::TRIANGLE_LIST>* m_triList;
 	Culling m_cullFunc = Culling::DISABLED;
 
 	xgBgGeometry* m_inputGeometry = nullptr;
@@ -17,15 +17,16 @@ class xgDagMesh : public XG_SubNode
 
 public:
 	using XG_SubNode::XG_SubNode;
+	~xgDagMesh();
 	void load(FileReader& file, const XG* xg) override;
 
 	void writeType(FileWriter& file) const override;
 	void save(FileWriter& file) const override;
 	bool hasTransparency() const;
 
-	void createVertexBuffer();
-	void addInstance();
-	void update(uint32_t instance);
-	void draw(uint32_t instance, const glm::mat4& meshMatrix) const;
+	void createVertexBuffer(Graphics& gfx);
+	void addInstance(Graphics& gfx);
+	void update(Graphics& gfx, uint32_t instance);
+	void draw(Graphics& gfx, uint32_t instance, const glm::mat4& meshMatrix) const;
 };
 

@@ -15,11 +15,10 @@ SSQ::SSQ(const std::filesystem::path& filePath)
 	const uint32_t headerVersion = file.read<uint32_t>();
 	file += 28;
 
-	m_matrices.reserve(file);
-	m_depthBuffers.reserve(m_matrices.getSize());
+	m_matrices.construct(file);
 	m_imxEntries.reserve_and_fill(file);
 	m_xgEntries.reserve_and_fill(file);
-	m_models.reserve(m_xgEntries.getSize());
+	m_models.construct(m_xgEntries.getSize());
 
 	for (uint32_t i = 0; i < m_xgEntries.getSize(); ++i)
 	{
@@ -52,7 +51,7 @@ SSQ::SSQ(const std::filesystem::path& filePath)
 
 	if (headerVersion >= 0x1100)
 	{
-		m_textureAnims.reserve(file);
+		m_textureAnims.construct(file);
 		for (auto& texAnim : m_textureAnims)
 			texAnim.read(file);
 
@@ -94,34 +93,24 @@ void SSQ::saveToFile(const std::filesystem::path& filePath) const
 	}
 }
 
-void SSQ::loadSequence(XGM& pack)
+void SSQ::loadSequence(Graphics& gfx, XGM& pack)
 {
-	m_pack = &pack;
-	m_pack->initTextureBuffers();
+	pack.initTextureBuffers(gfx);
 	
-	const size_t frameSize = (size_t)Graphics::getWidth() * Graphics::getHeight();
+	const size_t frameSize = (size_t)gfx.getWidth() * gfx.getHeight();
 	for (uint32_t i = 0, instance = 0; i < m_xgEntries.getSize(); ++i)
 	{
 		XGEntry& entry = m_xgEntries[i];
 		if (!entry.isClone())
-			m_pack->initModelBuffer(entry.getName());
+			pack.initModelBuffer(gfx, entry.getName());
 		else
-			m_pack->addInstanceToModel(entry.getName());
-
-		if (!m_models[i]->usesPriorDepthForTransparency())
-			m_depthBuffers[i] = std::make_unique<float[]>(frameSize);
+			pack.addInstanceToModel(gfx, entry.getName());
 	}
 
-	m_camera.setupGlobalShading();
+	m_camera.setupGlobalShading(gfx);
 }
 
-void SSQ::unloadSequence()
-{
-	for (auto& buf : m_depthBuffers)
-		buf.reset();
-}
-
-void SSQ::update(float frame)
+void SSQ::update(Graphics& gfx, XGM& pack, float frame)
 {
 	for (uint32_t i = 0, instance = 0; i < m_matrices.getSize(); ++i)
 	{
@@ -136,16 +125,15 @@ void SSQ::update(float frame)
 		auto properties = m_models[i]->getAnimProperties(frame);
 		entry.setStatus(properties.drawStatus);
 		if (properties.drawStatus != ModelDrawStatus::NoDraw)
-		{
-			m_pack->updateModel(entry.getName(), instance, m_matrices[i], properties.animIndex, properties.frame, properties.control, properties.direction);
-		}
+			pack.updateModel(gfx, entry.getName(), instance, m_matrices[i], properties.animIndex, properties.frame, properties.control, properties.direction);
 	}
 
-	m_camera.update(frame);
+	m_camera.update(gfx, frame);
 }
 
-void SSQ::draw(bool drawTransparents)
+void SSQ::draw(Graphics& gfx, XGM& pack, bool drawTransparents)
 {
+	gfx.activateShader(Graphics::Model);
 	for (uint32_t i = 0, instance = 0; i < m_matrices.getSize(); ++i)
 	{
 		const XGEntry& entry = m_xgEntries[i];
@@ -156,14 +144,22 @@ void SSQ::draw(bool drawTransparents)
 
 		if (entry.getStatus() != ModelDrawStatus::NoDraw)
 		{
-			m_pack->drawModel(entry.getName(), instance, drawTransparents);
+			if (!drawTransparents && !m_models[i]->usesPriorDepthForTransparency())
+			{
+				gfx.disable(Graphics::Depth_Test);
+				pack.drawModel(gfx, entry.getName(), instance, false);
+				pack.drawModel(gfx, entry.getName(), instance, true);
+				gfx.enable(Graphics::Depth_Test);
+			}
+			else
+				pack.drawModel(gfx, entry.getName(), instance, drawTransparents);
 		}
 	}
 }
 
-void SSQ::mixedUpdateAndDraw(float frame)
+void SSQ::mixedUpdateAndDraw(Graphics& gfx, XGM& pack, float frame)
 {
-	auto gfx = Graphics::getGraphics();
+	gfx.activateShader(Graphics::Model);
 	for (uint32_t i = 0, instance = 0; i < m_matrices.getSize(); ++i)
 	{
 		m_matrices[i] = m_models[i]->getModelMatrix(frame);
@@ -179,13 +175,13 @@ void SSQ::mixedUpdateAndDraw(float frame)
 		if (properties.drawStatus != ModelDrawStatus::NoDraw)
 		{
 			if (m_models[i]->usesPriorDepthForTransparency())
-				gfx->enable(Graphics::Depth_Test);
+				gfx.enable(Graphics::Depth_Test);
 			else
-				gfx->disable(Graphics::Depth_Test);
+				gfx.disable(Graphics::Depth_Test);
 
-			m_pack->mixedUpdateAndDrawModel(entry.getName(), 0, m_matrices[i], properties.animIndex, properties.frame, properties.control, properties.direction);
+			pack.mixedUpdateAndDrawModel(gfx, entry.getName(), 0, m_matrices[i], properties.animIndex, properties.frame, properties.control, properties.direction);
 		}
 	}
 
-	m_camera.update(frame);
+	m_camera.update(gfx, frame);
 }

@@ -15,7 +15,7 @@ void SongSection::load(FileReader& file)
 	m_conditions.reserve_and_fill(file);
 	file.read(m_numPlayers);
 	file.read(m_numChartsPerPlayer);
-	m_charts.reserve(m_numPlayers * m_numChartsPerPlayer);
+	m_charts.construct(m_numPlayers * m_numChartsPerPlayer);
 	for (auto& chart : m_charts)
 		chart.load(file);
 }

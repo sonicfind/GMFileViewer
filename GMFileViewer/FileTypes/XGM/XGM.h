@@ -2,6 +2,7 @@
 #include "IMX/IMX.h"
 #include "XG/XG.h"
 #include "XG/Animation.h"
+#include "Graphics.h"
 
 class XGM
 {
@@ -23,7 +24,7 @@ class XGM
 
 		void load(FileReader& file, const uint32_t index);
 		uint32_t save(FileWriter& file, const uint32_t index, uint32_t totalSizes) const;
-		void createTextureBuffer();
+		void createTextureBuffer(Graphics& gfx);
 	};
 	
 	struct XGMNode_XG : public XGMNode
@@ -34,10 +35,10 @@ class XGM
 		void load(FileReader& file, const uint32_t index);
 		void save(FileWriter& file, const uint32_t index) const;
 
-		void createVertexBuffers();
-		void addInstance();
-		void update(uint32_t instance, const glm::mat4& modelMatrix, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection);
-		void draw(uint32_t instance, bool doTransparentMeshes) const;
+		void createVertexBuffers(Graphics& gfx);
+		void addInstance(Graphics& gfx);
+		void update(Graphics& gfx, uint32_t instance, const glm::mat4& modelMatrix, uint32_t index, float frame, LoopControl control, PlaybackDirection playbackDirection);
+		void draw(Graphics& gfx, uint32_t instance, bool doTransparentMeshes) const;
 	};
 
 	GMArray<XGMNode_IMX> m_textures;
@@ -51,12 +52,12 @@ public:
 
 	void testGraphics(size_t index);
 
-	void initTextureBuffers();
-	void initModelBuffer(std::string_view modelName);
-	void addInstanceToModel(std::string_view modelName);
-	void updateModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection);
-	void drawModel(std::string_view modelName, uint32_t instance, bool doTransparentMeshes) const;
-	void mixedUpdateAndDrawModel(std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection);
+	void initTextureBuffers(Graphics& gfx);
+	void initModelBuffer(Graphics& gfx, std::string_view modelName);
+	void addInstanceToModel(Graphics& gfx, std::string_view modelName);
+	void updateModel(Graphics& gfx, std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection);
+	void drawModel(Graphics& gfx, std::string_view modelName, uint32_t instance, bool doTransparentMeshes) const;
+	void mixedUpdateAndDrawModel(Graphics& gfx, std::string_view modelName, uint32_t instance, const glm::mat4& modelMatrix, uint32_t animIndex, float frame, LoopControl control, PlaybackDirection playbackDirection);
 
 private:
 	XGMNode_XG& getModel(std::string_view modelName);
